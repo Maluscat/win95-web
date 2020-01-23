@@ -518,14 +518,14 @@
         }
       })();
 
-      //Adding error windows
-      (function() {
-        for (let i = 0; i < 10; i++) {
-          setTimeout(function() {
-            addApp('error', translateError);
-          }, 125 * i);
-        }
-      })();
+      //Adding error windows to have it serve as error (404, etc.) page
+      // (function() {
+      //   for (let i = 0; i < 10; i++) {
+      //     setTimeout(function() {
+      //       addApp('error', translateError);
+      //     }, 125 * i);
+      //   }
+      // })();
 
       addApp('notepad');
 
