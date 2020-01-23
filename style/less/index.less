@@ -1,0 +1,57 @@
+// out: ../index.css, sourcemap: false, compress: false
+
+@50: hsl(0, 0%, 50%);
+@75: hsl(0, 0%, 75%);
+@87: hsl(0, 0%, 87%);
+@blue: #000080;
+
+.border() {
+  .around(@rb, @lt, @thickness: .067em) {
+    border-right: @thickness solid @rb;
+    border-bottom: @thickness solid @rb;
+    border-left: @thickness solid @lt;
+    border-top: @thickness solid @lt;
+  }
+  .rb(@color) {
+    border-right: .067em solid @color;
+    border-bottom: .067em solid @color;
+  }
+}
+
+.noselect() {
+  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+
+.pixel-image() {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimizespeed;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.bg-img(@image-name, @path: '../resource/image/', @extension: 'png') {
+  background-image: url(~'@{path}@{image-name}.@{extension}');
+}
+.bg-img-props(@size: contain, @position: center, @repeat: no-repeat) {
+  background-repeat: @repeat;
+  background-size: @size;
+  background-position: @position;
+}
+
+/* Unifont @ http://unifoundry.com/unifont/ converted to WOFF & WOFF2 */
+@font-face {
+  font-family: 'Unifont';
+  font-display: swap;
+  src:
+    local('Unifont'),
+    local('Unifont-Medium'),
+    url('../resource/font/unifont.woff2') format('woff2'),
+    url('../resource/font/unifont.woff') format('woff');
+}
+
+@import 'main';
+@import 'applications';
