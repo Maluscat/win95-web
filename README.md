@@ -1,6 +1,6 @@
 # win95-web
 An implementation of Microsoft's Windows 95 on the web.<br>
-While I work on integrating this project into my official website, it will not be available on a website yet (the code works tho, if you want to try it).
+Although I will integrate this project into my website in the future, it is available standalone on https://hallo89.github.io/win95-web/.
 
 The early file history is not available since I only moved this project to Git as its scale grew larger.
 
