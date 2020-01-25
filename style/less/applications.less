@@ -3,6 +3,9 @@
 
 /*------------ Minesweeper ------------*/
 .minesweeper {
+  .window {
+    padding: .067em;
+  }
   .game-window {
     .border.around(@50, white, .2em);
     padding: .4em;
@@ -13,6 +16,7 @@
     padding: .267em .4em;
     margin-bottom: .4em;
     .counter {
+      background-color: black;
       .border.around(white, @50);
       canvas {
         //PIXEL
@@ -23,7 +27,7 @@
     .face {
       .border.around(black, @50);
       box-shadow: 1px 1px @50;
-      margin: 0 .4em;
+      margin: 0 0.4em 0 .333em;
       .btn-inner {
         .border.around(@50, white);
         padding: .133em;
@@ -40,9 +44,9 @@
   .game-panel {
     .border.around(white, @50, .2em);
     canvas {
-      // PIXEL
-      width: 128px;
-      height: 128px;
+      display: block;
+      width: 8.533em;
+      height: 8.533em;
     }
   }
 }

@@ -708,6 +708,9 @@ body {
   top: -0.286em;
 }
 /*------------ Minesweeper ------------*/
+.minesweeper .window {
+  padding: 0.067em;
+}
 .minesweeper .game-window {
   border-right: 0.2em solid hsl(0, 0%, 50%);
   border-bottom: 0.2em solid hsl(0, 0%, 50%);
@@ -725,6 +728,7 @@ body {
   margin-bottom: 0.4em;
 }
 .minesweeper .head-panel .counter {
+  background-color: black;
   border-right: 0.067em solid white;
   border-bottom: 0.067em solid white;
   border-left: 0.067em solid hsl(0, 0%, 50%);
@@ -740,7 +744,7 @@ body {
   border-left: 0.067em solid hsl(0, 0%, 50%);
   border-top: 0.067em solid hsl(0, 0%, 50%);
   box-shadow: 1px 1px hsl(0, 0%, 50%);
-  margin: 0 0.4em;
+  margin: 0 0.4em 0 0.333em;
 }
 .minesweeper .head-panel .face .btn-inner {
   border-right: 0.067em solid hsl(0, 0%, 50%);
@@ -769,8 +773,9 @@ body {
   border-top: 0.2em solid hsl(0, 0%, 50%);
 }
 .minesweeper .game-panel canvas {
-  width: 128px;
-  height: 128px;
+  display: block;
+  width: 8.533em;
+  height: 8.533em;
 }
 /*------------ Error window ------------*/
 .error .message,
