@@ -641,6 +641,7 @@ body {
 #start-window .body {
   display: flex;
   flex-direction: column;
+  overflow: visible;
 }
 #start-window .body .section-main {
   border-bottom: 0.071em solid hsl(0, 0%, 50%);
