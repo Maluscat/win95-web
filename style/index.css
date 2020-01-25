@@ -744,32 +744,51 @@ body {
   max-height: 23px;
 }
 .minesweeper .head-panel .face {
+  margin: 0 0.4em 0 0.333em;
+  box-shadow: 1px 1px hsl(0, 0%, 50%);
   border-right: 0.067em solid black;
   border-bottom: 0.067em solid black;
   border-left: 0.067em solid hsl(0, 0%, 50%);
   border-top: 0.067em solid hsl(0, 0%, 50%);
-  box-shadow: 1px 1px hsl(0, 0%, 50%);
-  margin: 0 0.4em 0 0.333em;
 }
 .minesweeper .head-panel .face .btn-inner {
   border-right: 0.067em solid hsl(0, 0%, 50%);
   border-bottom: 0.067em solid hsl(0, 0%, 50%);
   border-left: 0.067em solid white;
   border-top: 0.067em solid white;
-  padding: 0.133em;
 }
-.minesweeper .head-panel .face .image {
-  background-image: url(../resource/image/face-smile.png);
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
+.minesweeper .head-panel .face .images {
+  position: relative;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: optimizespeed;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
-  width: 1.133em;
-  height: 1.133em;
+  width: 1.4em;
+  height: 1.4em;
+}
+.minesweeper .head-panel .face .images .image {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+.minesweeper .head-panel .face .images .image.enabled {
+  display: block;
+}
+.minesweeper .head-panel .face .images .image.face-smile {
+  background-image: url(../resource/image/minesweeper/face/smile.png);
+}
+.minesweeper .head-panel .face .images .image.face-surprised {
+  background-image: url(../resource/image/minesweeper/face/surprised.png);
+}
+.minesweeper .head-panel .face .images .image.face-devastated {
+  background-image: url(../resource/image/minesweeper/face/utterly-devastated.png);
 }
 .minesweeper .game-panel {
   border-right: 0.2em solid white;

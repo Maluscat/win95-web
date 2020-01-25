@@ -25,19 +25,38 @@
       }
     }
     .face {
-      .border.around(black, @50);
-      box-shadow: 1px 1px @50;
       margin: 0 0.4em 0 .333em;
+      box-shadow: 1px 1px @50;
+      .border.around(black, @50);
       .btn-inner {
         .border.around(@50, white);
-        padding: .133em;
       }
-      .image {
-        .bg-img('face-smile');
-        .bg-img-props();
+      .images {
+        position: relative;
         .pixel-image();
-        width: 1.133em;
-        height: 1.133em;
+        width: 1.4em;
+        height: 1.4em;
+        .image {
+          display: none;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          .bg-img-props();
+          &.enabled {
+            display: block;
+          }
+          &.face-smile {
+            .bg-img('minesweeper/face/smile');
+          }
+          &.face-surprised {
+            .bg-img('minesweeper/face/surprised');
+          }
+          &.face-devastated {
+            .bg-img('minesweeper/face/utterly-devastated');
+          }
+        }
       }
     }
   }
