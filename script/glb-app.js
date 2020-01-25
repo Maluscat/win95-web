@@ -85,6 +85,9 @@ function addApp(appName, initFn) {
   if (initFn) {
     (initFn)(appClone);
   }
+  if (appClone.dataset.init) {
+    window[appClone.dataset.init](appClone, appStates.get(appClone));
+  }
   switchActiveApp(appClone);
   content.appendChild(appClone);
   if (!isGhost) {

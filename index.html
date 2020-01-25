@@ -203,7 +203,7 @@
         </div>
       </div>
 
-      <div class="window-wrapper application template minesweeper" data-app-name="minesweeper">
+      <div class="window-wrapper application template minesweeper" data-app-name="minesweeper" data-init="minesweeperInit">
         <div class="window">
           <div class="header">
             <div class="title">
@@ -514,6 +514,11 @@
           app.addAppEventListener('.header', 'mousedown', addWindowMove);
           app.addAppChildrenEvents('.menu > .list', 'mousedown', toggleAppMenu, '> .wrapper');
           app.addAppChildrenEvents('.resize-areas', 'mousedown', addWindowResize, null, 2);
+          if (app.dataset.appName == 'minesweeper') {
+            app.addAppEventListener('.body .game-panel canvas', 'mousedown', sweeperMouseDown);
+            app.addAppEventListener('.body .game-panel canvas', 'mousemove', sweeperMouseMove);
+            app.addAppEventListener('.body .game-panel canvas', 'mouseup', sweeperMouseUp);
+          }
         }
 
         window.addEventListener('mousedown', mouseDown);
