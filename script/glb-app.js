@@ -192,11 +192,13 @@ Node.prototype.addAppChildrenEvents = function(selector, type, callback, modifie
     }
   } else if (node && !node.children) {
     console.error(
-      'addAppChildrenEvents Error: Specified node does not have any children. Skipping event.\n' +
-      '- target node: %o\n' +
-      '- specified node: %o\n' +
-      '- app-name: %s',
-      this, node, this.dataset.appName
+      'addAppChildrenEvents error: Specified node does not have any children. Skipping event.\n' +
+      '- app name: %s\n' +
+      '- selector: %s\n' +
+      '- type: %s\n' +
+      '- callback: %o\n' +
+      '- found target node: %o',
+      this.dataset.appName, selector, type, callback, node
     );
   }
 };
