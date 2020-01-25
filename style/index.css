@@ -23,6 +23,9 @@ hr {
   border-bottom: 0.067em solid white;
   margin: 0.2em 0;
 }
+canvas {
+  display: block;
+}
 .noselect {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -740,8 +743,8 @@ body {
   border-top: 0.067em solid hsl(0, 0%, 50%);
 }
 .minesweeper .head-panel .counter canvas {
-  max-width: 39px;
-  max-height: 23px;
+  width: 2.6em;
+  height: 1.533em;
 }
 .minesweeper .head-panel .face {
   margin: 0 0.4em 0 0.333em;
@@ -797,7 +800,6 @@ body {
   border-top: 0.2em solid hsl(0, 0%, 50%);
 }
 .minesweeper .game-panel canvas {
-  display: block;
   width: 8.533em;
   height: 8.533em;
 }
