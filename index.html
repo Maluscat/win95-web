@@ -211,6 +211,16 @@
               <span class="text">Minesweeper</span>
             </div>
             <div class="title-btns">
+              <button type="button" class="minimize-btn click-btn btn">
+                <div class="btn-inner">
+                  <span class="image"></span>
+                </div>
+              </button>
+              <button type="button" class="maximize-btn click-btn btn disabled">
+                <div class="btn-inner">
+                  <span class="image"></span>
+                </div>
+              </button>
               <button type="button" class="close-btn click-btn btn">
                 <div class="btn-inner">
                   <span class="image"></span>
@@ -489,10 +499,12 @@
       (function() {
         //Application events, prepared for cloning
         for (const app of apps) {
-          app.addAppEventListener('.minimize-btn', 'click', minimizeApp);
-          app.addAppEventListener('.maximize-btn', 'click', maximizeApp);
-          if (app.querySelector('.header .title-btns .maximize-btn'))
+          const maxBtn = app.querySelector('.header .title-btns .maximize-btn');
+          if (maxBtn && !maxBtn.classList.contains('disabled')) {
+            app.addAppEventListener('.maximize-btn', 'click', maximizeApp);
             app.addAppEventListener('.header .title .text', 'dblclick', maximizeApp);
+          }
+          app.addAppEventListener('.minimize-btn', 'click', minimizeApp);
           app.addAppEventListener('.close-btn', 'click', closeApp);
           app.addAppEventListener('.header', 'mousedown', addWindowMove);
           app.addAppChildrenEvents('.menu > .list', 'mousedown', toggleAppMenu, '> .wrapper');
@@ -527,7 +539,7 @@
       //   }
       // })();
 
-      addApp('notepad');
+      // addApp('minesweeper');
 
       updateClock();
       setInterval(updateClock, 1000);

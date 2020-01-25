@@ -255,6 +255,11 @@ body {
   height: 9px;
   margin: 0 0.067em 0.067em 0;
 }
+.window .header .title-btns .btn.disabled .image,
+#header-expander .header .title-btns .btn.disabled .image {
+  -webkit-filter: contrast(0%) drop-shadow(1px 1px 0 white);
+  filter: contrast(0%) drop-shadow(1px 1px 0 white);
+}
 .window .header .title-btns .btn.close-btn .image,
 #header-expander .header .title-btns .btn.close-btn .image {
   background-image: url(../resource/image//title-btns/close.png);
@@ -271,8 +276,8 @@ body {
 #header-expander .header .title-btns .btn.minimize-btn .image {
   background-image: url(../resource/image//title-btns/minimize.png);
 }
-.window .header .title-btns .btn:active .image,
-#header-expander .header .title-btns .btn:active .image {
+.window .header .title-btns .btn:not(.disabled):active .image,
+#header-expander .header .title-btns .btn:not(.disabled):active .image {
   margin: 0.067em 0 0 0.067em;
 }
 .window .header .title-btns .close-btn,
@@ -579,22 +584,22 @@ body {
 .btn.action-btn:active .btn-inner::after {
   content: none;
 }
-.btn.click-btn:active,
-.btn.click-btn.active {
+.btn.click-btn:not(.disabled):active,
+.btn.click-btn:not(.disabled).active {
   border-right: 0.067em solid white;
   border-bottom: 0.067em solid white;
   border-left: 0.067em solid black;
   border-top: 0.067em solid black;
 }
-.btn.click-btn:active .btn-inner,
-.btn.click-btn.active .btn-inner {
+.btn.click-btn:not(.disabled):active .btn-inner,
+.btn.click-btn:not(.disabled).active .btn-inner {
   border-right: 0.067em solid hsl(0, 0%, 87%);
   border-bottom: 0.067em solid hsl(0, 0%, 87%);
   border-left: 0.067em solid hsl(0, 0%, 50%);
   border-top: 0.067em solid hsl(0, 0%, 50%);
 }
-.btn.click-btn:active .btn-inner::after,
-.btn.click-btn.active .btn-inner::after {
+.btn.click-btn:not(.disabled):active .btn-inner::after,
+.btn.click-btn:not(.disabled).active .btn-inner::after {
   content: none;
 }
 /*------------ Starting menu ------------*/
