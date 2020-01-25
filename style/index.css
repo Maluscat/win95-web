@@ -317,7 +317,6 @@ body {
 }
 .window .menu .menu-item .menu-dropdown {
   left: 0;
-  margin-top: 0.067em;
   z-index: 1;
   display: none;
 }
