@@ -5,10 +5,13 @@ const appEvents = {};
 const appStates = new Map();
 const taskBtnLink = new Map();
 
-const availableIcons = [ //This will be improved once I'm using Nodejs & Express
+//This will be improved once I'm using Nodejs & Express
+const availableIcons = [
   'notepad',
   'minesweeper'
 ];
+let sweeperLoad;
+
 const startDropoutTime = 375;
 const errorCoords = [
   Math.floor(Math.random() * 15 + 15),

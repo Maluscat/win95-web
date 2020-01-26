@@ -441,8 +441,20 @@
       const startItems = firstStartList.querySelectorAll('.item .wrapper');
       const startItemsExpand = firstStartList.querySelectorAll('.item.expandable > .wrapper');
 
+      //Preloading the single Minesweeper tile
+      //Once I can index the resources (server side), I will preload all images
+      (function() {
+        const sweeperTile = new Image();
+        sweeperTile.src = 'resource/image/minesweeper/tile.png';
+        sweeperLoad = new Promise(resolve => {
+          sweeperTile.onload = function() {
+            resolve(sweeperTile);
+          };
+        });
+      })();
+
       //Adding a new stylesheet with rules for app icon URLs
-      //app-icon is NOT implemented yet
+      //`app-icon` is NOT implemented yet
       (function() {
         if (availableIcons.length > 0) {
           const styleNode = document.createElement('style');
