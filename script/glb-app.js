@@ -28,8 +28,7 @@ function handleAppMenuEvents(type, node) {
 }
 
 // ------- App utility buttons -------
-function closeApp() {
-  const app = this.findNodeUp('application');
+function closeApp(e, app) {
   app.remove();
   switchActiveApp(false);
   const states = appStates.get(app);
@@ -48,8 +47,7 @@ function expandApp(btn) {
   }
   switchActiveApp(app, false, btn);
 }
-function minimizeApp() {
-  const app = this.findNodeUp('application');
+function minimizeApp(e, app) {
   const taskBtn = appStates.get(app).taskBtn;
   const width = (taskBtn.offsetWidth / 15) + 'em';
   const innerRect = taskBtn.querySelector('.btn-inner').getBoundingClientRect();
@@ -58,8 +56,7 @@ function minimizeApp() {
   prepareHeadExpander(app);
   animateHeadExpander(app, width, transform, 'minimized', 'add');
 }
-function maximizeApp() {
-  const app = this.findNodeUp('application');
+function maximizeApp(e, app) {
   prepareHeadExpander(app);
   if (app.classList.contains('fullscreen')) {
     animateHeadExpander(app, app.style.width, app.style.transform, 'fullscreen', 'remove');
@@ -150,7 +147,9 @@ function cloneApp(node) {
     const events = appEvents[appName];
     for (let i = 0; i < events.length; i++) {
       const elem = cloned.querySelector(events[i].selector);
-      elem.addEventListener(events[i].type, events[i].fn);
+      elem.addEventListener(events[i].type, function() {
+        events[i].fn.call(this, event, cloned);
+      });
     }
   }
   return cloned;

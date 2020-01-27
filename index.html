@@ -426,8 +426,9 @@
       const expanderTitle = headExpander.querySelector('.title .text');
 
       const taskbar = document.getElementById('taskbar');
+      const taskbarWrapper = content.querySelector('.taskbar-wrapper');
       const taskbarBtns = taskbar.querySelector('.task-btns');
-      const taskResize = content.querySelectorAll('.taskbar-wrapper .resize-areas [data-dir="north"]');
+      const taskResize = taskbarWrapper.querySelectorAll('.resize-areas [data-dir="north"]');
 
       const apps = content.getElementsByClassName('application');
       const templates = content.querySelectorAll('.application.template');

@@ -141,21 +141,20 @@ function toggleTaskBtn() {
 }
 
 // ------- Move indicator -------
-function prepareMoveIndicator(that, e, fnMove, fnRemove, check) {
+function prepareMoveIndicator(that, node, e, fnMove, fnRemove, check) {
   if (movingWindow) return;
-  const windowNode = that.findNodeUp(['window-wrapper', 'taskbar-wrapper']);
-  if (windowNode.classList.contains('fullscreen')) return;
-  if (!check || !windowNode.querySelector('.title-btns').checkNode(e.target)) {
+  if (node.classList.contains('fullscreen')) return;
+  if (!check || !node.querySelector('.title-btns').checkNode(e.target)) {
     document.body.classList.add('noselect');
     windowMoveClicked = [e.clientX, e.clientY];
-    movingWindow = windowNode;
-    const rect = windowNode.getBoundingClientRect();
+    movingWindow = node;
+    const rect = node.getBoundingClientRect();
     moveIndicator.style.width = rect.width + 'px';
     moveIndicator.style.height = rect.height + 'px';
     if (rect.left !== 0 || rect.top !== 0) {
       moveIndicator.style.transform = 'translate(' + rect.left + 'px, ' + rect.top + 'px)';
     }
-    if (windowNode.classList.contains('taskbar-wrapper')) moveIndicator.classList.add('on-top');
+    if (node.classList.contains('taskbar-wrapper')) moveIndicator.classList.add('on-top');
     if (fnMove == resizeWindow) {
       resizeDir = that.dataset.dir;
       resizeOffset = [
@@ -203,8 +202,8 @@ function removeMoveIndicator(fnMove, fnRemove) {
 }
 
 // ------- Move functions -------
-function addWindowMove(e) {
-  if (e.button == 0) prepareMoveIndicator(this, e, moveWindow, removeWindowMove, true);
+function addWindowMove(e, app) {
+  if (e.button == 0) prepareMoveIndicator(this, app, e, moveWindow, removeWindowMove, true);
 }
 function moveWindow(e) {
   if (moveIndicator.classList.contains('hidden')) moveIndicator.classList.remove('hidden');
@@ -233,8 +232,8 @@ function removeWindowMove() {
 }
 
 // ------- Resize functions -------
-function addWindowResize(e) {
-  if (e.button == 0) prepareMoveIndicator(this, e, resizeWindow, removeWindowResize);
+function addWindowResize(e, app) {
+  if (e.button == 0) prepareMoveIndicator(this, app || taskbarWrapper, e, resizeWindow, removeWindowResize);
 }
 function resizeWindow(e) {
   if (
