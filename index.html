@@ -283,7 +283,7 @@
                 </div>
               </div>
               <div class="game-panel">
-                <canvas id="minesweeper" width="128" height="128"></canvas>
+                <canvas width="128" height="128"></canvas>
               </div>
             </div>
           </div>
@@ -442,16 +442,35 @@
       const startItems = firstStartList.querySelectorAll('.item .wrapper');
       const startItemsExpand = firstStartList.querySelectorAll('.item.expandable > .wrapper');
 
-      //Preloading the single Minesweeper tile
-      //Once I can index the resources (server side), I will preload all images
+      //Preloading icons for the canvas of Minesweeper
       (function() {
-        const sweeperTile = new Image();
-        sweeperTile.src = 'resource/image/minesweeper/tile.png';
-        sweeperLoad = new Promise(resolve => {
-          sweeperTile.onload = function() {
-            resolve(sweeperTile);
-          };
-        });
+        for (let icon of sweeperIcons) {
+          let srcBase = 'resource/image/minesweeper/';
+          let srcName = '';
+          if (icon.includes('/')) {
+            const index = icon.indexOf('/');
+            srcName += icon.slice(0, index) + '/';
+            icon = icon.slice(index);
+          }
+          if (icon.includes('{') && icon.includes('}')) {
+            const range = icon.slice(icon.indexOf('{') + 1, icon.indexOf('}')).split('-').map(val => Number(val));
+            for (let i = range[0]; i <= range[1]; i++) {
+              createImage(srcBase, srcName + i);
+            }
+          } else {
+            createImage(srcBase, srcName + icon);
+          }
+
+          function createImage(srcBase, source) {
+            const img = new Image();
+            img.src = srcBase + source + '.png';
+            sweeperImgs[source] = new Promise(resolve => {
+              img.onload = function() {
+                resolve(img);
+              };
+            });
+          }
+        }
       })();
 
       //Adding a new stylesheet with rules for app icon URLs
