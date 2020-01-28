@@ -23,10 +23,6 @@ function sweeperMouseDown(e, app) {
   const states = appStates.get(app).sweeper;
   const tilePos = getSweeperTile(this, states, e);
   drawSweeperIcon('tile-empty', states, tilePos);
-
-  if (!states.pattern) {
-    states.pattern = createSweeperPattern(states, tilePos);
-  }
 }
 function sweeperMouseMove(e, app) {
   if (e.buttons == 1) {
@@ -44,6 +40,10 @@ function sweeperMouseUp(e, app) {
   const states = appStates.get(app).sweeper;
   const tilePos = getSweeperTile(this, states, e);
   drawSweeperIcon('tile', states, tilePos, true);
+
+  if (!states.pattern) {
+    states.pattern = createSweeperPattern(states, tilePos);
+  }
 }
 
 //Helper functions
