@@ -21,6 +21,8 @@ const sweeperIcons = [
   'counter/{0-9}'
 ];
 const sweeperImgs = {};
+//To be made local
+const sweepTileSize = 16;
 
 const startDropoutTime = 375;
 const errorCoords = [

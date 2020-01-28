@@ -3,7 +3,8 @@ function minesweeperInit(app, states) {
   const ctx = app.querySelector('.body .game-panel canvas').getContext('2d');
   // const ctxScore = app.querySelector('.body .head-panel .counter.score canvas').getContext('2d');
   // const ctxTime = app.querySelector('.body .head-panel .counter.time canvas').getContext('2d');
-  states.ctx = ctx;
+  states.sweeper = {};
+  states.sweeper.ctx = ctx;
   sweeperImgs['tile'].then(img => {
     ctx.fillStyle = ctx.createPattern(img, 'repeat');
     ctx.fillRect(0, 0, 128, 128);
@@ -12,26 +13,45 @@ function minesweeperInit(app, states) {
 
 //Event functions
 function sweeperMouseDown(e, app) {
-  const rect = this.getBoundingClientRect();
-  const tileSize = 16;
-  const tileCount = rect.width / 16;
+  const states = appStates.get(app).sweeper;
+  const tilePos = getSweeperTile(this, e);
+  drawSweeperIcon('tile-empty', states, tilePos);
+}
+function sweeperMouseMove(e, app) {
+  if (e.buttons == 1) {
+    const states = appStates.get(app).sweeper;
+    const tilePos = getSweeperTile(this, e);
+
+    if (states.activeTile && tilePos.x === states.activeTile.x && tilePos.y === states.activeTile.y) return;
+    else {
+      drawSweeperIcon('tile', states, states.activeTile, null, true);
+      drawSweeperIcon('tile-empty', states, tilePos);
+    }
+  }
+}
+function sweeperMouseUp(e, app) {
+  const states = appStates.get(app).sweeper;
+  const tilePos = getSweeperTile(this, e);
+  drawSweeperIcon('tile', states, tilePos, true);
+}
+
+//Helper functions
+function getSweeperTile(canvas, e) {
+  const rect = canvas.getBoundingClientRect();
+  const tileCount = rect.width / sweepTileSize;
   const click = {
     x: Math.ceil(e.pageX - rect.left) || 1,
     y: Math.ceil(e.pageY - rect.top) || 1
   };
-  const tileNum = {
+  return {
     x: Math.ceil(click.x / rect.width * tileCount),
     y: Math.ceil(click.y / rect.height * tileCount),
   };
-
-  const ctx = appStates.get(app).ctx;
-  sweeperImgs['tile-empty'].then(img => {
-    ctx.drawImage(img, (tileNum.x - 1) * tileSize, (tileNum.y - 1) * tileSize);
+}
+function drawSweeperIcon(icon, states, tilePos, resetTile, ignore) {
+  const ctx = states.ctx;
+  sweeperImgs[icon].then(img => {
+    if (!ignore) states.activeTile = resetTile ? null : tilePos;
+    ctx.drawImage(img, (tilePos.x - 1) * sweepTileSize, (tilePos.y - 1) * sweepTileSize);
   });
-}
-function sweeperMouseMove(e, app) {
-  console.log(e);
-}
-function sweeperMouseUp(e, app) {
-
 }
