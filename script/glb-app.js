@@ -79,6 +79,7 @@ function addApp(appName, initFn) {
   appStates.set(appClone, {});
   if (!isGhost) addTaskButton(appClone);
   appClone.style.transform = 'translate(' + ((appIndent[0] / 15) || '0.001') + 'em, ' + ((appIndent[1] / 15) || '0.001') + 'em)';
+  content.appendChild(appClone);
   if (initFn) {
     (initFn)(appClone);
   }
@@ -86,7 +87,6 @@ function addApp(appName, initFn) {
     window[appClone.dataset.init](appClone, appStates.get(appClone));
   }
   switchActiveApp(appClone);
-  content.appendChild(appClone);
   if (!isGhost) {
     appIndent[0] += 24;
     appIndent[1] += 22;
