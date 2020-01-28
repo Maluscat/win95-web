@@ -25,6 +25,11 @@ hr {
 }
 canvas {
   display: block;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimizespeed;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 .noselect {
   -webkit-user-select: none;
