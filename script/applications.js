@@ -25,7 +25,7 @@ function sweeperMouseDown(e, app) {
   drawSweeperIcon('tile-empty', states, tilePos);
 
   if (!states.pattern) {
-    states.pattern = createSweeperPattern(states);
+    states.pattern = createSweeperPattern(states, tilePos);
   }
 }
 function sweeperMouseMove(e, app) {
@@ -50,37 +50,36 @@ function sweeperMouseUp(e, app) {
 function getSweeperTile(canvas, states, e) {
   const rect = canvas.getBoundingClientRect();
   const click = {
-    x: Math.ceil(e.pageX - rect.left) || 1,
-    y: Math.ceil(e.pageY - rect.top) || 1
+    x: Math.floor(e.pageX - rect.left),
+    y: Math.floor(e.pageY - rect.top)
   };
   return {
-    x: Math.ceil(click.x / rect.width * states.tileCount.x),
-    y: Math.ceil(click.y / rect.height * states.tileCount.y),
+    x: Math.floor(click.x / rect.width * states.tileCount.x),
+    y: Math.floor(click.y / rect.height * states.tileCount.y),
   };
 }
 function drawSweeperIcon(icon, states, tilePos, resetTile, ignore) {
   const ctx = states.ctx;
   sweeperImgs[icon].then(img => {
     if (!ignore) states.activeTile = resetTile ? null : tilePos;
-    ctx.drawImage(img, (tilePos.x - 1) * 16, (tilePos.y - 1) * 16);
+    ctx.drawImage(img, tilePos.x * 16, tilePos.y * 16);
   });
 }
-function createSweeperPattern(states) {
+function createSweeperPattern(states, tilePos) {
   let pattern = new Array(states.tileCount.y);
   for (let i = 0; i < states.tileCount.y; i++) {
     pattern[i] = new Array(states.tileCount.x);
   }
 
-  //This loop only moves on if the bomb position is unique
+  //This loop only moves on if the bomb position is unique and if it isn't at the click position
   for (let i = 0; i < states.bombAmount;) {
     const bombPos = [
       Math.floor(Math.random() * states.tileCount.x),
       Math.floor(Math.random() * states.tileCount.y)
     ];
-    if (pattern[bombPos[0]][bombPos[1]] !== true) {
-      pattern[bombPos[0]][bombPos[1]] = true;
-      i++;
-    }
+    if (pattern[bombPos[0]][bombPos[1]] === true || bombPos[0] == tilePos.x && bombPos[1] == tilePos.y) continue;
+    pattern[bombPos[0]][bombPos[1]] = true;
+    i++;
   }
 
   for (let n = 0; n < pattern.length; n++) {
