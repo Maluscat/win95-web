@@ -40,26 +40,71 @@ function sweeperMouseUp(e, app) {
     states.uncovered = mapSweeperField(states, Uint8Array);
     states.pattern = createSweeperPattern(states, tilePos);
   }
-  const tilePattern = states.pattern[tilePos.y][tilePos.x];
 
+  uncoverSweeperIcon(states, tilePos);
+}
+
+function uncoverSweeperIcon(states, tilePos, checkArea = true) {
+  const tile = states.pattern[tilePos.y][tilePos.x];
   let icon;
-  switch (tilePattern) {
+  switch (tile) {
     case true:
       icon = 'bomb';
       break;
     case 0:
       icon = 'tile-empty';
+      if (checkArea) {
+        const tiles = findEmptySweeperArea(states, tilePos);
+        for (const pos of tiles) {
+          drawSweeperIcon(icon, states, pos);
+          uncoverSweeperIcon(states, pos, false);
+        }
+        return;
+      }
       break;
     default:
-      icon = 'number/' + tilePattern;
+      icon = 'number/' + tile;
   }
-  drawSweeperIcon(icon, states, tilePos, false);
+  drawSweeperIcon(icon, states, tilePos);
   states.uncovered[tilePos.y][tilePos.x] = 1;
+}
+
+function findEmptySweeperArea(states, tilePos, dirMod, visited, positions = new Array()) {
+  if (!visited) visited = mapSweeperField(states, Uint8Array);
+  const mods = [
+    [0, -1],
+    [0, +1],
+    [+1, 0],
+    [-1, 0]
+  ];
+  for (const mod of mods) {
+    if (
+      dirMod && (
+        mod[0] !== 0 && dirMod[0] + mod[0] == 0 ||
+        mod[1] !== 0 && dirMod[1] + mod[1] == 0
+      )
+    ) continue;
+    const path = {
+      x: tilePos.x + mod[0],
+      y: tilePos.y + mod[1]
+    };
+    if (
+      path.x < 0 || path.x > states.tileCount.x - 1 ||
+      path.y < 0 || path.y > states.tileCount.y - 1 ||
+      visited[path.y][path.x] == 1
+    ) continue;
+    visited[path.y][path.x] = 1;
+    positions.push(path);
+    if (states.pattern[path.y][path.x] === 0) {
+      findEmptySweeperArea(states, path, mod, visited, positions);
+    }
+  }
+  return positions;
 }
 
 // ------- Helper functions -------
 function getSweeperMeta(canvas, app, e) {
-  const states = appStates.get(app).sweeper
+  const states = appStates.get(app).sweeper;
 
   const rect = canvas.getBoundingClientRect();
   const click = {
