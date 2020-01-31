@@ -45,7 +45,7 @@ function sweeperMouseUp(e, app) {
       states.pattern = createSweeperPattern(states, tilePos);
     }
 
-    if (states.uncovered[tilePos.y][tilePos.y] === 0) uncoverSweeperIcon(states, tilePos);
+    if (states.uncovered[tilePos.y][tilePos.x] === 0) uncoverSweeperIcon(states, tilePos);
   }
 }
 
@@ -94,12 +94,12 @@ function createSweeperPattern(states, tilePos) {
 
   //This loop only moves on if the bomb position is unique and if it isn't at the click position
   for (let i = 0; i < states.bombAmount;) {
-    const bombPos = [
-      Math.floor(Math.random() * states.tileCount.x),
-      Math.floor(Math.random() * states.tileCount.y)
-    ];
-    if (pattern[bombPos[0]][bombPos[1]] === true || bombPos[0] == tilePos.x && bombPos[1] == tilePos.y) continue;
-    pattern[bombPos[0]][bombPos[1]] = true;
+    const bombPos = {
+      x: Math.floor(Math.random() * states.tileCount.x),
+      y: Math.floor(Math.random() * states.tileCount.y)
+    };
+    if (pattern[bombPos.y][bombPos.x] === true || bombPos.x == tilePos.x && bombPos.y == tilePos.y) continue;
+    pattern[bombPos.y][bombPos.x] = true;
     i++;
   }
 
