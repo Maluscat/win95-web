@@ -7,6 +7,7 @@ function minesweeperInit(app, states) {
   const rect = canvas.getBoundingClientRect();
   states.sweeper = {};
   states.sweeper.ctx = ctx;
+  states.sweeper.canvas = canvas;
   states.sweeper.bombAmount = 10;
   states.sweeper.tileCount = {
     x: rect.width / 16,
@@ -20,11 +21,13 @@ function minesweeperInit(app, states) {
 
 // ------- Event functions -------
 function sweeperMouseDown(e, app) {
-  const {states, tilePos} = getSweeperMeta(this, app, e);
-  drawSweeperIcon('tile-empty', states, tilePos, true);
+  if (!this.classList.contains('static')) {
+    const {states, tilePos} = getSweeperMeta(this, app, e);
+    drawSweeperIcon('tile-empty', states, tilePos, true);
+  }
 }
 function sweeperMouseMove(e, app) {
-  if (e.buttons == 1) {
+  if (e.buttons == 1 && !this.classList.contains('static')) {
     const {states, tilePos} = getSweeperMeta(this, app, e);
     if (states.activeTile && tilePos.x === states.activeTile.x && tilePos.y === states.activeTile.y) return;
     else {
@@ -34,40 +37,56 @@ function sweeperMouseMove(e, app) {
   }
 }
 function sweeperMouseUp(e, app) {
-  const {states, tilePos} = getSweeperMeta(this, app, e);
+  if (!this.classList.contains('static')) {
+    const {states, tilePos} = getSweeperMeta(this, app, e);
 
-  if (!states.pattern) {
-    states.uncovered = mapSweeperField(states, Uint8Array);
-    states.pattern = createSweeperPattern(states, tilePos);
+    if (!states.pattern) {
+      states.uncovered = mapSweeperField(states, Uint8Array);
+      states.pattern = createSweeperPattern(states, tilePos);
+    }
+
+    uncoverSweeperIcon(states, tilePos);
   }
-
-  uncoverSweeperIcon(states, tilePos);
 }
 
 // ------- General Minesweeper functions -------
 function uncoverSweeperIcon(states, tilePos, checkArea = true) {
   const tile = states.pattern[tilePos.y][tilePos.x];
   let icon;
-  switch (tile) {
-    case true:
-      icon = 'bomb';
-      break;
-    case 0:
-      icon = 'tile-empty';
-      if (checkArea) {
-        const tiles = findEmptySweeperArea(states, tilePos);
-        for (const pos of tiles) {
-          drawSweeperIcon(icon, states, pos);
-          uncoverSweeperIcon(states, pos, false);
-        }
-        return;
+  if (tile === true) {
+    endSweeperGame(states, tilePos);
+    return;
+  } else if (tile === 0) {
+    icon = 'tile-empty';
+    if (checkArea) {
+      const tiles = findEmptySweeperArea(states, tilePos);
+      for (const pos of tiles) {
+        drawSweeperIcon(icon, states, pos);
+        uncoverSweeperIcon(states, pos, false);
       }
-      break;
-    default:
-      icon = 'number/' + tile;
+      return;
+    }
+  } else {
+    icon = 'number/' + tile;
   }
   drawSweeperIcon(icon, states, tilePos);
   states.uncovered[tilePos.y][tilePos.x] = 1;
+}
+
+function endSweeperGame(states, clickedPos) {
+  states.ctx.fillStyle = 'red';
+  states.ctx.fillRect(clickedPos.x * 16, clickedPos.y * 16, 15, 15);
+  states.pattern.loopSweeperMap(function(x, y) {
+    if (states.pattern[y][x] === true) {
+      const tilePos = {
+        x: x,
+        y: y
+      };
+      if (!(tilePos.x == clickedPos.x && tilePos.y == clickedPos.y)) drawSweeperIcon('tile-empty', states, tilePos);
+      drawSweeperIcon('bomb', states, tilePos);
+      states.canvas.classList.add('static');
+    }
+  });
 }
 
 function createSweeperPattern(states, tilePos) {
@@ -84,21 +103,19 @@ function createSweeperPattern(states, tilePos) {
     i++;
   }
 
-  for (let n = 0; n < pattern.length; n++) {
-    for (let i = 0; i < pattern[n].length; i++) {
-      if (pattern[n][i] !== true) {
-        let bombCount = 0;
-        if (n !== 0) {
-          bombCount += getBombCount(pattern, n, i, -1);
-        }
-        if (n !== states.tileCount.y - 1) {
-          bombCount += getBombCount(pattern, n, i, +1);
-        }
-        bombCount += getBombCount(pattern, n, i, 0, true);
-        pattern[n][i] = bombCount;
+  pattern.loopSweeperMap(function(x, y) {
+    if (pattern[y][x] !== true) {
+      let bombCount = 0;
+      if (y !== 0) {
+        bombCount += getBombCount(pattern, y, x, -1);
       }
+      if (y !== states.tileCount.y - 1) {
+        bombCount += getBombCount(pattern, y, x, +1);
+      }
+      bombCount += getBombCount(pattern, y, x, 0, true);
+      pattern[y][x] = bombCount;
     }
-  }
+  });
 
   return pattern;
 
@@ -176,3 +193,11 @@ function mapSweeperField(states, method) {
   }
   return pattern;
 }
+
+Array.prototype.loopSweeperMap = function(callback) {
+  for (let y = 0; y < this.length; y++) {
+    for (let x = 0; x < this[y].length; x++) {
+      (callback)(x, y);
+    }
+  }
+};
