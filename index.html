@@ -269,13 +269,9 @@
                 <div class="counter score">
                   <canvas id="minesweeper-score"></canvas>
                 </div>
-                <button class="btn face">
+                <button class="btn click-btn face">
                   <div class="btn-inner inner">
-                    <div class="images">
-                      <span class="image face-smile"></span>
-                      <span class="image face-surprised"></span>
-                      <span class="image face-devastated"></span>
-                    </div>
+                    <span class="image smile"></span>
                   </div>
                 </button>
                 <div class="counter time">
@@ -547,6 +543,7 @@
           app.addAppChildrenEvents('.menu > .list', 'mousedown', toggleAppMenu, '> .wrapper');
           app.addAppChildrenEvents('.resize-areas', 'mousedown', addWindowResize, null, 2);
           if (app.dataset.appName == 'minesweeper') {
+            app.addAppEventListener('.body .head-panel .btn.face', 'click', newSweeperGame);
             app.addAppEventListener('.body .game-panel canvas', 'mousedown', sweeperMouseDown);
             app.addAppEventListener('.body .game-panel canvas', 'mousemove', sweeperMouseMove);
             app.addAppEventListener('.body .game-panel canvas', 'mouseup', sweeperMouseUp);
@@ -554,6 +551,7 @@
         }
 
         window.addEventListener('mousedown', mouseDown);
+        window.addEventListener('mouseup', mouseUp);
         startBtn.addEventListener('click', function() {
           toggleStartMenu();
         });
