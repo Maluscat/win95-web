@@ -35,6 +35,7 @@ function newSweeperGame(e, app) {
     });
     states.pattern = null;
     states.uncovered = null;
+    states.surprised = false;
     states.canvas.classList.remove('static');
     switchSweeperFace(states, 'smile');
   }
@@ -45,6 +46,7 @@ function sweeperMouseDown(e, app) {
     const {states, tilePos} = getSweeperMeta(this, app, e);
     drawSweeperIcon('tile-empty', states, tilePos, true);
     states.face.classList.toggle('surprised');
+    states.surprised = true;
   }
 }
 function sweeperMouseMove(e, app) {

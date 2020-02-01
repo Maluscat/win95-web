@@ -79,7 +79,12 @@ function mouseDown(e) { //`window` mousedown event
 }
 function mouseUp() { //`window` mouseup event
   if (activeApp.dataset.appName == 'minesweeper') {
-    appStates.get(activeApp).sweeper.face.classList.toggle('surprised');
+    const states = appStates.get(activeApp).sweeper;
+    console.log(states.surprised);
+    if (states.surprised) {
+      states.face.classList.toggle('surprised');
+      states.surprised = false;
+    }
   }
 }
 
