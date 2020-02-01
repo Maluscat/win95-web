@@ -77,6 +77,11 @@ function mouseDown(e) { //`window` mousedown event
     switchActiveApp(false);
   }
 }
+function mouseUp() { //`window` mouseup event
+  if (activeApp.dataset.appName == 'minesweeper') {
+    appStates.get(activeApp).sweeper.face.classList.toggle('surprised');
+  }
+}
 
 // ------- Start menu functions -------
 function toggleStartMenu(action) {

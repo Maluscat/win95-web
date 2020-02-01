@@ -3,11 +3,13 @@ function minesweeperInit(app, states) {
   // const ctxScore = app.querySelector('.body .head-panel .counter.score canvas').getContext('2d');
   // const ctxTime = app.querySelector('.body .head-panel .counter.time canvas').getContext('2d');
   const canvas = app.querySelector('.body .game-panel canvas');
+  const face = app.querySelector('.body .head-panel .btn.face .image');
   const ctx = canvas.getContext('2d');
   const rect = canvas.getBoundingClientRect();
   states.sweeper = {};
-  states.sweeper.ctx = ctx;
+  states.sweeper.face = face;
   states.sweeper.canvas = canvas;
+  states.sweeper.ctx = ctx;
   states.sweeper.bombAmount = 10;
   states.sweeper.tileCount = {
     x: rect.width / 16,
@@ -20,10 +22,29 @@ function minesweeperInit(app, states) {
 }
 
 // ------- Event functions -------
+function newSweeperGame(e, app) {
+  const states = appStates.get(app).sweeper;
+
+  if (states.pattern) {
+    states.pattern.loopSweeperMap(function(x, y) {
+      const tilePos = {
+        x: x,
+        y: y
+      };
+      drawSweeperIcon('tile', states, tilePos, false, true);
+    });
+    states.pattern = null;
+    states.uncovered = null;
+    states.canvas.classList.remove('static');
+    switchSweeperFace(states, 'smile');
+  }
+}
+
 function sweeperMouseDown(e, app) {
   if (!this.classList.contains('static')) {
     const {states, tilePos} = getSweeperMeta(this, app, e);
     drawSweeperIcon('tile-empty', states, tilePos, true);
+    states.face.classList.toggle('surprised');
   }
 }
 function sweeperMouseMove(e, app) {
@@ -87,6 +108,7 @@ function endSweeperGame(states, clickedPos) {
       states.canvas.classList.add('static');
     }
   });
+  switchSweeperFace(states, 'devastated');
 }
 
 function createSweeperPattern(states, tilePos) {
@@ -176,8 +198,8 @@ function getSweeperMeta(canvas, app, e) {
 
   return {states, tilePos};
 }
-function drawSweeperIcon(icon, states, tilePos, keepActive) {
-  if (tilePos && (!states.uncovered || states.uncovered[tilePos.y][tilePos.x] === 0)) {
+function drawSweeperIcon(icon, states, tilePos, keepActive, force) {
+  if (force || tilePos && (!states.uncovered || states.uncovered[tilePos.y][tilePos.x] === 0)) {
     const ctx = states.ctx;
     sweeperImgs[icon].then(img => {
       states.activeTile = keepActive ? tilePos : null;
@@ -191,6 +213,16 @@ function mapSweeperField(states, method) {
     pattern[i] = new (method || Array)(states.tileCount.x);
   }
   return pattern;
+}
+function switchSweeperFace(states, face) {
+  const node = states.face;
+  if (!node.classList.contains(face)) {
+    ['smile', 'surprised', 'devastated']
+    .forEach(function(variant) {
+      node.classList.remove(variant);
+    });
+    node.classList.add(face);
+  }
 }
 
 Array.prototype.loopSweeperMap = function(callback) {

@@ -23,38 +23,36 @@
         height: 1.533em;
       }
     }
-    .face {
+    .btn.face {
       margin: 0 0.4em 0 .333em;
-      box-shadow: 1px 1px @50;
+      box-shadow: .067em .067em @50;
       .border.around(black, @50);
       .btn-inner {
+        padding: 0;
         .border.around(@50, white);
       }
-      .images {
-        position: relative;
+      &:active {
+        //Little hack to prevent having to add another class or element
+        transform: translate(.067em, .067em);
+        .border.around(@50, black);
+        box-shadow: -.067em -.067em @50;
+        .btn-inner {
+          .border.around(white, @50);
+        }
+      }
+      .image {
         .pixel-image();
         width: 1.4em;
         height: 1.4em;
-        .image {
-          display: none;
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          .bg-img-props();
-          &.enabled {
-            display: block;
-          }
-          &.face-smile {
-            .bg-img('minesweeper/face/smile');
-          }
-          &.face-surprised {
-            .bg-img('minesweeper/face/surprised');
-          }
-          &.face-devastated {
-            .bg-img('minesweeper/face/utterly-devastated');
-          }
+        .bg-img-props();
+        &.smile {
+          .bg-img('minesweeper/face/smile');
+        }
+        &.surprised {
+          .bg-img('minesweeper/face/surprised');
+        }
+        &.devastated {
+          .bg-img('minesweeper/face/utterly-devastated');
         }
       }
     }

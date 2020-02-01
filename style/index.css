@@ -751,22 +751,36 @@ body {
   width: 2.6em;
   height: 1.533em;
 }
-.minesweeper .head-panel .face {
+.minesweeper .head-panel .btn.face {
   margin: 0 0.4em 0 0.333em;
-  box-shadow: 1px 1px hsl(0, 0%, 50%);
+  box-shadow: 0.067em 0.067em hsl(0, 0%, 50%);
   border-right: 0.067em solid black;
   border-bottom: 0.067em solid black;
   border-left: 0.067em solid hsl(0, 0%, 50%);
   border-top: 0.067em solid hsl(0, 0%, 50%);
 }
-.minesweeper .head-panel .face .btn-inner {
+.minesweeper .head-panel .btn.face .btn-inner {
+  padding: 0;
   border-right: 0.067em solid hsl(0, 0%, 50%);
   border-bottom: 0.067em solid hsl(0, 0%, 50%);
   border-left: 0.067em solid white;
   border-top: 0.067em solid white;
 }
-.minesweeper .head-panel .face .images {
-  position: relative;
+.minesweeper .head-panel .btn.face:active {
+  transform: translate(0.067em, 0.067em);
+  border-right: 0.067em solid hsl(0, 0%, 50%);
+  border-bottom: 0.067em solid hsl(0, 0%, 50%);
+  border-left: 0.067em solid black;
+  border-top: 0.067em solid black;
+  box-shadow: -0.067em -0.067em hsl(0, 0%, 50%);
+}
+.minesweeper .head-panel .btn.face:active .btn-inner {
+  border-right: 0.067em solid white;
+  border-bottom: 0.067em solid white;
+  border-left: 0.067em solid hsl(0, 0%, 50%);
+  border-top: 0.067em solid hsl(0, 0%, 50%);
+}
+.minesweeper .head-panel .btn.face .image {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: optimizespeed;
   image-rendering: pixelated;
@@ -774,28 +788,17 @@ body {
   image-rendering: crisp-edges;
   width: 1.4em;
   height: 1.4em;
-}
-.minesweeper .head-panel .face .images .image {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
 }
-.minesweeper .head-panel .face .images .image.enabled {
-  display: block;
-}
-.minesweeper .head-panel .face .images .image.face-smile {
+.minesweeper .head-panel .btn.face .image.smile {
   background-image: url(../resource/image/minesweeper/face/smile.png);
 }
-.minesweeper .head-panel .face .images .image.face-surprised {
+.minesweeper .head-panel .btn.face .image.surprised {
   background-image: url(../resource/image/minesweeper/face/surprised.png);
 }
-.minesweeper .head-panel .face .images .image.face-devastated {
+.minesweeper .head-panel .btn.face .image.devastated {
   background-image: url(../resource/image/minesweeper/face/utterly-devastated.png);
 }
 .minesweeper .game-panel {
