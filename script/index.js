@@ -77,15 +77,6 @@ function mouseDown(e) { //`window` mousedown event
     switchActiveApp(false);
   }
 }
-function mouseUp() { //`window` mouseup event
-  if (activeApp.dataset.appName == 'minesweeper') {
-    const states = appStates.get(activeApp).sweeper;
-    if (states.surprised) {
-      states.face.classList.toggle('surprised');
-      states.surprised = false;
-    }
-  }
-}
 
 // ------- Start menu functions -------
 function toggleStartMenu(action) {
