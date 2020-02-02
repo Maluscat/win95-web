@@ -16,6 +16,7 @@ const sweeperIcons = [
   'tile-empty',
   'mark',
   'cross',
+  'flag',
   'bomb',
   'number/{1-4}',
   'counter/{0-9}'
