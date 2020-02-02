@@ -44,7 +44,7 @@ function Minesweeper(app) {
         that.face.classList.toggle('surprised');
         that.surprised = true;
         toggleGlobalEvents();
-      } else if (e.buttons == 2) {
+      } else if (e.buttons == 2 && that.state[tilePos.y][tilePos.x] != 1) {
         if (that.state[tilePos.y][tilePos.x] == 2) {
           drawIcon('tile', tilePos, false, true);
           that.state[tilePos.y][tilePos.x] = 0;
