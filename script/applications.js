@@ -31,7 +31,7 @@ function Minesweeper(app) {
 
   // ------- Mouse events -------
   function mouseDown(e) {
-    if (!that.canvas.classList.contains('static')) {
+    if (!that.canvas.classList.contains('static') && e.buttons == 1) {
       const tilePos = getTilePosition(e);
       drawIcon('tile-empty', tilePos, true);
       that.face.classList.toggle('surprised');
@@ -42,11 +42,11 @@ function Minesweeper(app) {
   }
   function mouseMove(e) {
     const tilePos = getTilePosition(e);
-    if (!that.canvas.classList.contains('static') && e.buttons == 1) {
+    if (!that.canvas.classList.contains('static')) {
       if (that.activeTile && tilePos.x === that.activeTile.x && tilePos.y === that.activeTile.y) return;
       else {
         drawIcon('tile', that.activeTile);
-        drawIcon('tile-empty', tilePos, true);
+        if (tilePosIsValid(tilePos)) drawIcon('tile-empty', tilePos, true);
       }
     }
   }
@@ -58,13 +58,13 @@ function Minesweeper(app) {
         that.pattern = createPattern(tilePos);
       }
 
-      if (that.uncovered[tilePos.y][tilePos.x] === 0) uncoverTile(tilePos);
+      if (tilePosIsValid(tilePos) && that.uncovered[tilePos.y][tilePos.x] === 0) uncoverTile(tilePos);
 
       that.face.classList.toggle('surprised');
       that.surprised = false;
 
-      toggleGlobalEvents('remove');
     }
+    toggleGlobalEvents('remove');
   }
 
   // ------- General functions -------
@@ -154,12 +154,7 @@ function Minesweeper(app) {
         x: tilePos.x + mod[0],
         y: tilePos.y + mod[1]
       };
-      if (
-        path.x < 0 || path.y < 0 ||
-        path.x > that.tileCount.x - 1 ||
-        path.y > that.tileCount.y - 1 ||
-        visited[path.y][path.x] == 1
-      ) continue;
+      if (!tilePosIsValid(path) || visited[path.y][path.x] == 1) continue;
       visited[path.y][path.x] = 1;
       positions.push(path);
       if (that.pattern[path.y][path.x] === 0) {
@@ -228,6 +223,14 @@ function Minesweeper(app) {
       });
       node.classList.add(face);
     }
+  }
+  function tilePosIsValid(tilePos) {
+    return (
+      tilePos.x >= 0 &&
+      tilePos.y >= 0 &&
+      tilePos.x < that.tileCount.x &&
+      tilePos.y < that.tileCount.y
+    );
   }
   function toggleGlobalEvents(method = 'add') {
     window[method + 'EventListener']('mousemove', mouseMove);
