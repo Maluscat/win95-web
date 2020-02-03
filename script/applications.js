@@ -13,7 +13,7 @@ function Minesweeper(app) {
     const rect = canvas.getBoundingClientRect();
     that.face = face;
     that.canvas = canvas;
-    that.bombAmount = 10;
+    that.bombAmount = 10; //TODO: limit this to prevent endless recursion
     that.tileCount = {
       x: rect.width / 16,
       y: rect.height / 16,

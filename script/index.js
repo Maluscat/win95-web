@@ -18,7 +18,7 @@ const sweeperIcons = [
   'cross',
   'flag',
   'bomb',
-  'number/{1-4}',
+  'number/{1-8}',
   'counter/{0-9}'
 ];
 const sweeperImgs = {};
