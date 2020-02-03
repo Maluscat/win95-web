@@ -15,8 +15,8 @@ function Minesweeper(app) {
     that.canvas = canvas;
     that.bombAmount = 10; //TODO: limit this to prevent endless recursion
     that.tileCount = {
-      x: rect.width / 16,
-      y: rect.height / 16,
+      x: Math.round(rect.width) / 16,
+      y: Math.round(rect.height) / 16,
     };
 
     newGame();
