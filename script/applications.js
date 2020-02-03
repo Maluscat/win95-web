@@ -94,11 +94,11 @@ function Minesweeper(app) {
       switchBtnFace('smile');
     }
   }
-  function endGame(tilePos) {
+  function lostGame(tilePos) {
     ctx.fillStyle = 'red';
     ctx.fillRect(tilePos.x * 16, tilePos.y * 16, 15, 15);
-    that.pattern.loopSweeperMap(function(x, y) {
-      if (that.pattern[y][x] === true) {
+    that.pattern.loopSweeperMap((x, y, item) => {
+      if (item === true) {
         const itemPos = {
           x: x,
           y: y
@@ -117,6 +117,13 @@ function Minesweeper(app) {
     that.canvas.classList.add('static');
     switchBtnFace('devastated');
   }
+  function wonGame(bombPos) {
+    for (const pos of bombPos) {
+      if (that.state[pos.y][pos.x] !== 2) drawIcon('flag', pos);
+    }
+    that.canvas.classList.add('static');
+    switchBtnFace('swag');
+  }
 
   function createPattern(tilePos) {
     const pattern = mapField();
@@ -132,8 +139,8 @@ function Minesweeper(app) {
       i++;
     }
 
-    pattern.loopSweeperMap(function(x, y) {
-      if (pattern[y][x] !== true) {
+    pattern.loopSweeperMap((x, y, item) => {
+      if (item !== true) {
         let bombCount = 0;
         if (y !== 0) {
           bombCount += getBombCount(pattern, y, x, -1);
@@ -185,27 +192,42 @@ function Minesweeper(app) {
     return positions;
   }
 
-  function uncoverTile(tilePos, checkArea = true) {
+  function uncoverTile(tilePos, recursion) {
     const tile = that.pattern[tilePos.y][tilePos.x];
     let icon;
     if (tile === true) {
-      endGame(tilePos);
+      lostGame(tilePos);
       return;
     } else if (tile === 0) {
       icon = 'tile-empty';
-      if (checkArea) {
+      if (!recursion) {
         const tiles = seekEmptyArea(tilePos);
         for (const pos of tiles) {
           drawIcon(icon, pos);
-          uncoverTile(pos, false);
+          uncoverTile(pos, true);
         }
-        return;
       }
     } else {
       icon = 'number/' + tile;
     }
-    drawIcon(icon, tilePos);
-    that.state[tilePos.y][tilePos.x] = 1;
+    if (recursion || tile !== 0) {
+      drawIcon(icon, tilePos);
+      that.state[tilePos.y][tilePos.x] = 1;
+    }
+    if (!recursion) {
+      const bombPos = new Array();
+      for (let y = 0; y < that.state.length; y++) {
+        for (let x = 0; x < that.state[y].length; x++) {
+          if (that.state[y][x] === 0 && that.pattern[y][x] !== true) return;
+          const pos = {
+            x: x,
+            y: y
+          };
+          bombPos.push(pos);
+        }
+      }
+      wonGame(bombPos);
+    }
   }
 
   // ------- Helper functions -------
@@ -238,7 +260,7 @@ function Minesweeper(app) {
   function switchBtnFace(face) {
     const node = that.face;
     if (!node.classList.contains(face)) {
-      ['smile', 'surprised', 'devastated']
+      ['smile', 'surprised', 'devastated', 'swag']
       .forEach(function(variant) {
         node.classList.remove(variant);
       });
@@ -263,7 +285,7 @@ function Minesweeper(app) {
 Array.prototype.loopSweeperMap = function(callback) {
   for (let y = 0; y < this.length; y++) {
     for (let x = 0; x < this[y].length; x++) {
-      (callback)(x, y);
+      (callback)(x, y, this[y][x]);
     }
   }
 };

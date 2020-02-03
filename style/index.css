@@ -801,6 +801,9 @@ body {
 .minesweeper .head-panel .btn.face .image.devastated {
   background-image: url(../resource/image/minesweeper/face/utterly-devastated.png);
 }
+.minesweeper .head-panel .btn.face .image.swag {
+  background-image: url(../resource/image/minesweeper/face/swag.png);
+}
 .minesweeper .game-panel {
   border-right: 0.2em solid white;
   border-bottom: 0.2em solid white;
