@@ -52,7 +52,6 @@ function Minesweeper(app) {
       if (e.buttons == 1) {
         drawIcon('tile-empty', tilePos, true);
         that.face.classList.toggle('surprised');
-        that.surprised = true;
         toggleGlobalEvents();
       } else if (e.buttons == 2 && that.state[tilePos.y][tilePos.x] != 1) {
         if (that.state[tilePos.y][tilePos.x] == 2) {
@@ -86,7 +85,6 @@ function Minesweeper(app) {
       if (tilePosIsValid(tilePos) && that.state[tilePos.y][tilePos.x] === 0) uncoverTile(tilePos);
 
       that.face.classList.toggle('surprised');
-      that.surprised = false;
 
     }
     toggleGlobalEvents('remove');
@@ -102,7 +100,6 @@ function Minesweeper(app) {
       });
       that.pattern = null;
       that.state = null;
-      that.surprised = false;
       stopTime();
       if (e) clearTime();
       that.canvas.classList.remove('static');
