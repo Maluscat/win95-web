@@ -178,7 +178,11 @@ function Minesweeper(app) {
     }
   }
   function seekEmptyArea(tilePos, dirMod, visited, positions = new Array()) {
-    if (!visited) visited = mapField(Uint8Array);
+    if (!visited) { //serves as an init directive
+      positions.push(tilePos);
+      visited = mapField(Uint8Array);
+      visited[tilePos.y][tilePos.x] = 1;
+    }
     const mods = [
       [0, -1],
       [0, +1],
