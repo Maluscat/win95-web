@@ -5,14 +5,19 @@ function minesweeperInit(app, states) {
 
 function Minesweeper(app) {
   const that = this;
+  let timeInterval;
 
   (function() {
+    const counterBombs = app.querySelector('.body .head-panel .counter.bombs canvas');
+    const counterTime = app.querySelector('.body .head-panel .counter.time canvas');
     const canvas = app.querySelector('.body .game-panel canvas');
     const faceBtn = app.querySelector('.body .head-panel .btn.face');
     const face = faceBtn.querySelector('.image');
     const rect = canvas.getBoundingClientRect();
     that.face = face;
     that.canvas = canvas;
+    that.counterBombs = counterBombs;
+    that.counterTime = counterTime;
     that.bombAmount = 10; //TODO: limit this to prevent endless recursion
     that.tileCount = {
       x: Math.round(rect.width) / 16,
@@ -27,7 +32,12 @@ function Minesweeper(app) {
       e.preventDefault();
     });
   }());
+  const ctxBombs = that.counterBombs.getContext('2d');
+  const ctxTime = that.counterTime.getContext('2d');
   const ctx = that.canvas.getContext('2d');
+
+  clearTime();
+  drawPanel('bombs', that.bombAmount);
 
   // ------- Mouse events -------
   function mouseDown(e) {
@@ -68,7 +78,10 @@ function Minesweeper(app) {
   function mouseUp(e) {
     const tilePos = getTilePosition(e);
     if (!that.canvas.classList.contains('static')) {
-      if (!that.pattern) that.pattern = createPattern(tilePos);
+      if (!that.pattern) {
+        startTime();
+        that.pattern = createPattern(tilePos);
+      }
 
       if (tilePosIsValid(tilePos) && that.state[tilePos.y][tilePos.x] === 0) uncoverTile(tilePos);
 
@@ -90,6 +103,8 @@ function Minesweeper(app) {
       that.pattern = null;
       that.state = null;
       that.surprised = false;
+      stopTime();
+      if (e) clearTime();
       that.canvas.classList.remove('static');
       switchBtnFace('smile');
     }
@@ -114,6 +129,7 @@ function Minesweeper(app) {
         drawIcon('cross', itemPos, false, true);
       }
     });
+    stopTime();
     that.canvas.classList.add('static');
     switchBtnFace('devastated');
   }
@@ -121,6 +137,7 @@ function Minesweeper(app) {
     for (const pos of bombPos) {
       if (that.state[pos.y][pos.x] !== 2) drawIcon('flag', pos);
     }
+    stopTime();
     that.canvas.classList.add('static');
     switchBtnFace('swag');
   }
@@ -278,6 +295,55 @@ function Minesweeper(app) {
   function toggleGlobalEvents(method = 'add') {
     window[method + 'EventListener']('mousemove', mouseMove);
     window[method + 'EventListener']('mouseup', mouseUp);
+  }
+
+  //Panels
+  function startTime() {
+    updateTime();
+    if (timeInterval == null) {
+      timeInterval = setInterval(updateTime, 1000);
+    }
+  }
+  function stopTime() {
+    if (timeInterval != null) {
+      clearInterval(timeInterval);
+      timeInterval = null;
+    }
+  }
+  function clearTime() {
+    that.time = 000;
+    drawPanel('time', that.time);
+  }
+  function updateTime() {
+    const time = that.time++ >= 999 ? 999 : that.time;
+    drawPanel('time', time);
+  }
+  function drawPanel(method, number) {
+    let thisCanvas;
+    let thisCtx;
+    if (method == 'bombs') {
+      thisCanvas = that.counterBombs;
+      thisCtx = ctxBombs;
+    } else if (method == 'time') {
+      thisCanvas = that.counterTime;
+      thisCtx = ctxTime;
+    } else {
+      console.error("Error @ Minesweeper drawPanel: method must be either 'bombs' or 'time' but it is " + method);
+      return;
+    }
+
+    thisCtx.fillStyle = 'black';
+    thisCtx.fillRect(0, 0, thisCanvas.clientWidth, thisCanvas.clientHeight);
+    let numStr = number.toString().slice(-3);
+    //Pad the string to a length of 3
+    if (numStr.length < 3) numStr = '0'.repeat(3 - numStr.length) + numStr;
+    const numParts = numStr.split('');
+    for (let i = 0; i < numParts.length; i++) {
+      const digit = numParts[i];
+      sweeperImgs['counter/' + digit].then(img => {
+        thisCtx.drawImage(img, 13 * i, 0);
+      });
+    };
   }
 }
 
