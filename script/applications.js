@@ -139,6 +139,44 @@ function Minesweeper(app) {
     switchBtnFace('swag');
   }
 
+  function uncoverTile(tilePos, recursion) {
+    const tile = that.pattern[tilePos.y][tilePos.x];
+    let icon;
+    if (tile === true) {
+      lostGame(tilePos);
+      return;
+    } else if (tile === 0) {
+      icon = 'tile-empty';
+      if (!recursion) {
+        const tiles = seekEmptyArea(tilePos);
+        for (const pos of tiles) {
+          drawIcon(icon, pos);
+          uncoverTile(pos, true);
+        }
+      }
+    } else {
+      icon = 'number/' + tile;
+    }
+    if (recursion || tile !== 0) {
+      drawIcon(icon, tilePos);
+      that.state[tilePos.y][tilePos.x] = 1;
+    }
+    if (!recursion) {
+      const bombPos = new Array();
+      for (let y = 0; y < that.state.length; y++) {
+        for (let x = 0; x < that.state[y].length; x++) {
+          if (that.state[y][x] === 0 && that.pattern[y][x] !== true) return;
+          const pos = {
+            x: x,
+            y: y
+          };
+          bombPos.push(pos);
+        }
+      }
+      wonGame(bombPos);
+    }
+  }
+
   function createPattern(tilePos) {
     const pattern = mapField();
 
@@ -208,44 +246,6 @@ function Minesweeper(app) {
       }
     }
     return positions;
-  }
-
-  function uncoverTile(tilePos, recursion) {
-    const tile = that.pattern[tilePos.y][tilePos.x];
-    let icon;
-    if (tile === true) {
-      lostGame(tilePos);
-      return;
-    } else if (tile === 0) {
-      icon = 'tile-empty';
-      if (!recursion) {
-        const tiles = seekEmptyArea(tilePos);
-        for (const pos of tiles) {
-          drawIcon(icon, pos);
-          uncoverTile(pos, true);
-        }
-      }
-    } else {
-      icon = 'number/' + tile;
-    }
-    if (recursion || tile !== 0) {
-      drawIcon(icon, tilePos);
-      that.state[tilePos.y][tilePos.x] = 1;
-    }
-    if (!recursion) {
-      const bombPos = new Array();
-      for (let y = 0; y < that.state.length; y++) {
-        for (let x = 0; x < that.state[y].length; x++) {
-          if (that.state[y][x] === 0 && that.pattern[y][x] !== true) return;
-          const pos = {
-            x: x,
-            y: y
-          };
-          bombPos.push(pos);
-        }
-      }
-      wonGame(bombPos);
-    }
   }
 
   // ------- Helper functions -------
