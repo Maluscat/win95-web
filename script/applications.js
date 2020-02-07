@@ -8,6 +8,7 @@ function Minesweeper(app) {
   let timeInterval;
 
   this.newGame = newGame;
+  this.changeField = changeField;
   (function() {
     const counterBombs = app.querySelector('.body .head-panel .counter.bombs canvas');
     const counterTime = app.querySelector('.body .head-panel .counter.time canvas');
@@ -19,13 +20,11 @@ function Minesweeper(app) {
     that.canvas = canvas;
     that.counterBombs = counterBombs;
     that.counterTime = counterTime;
-    that.bombAmount = 10; //TODO: limit this to prevent endless recursion
-    that.tileCount = {
-      x: Math.round(rect.width) / 16,
-      y: Math.round(rect.height) / 16,
+    that.bombAmount = 10;
+    that.dims = {
+      width: 128,
+      height: 128
     };
-
-    that.newGame();
 
     faceBtn.addEventListener('click', that.newGame);
     canvas.addEventListener('mousedown', mouseDown);
@@ -37,8 +36,7 @@ function Minesweeper(app) {
   const ctxTime = that.counterTime.getContext('2d');
   const ctx = that.canvas.getContext('2d');
 
-  clearTime();
-  drawPanel('bombs', that.bombAmount);
+  that.newGame(null, true);
 
   // ------- Mouse events -------
   function mouseDown(e) {
@@ -92,18 +90,35 @@ function Minesweeper(app) {
   }
 
   // ------- General functions -------
-  function newGame(e) {
+  function newGame(e, recompute) {
     //e can also be something different (`this` from the app menu), but hey, it still works
-    if (!e || e && (that.pattern || that.state)) {
-      const rect = that.canvas.getBoundingClientRect();
+    if (!e || recompute || e && (that.pattern || that.state)) {
+      if (recompute === true) {
+        if (that.dims.width > 512) that.dims.width = 512;
+        else if (that.dims.width < 16) that.dims.width = 16;
+        if (that.dims.height < 16) that.dims.height = 16;
+        else if (that.dims.height < 16) that.dims.height = 16;
+        that.canvas.width = that.dims.width;
+        that.canvas.height = that.dims.height;
+        that.canvas.style.width = (that.dims.width / 15) + 'em';
+        that.canvas.style.height = (that.dims.height / 15) + 'em';
+        that.tileCount = {
+          x: Math.round(that.dims.width) / 16,
+          y: Math.round(that.dims.height) / 16,
+        };
+        const fieldSize = that.tileCount.x * that.tileCount.y;
+        if (that.bombAmount >= fieldSize) that.bombAmount = fieldSize - 1;
+        else if (that.bombAmount <= 0) that.bombAmount = 1;
+        drawPanel('bombs', that.bombAmount);
+      }
       sweeperImgs['tile'].then(img => {
         ctx.fillStyle = ctx.createPattern(img, 'repeat');
-        ctx.fillRect(0, 0, rect.width, rect.height);
+        ctx.fillRect(0, 0, that.dims.width, that.dims.height);
       });
       that.pattern = null;
       that.state = null;
       stopTime();
-      if (e) clearTime();
+      clearTime();
       that.canvas.classList.remove('static');
       switchBtnFace('smile');
     }
@@ -177,6 +192,34 @@ function Minesweeper(app) {
       }
       wonGame(bombPos);
     }
+  }
+
+  function changeField(menuItem, menuSection) {
+    if (menuItem.classList.contains('enabled')) return;
+    switch (menuItem.textContent) {
+      case 'Beginner':
+        that.dims.width = 128;
+        that.dims.height = 128;
+        that.bombAmount = 10;
+        break;
+      case 'Intermediate':
+        that.dims.width = 256;
+        that.dims.height = 256;
+        that.bombAmount = 40;
+        break;
+      case 'Expert':
+        that.dims.width = 480;
+        that.dims.height = 256;
+        that.bombAmount = 99;
+        break;
+      case 'Custom...':
+        break;
+      default:
+        return;
+    }
+    menuSection.querySelector('li.enabled').classList.remove('enabled');
+    menuItem.classList.add('enabled');
+    newGame(null, true);
   }
 
   function createPattern(tilePos) {

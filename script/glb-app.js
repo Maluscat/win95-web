@@ -29,6 +29,10 @@ function handleAppMenuEvents(type, node) {
 
 function handleAppMenuItems(e, app) {
   let task = this.dataset.task;
+  if (!task) {
+    const section = this.findNodeUp('section');
+    task = section.dataset.task;
+  }
   if (task) {
     const menu = this.findNodeUp('menu-item');
     let path;
@@ -42,7 +46,7 @@ function handleAppMenuItems(e, app) {
       path = path ? path[level] : (new Function('"use strict"; return ' + level))();
       task = task.slice(levelIndex + 1);
     }
-    path[task](this, app);
+    path[task](this, menu, app);
     removeAppMenu(menu);
   }
 }
