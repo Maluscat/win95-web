@@ -27,6 +27,26 @@ function handleAppMenuEvents(type, node) {
     children[i][type + 'EventListener']('mouseenter', switchAppMenu);
 }
 
+function handleAppMenuItems(e, app) {
+  let task = this.dataset.task;
+  if (task) {
+    const menu = this.findNodeUp('menu-item');
+    let path;
+    if (/^!app/.test(task)) {
+      path = appStates.get(app);
+      task = task.slice(5);
+    }
+    while(task.includes('.')) {
+      const levelIndex = task.indexOf('.');
+      const level = task.slice(0, levelIndex);
+      path = path ? path[level] : (new Function('"use strict"; return ' + level))();
+      task = task.slice(levelIndex + 1);
+    }
+    path[task](this, app);
+    removeAppMenu(menu);
+  }
+}
+
 // ------- App utility buttons -------
 function closeApp(e, app) {
   app.remove();

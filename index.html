@@ -98,10 +98,12 @@
                 <div class="window-wrapper menu-dropdown">
                   <div class="window">
                     <ul class="index">
-                      <li>New</li>
-                      <li>Open</li>
-                      <li>Save</li>
-                      <li>Save as...</li>
+                      <div class="section">
+                        <li>New</li>
+                        <li>Open</li>
+                        <li>Save</li>
+                        <li>Save as...</li>
+                      </div>
                     </ul>
                   </div>
                 </div>
@@ -237,21 +239,27 @@
                 <div class="window-wrapper menu-dropdown">
                   <div class="window">
                     <ul class="index">
-                      <li class="shortcut">
-                        <span class="text">New</span>
-                        <span class="shortcut">F2</span>
-                      </li>
-                      <hr>
-                      <li class="checkmark enabled">Beginner</li>
-                      <li class="checkmark">Intermediate</li>
-                      <li class="checkmark">Expert</li>
-                      <li>Custom...</li>
-                      <hr>
-                      <li class="checkmark enabled">Marks (?)</li>
-                      <li class="checkmark enabled">Color</li>
-                      <hr>
-                      <li>Best Times</li>
-                      <li class="exit">Exit</li>
+                      <div class="section">
+                        <li class="shortcut" data-task="!app.sweeper.newGame">
+                          <span class="text">New</span>
+                          <span class="shortcut">F2</span>
+                        </li>
+                      </div>
+                      <div class="section">
+                        <li class="checkmark enabled">Beginner</li>
+                        <li class="checkmark">Intermediate</li>
+                        <li class="checkmark">Expert</li>
+                        <li>Custom...</li>
+                      </div>
+                      <div class="section">
+                        <li class="checkmark enabled">Marks (?)</li>
+                      </div>
+                      <div class="section">
+                        <li>Best Times</li>
+                      </div>
+                      <div class="section">
+                        <li class="exit">Exit</li>
+                      </div>
                     </ul>
                   </div>
                 </div>
@@ -541,7 +549,8 @@
           app.addAppEventListener('.close-btn', 'click', closeApp);
           app.addAppEventListener('.header', 'mousedown', addWindowMove);
           app.addAppChildrenEvents('.menu > .list', 'mousedown', toggleAppMenu, '> .wrapper');
-          app.addAppChildrenEvents('.resize-areas', 'mousedown', addWindowResize, null, 2);
+          app.addAppChildrenEvents('.menu > .list .index', 'mouseup', handleAppMenuItems, null, true);
+          app.addAppChildrenEvents('.resize-areas', 'mousedown', addWindowResize, null, true);
         }
 
         window.addEventListener('mousedown', mouseDown);

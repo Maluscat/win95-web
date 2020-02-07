@@ -7,6 +7,7 @@ function Minesweeper(app) {
   const that = this;
   let timeInterval;
 
+  this.newGame = newGame;
   (function() {
     const counterBombs = app.querySelector('.body .head-panel .counter.bombs canvas');
     const counterTime = app.querySelector('.body .head-panel .counter.time canvas');
@@ -24,9 +25,9 @@ function Minesweeper(app) {
       y: Math.round(rect.height) / 16,
     };
 
-    newGame();
+    that.newGame();
 
-    faceBtn.addEventListener('click', newGame);
+    faceBtn.addEventListener('click', that.newGame);
     canvas.addEventListener('mousedown', mouseDown);
     canvas.addEventListener('contextmenu', function(e) {
       e.preventDefault();
@@ -92,6 +93,7 @@ function Minesweeper(app) {
 
   // ------- General functions -------
   function newGame(e) {
+    //e can also be something different (`this` from the app menu), but hey, it still works
     if (!e || e && (that.pattern || that.state)) {
       const rect = that.canvas.getBoundingClientRect();
       sweeperImgs['tile'].then(img => {

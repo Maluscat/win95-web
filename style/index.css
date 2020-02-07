@@ -16,13 +16,6 @@ ul {
   margin: 0;
   list-style: none;
 }
-hr {
-  border-left: none;
-  border-right: none;
-  border-top: 0.067em solid hsl(0, 0%, 50%);
-  border-bottom: 0.067em solid white;
-  margin: 0.2em 0;
-}
 canvas {
   display: block;
   image-rendering: -webkit-optimize-contrast;
@@ -342,33 +335,46 @@ body {
 .window .menu .menu-item.active .menu-dropdown {
   display: block;
 }
-.window .menu .menu-item .index > li {
+.window .menu .menu-item .index .section {
+  border-top: 0.067em solid white;
+  border-bottom: 0.067em solid hsl(0, 0%, 50%);
+  padding: 0.2em 0;
+}
+.window .menu .menu-item .index .section:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+.window .menu .menu-item .index .section:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+.window .menu .menu-item .index li {
   padding: 0.067em 1.2em 0.067em 1.267em;
 }
-.window .menu .menu-item .index > li:hover {
+.window .menu .menu-item .index li:hover {
   background-color: #000080;
   color: white;
 }
-.window .menu .menu-item .index > li.disabled {
+.window .menu .menu-item .index li.disabled {
   color: hsl(0, 0%, 50%);
   text-shadow: 1px 1px white;
 }
-.window .menu .menu-item .index > li.disabled:hover {
+.window .menu .menu-item .index li.disabled:hover {
   text-shadow: none;
 }
-.window .menu .menu-item .index > li.shortcut {
+.window .menu .menu-item .index li.shortcut {
   display: flex;
 }
-.window .menu .menu-item .index > li.shortcut .text {
+.window .menu .menu-item .index li.shortcut .text {
   flex: 1;
 }
-.window .menu .menu-item .index > li:not(.shortcut) {
+.window .menu .menu-item .index li:not(.shortcut) {
   padding-right: 3em;
 }
-.window .menu .menu-item .index > li.checkmark {
+.window .menu .menu-item .index li.checkmark {
   position: relative;
 }
-.window .menu .menu-item .index > li.checkmark::before {
+.window .menu .menu-item .index li.checkmark::before {
   position: absolute;
   top: 0.2em;
   left: 0;
@@ -384,10 +390,10 @@ body {
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
 }
-.window .menu .menu-item .index > li.checkmark.enabled::before {
+.window .menu .menu-item .index li.checkmark.enabled::before {
   content: '';
 }
-.window .menu .menu-item .index > li.checkmark.enabled:hover::before {
+.window .menu .menu-item .index li.checkmark.enabled:hover::before {
   -webkit-filter: invert(1);
   filter: invert(1);
 }
