@@ -264,10 +264,13 @@ body {
 }
 .window {
   .border.around(@50, white);
-  padding: .133em;
   height: 100%;
   display: flex;
   flex-direction: column;
+  padding: .133em;
+  .window-wrapper.slim & {
+    padding: .067em;
+  }
   .header { //not influencing header-expander
     background-color: @50;
   }
@@ -462,6 +465,19 @@ body {
       flex: 1;
       text-align: center;
     }
+  }
+}
+
+/*------------ Global Input ------------*/
+.input-wrapper {
+  width: 4em;
+  height: 1.33em;
+  .border.around(white, @50);
+  .input {
+    width: 100%;
+    height: 100%;
+    font: inherit;
+    .border.around(@87, black);
   }
 }
 

@@ -294,10 +294,13 @@ body {
   border-bottom: 0.067em solid hsl(0, 0%, 50%);
   border-left: 0.067em solid white;
   border-top: 0.067em solid white;
-  padding: 0.133em;
   height: 100%;
   display: flex;
   flex-direction: column;
+  padding: 0.133em;
+}
+.window-wrapper.slim .window {
+  padding: 0.067em;
 }
 .window .header {
   background-color: hsl(0, 0%, 50%);
@@ -507,6 +510,24 @@ body {
   padding: 0 0.4em 0 0.6em;
   flex: 1;
   text-align: center;
+}
+/*------------ Global Input ------------*/
+.input-wrapper {
+  width: 4em;
+  height: 1.33em;
+  border-right: 0.067em solid white;
+  border-bottom: 0.067em solid white;
+  border-left: 0.067em solid hsl(0, 0%, 50%);
+  border-top: 0.067em solid hsl(0, 0%, 50%);
+}
+.input-wrapper .input {
+  width: 100%;
+  height: 100%;
+  font: inherit;
+  border-right: 0.067em solid hsl(0, 0%, 87%);
+  border-bottom: 0.067em solid hsl(0, 0%, 87%);
+  border-left: 0.067em solid black;
+  border-top: 0.067em solid black;
 }
 /*------------ Global Button ------------*/
 .btn {
@@ -727,9 +748,6 @@ body {
   top: -0.286em;
 }
 /*------------ Minesweeper ------------*/
-.minesweeper .window {
-  padding: 0.067em;
-}
 .minesweeper .game-window {
   border-right: 0.2em solid hsl(0, 0%, 50%);
   border-bottom: 0.2em solid hsl(0, 0%, 50%);
@@ -819,6 +837,38 @@ body {
 .minesweeper .game-panel canvas {
   width: 8.533em;
   height: 8.533em;
+}
+/*------------ Minesweeper custom field window ------------*/
+.minesweeper-prompt .body {
+  display: flex;
+  padding: 0.8em 0.6em 0.733em;
+}
+.minesweeper-prompt .inputs {
+  padding-right: 0.733em;
+}
+.minesweeper-prompt .inputs .field {
+  display: flex;
+}
+.minesweeper-prompt .inputs .field:not(:first-of-type):not(:last-of-type) {
+  margin: 1em 0;
+}
+.minesweeper-prompt .inputs .field .caption {
+  padding-right: 1.8em;
+  flex: 1;
+}
+.minesweeper-prompt .buttons {
+  display: flex;
+  flex-direction: column;
+}
+.minesweeper-prompt .buttons .btn {
+  display: block;
+}
+.minesweeper-prompt .buttons .btn:first-of-type {
+  margin-bottom: 0.333em;
+}
+.minesweeper-prompt .buttons .btn .btn-inner {
+  padding-left: 0.866em;
+  padding-right: 0.866em;
 }
 /*------------ Error window ------------*/
 .error .message,

@@ -3,6 +3,23 @@ function minesweeperInit(app, states) {
   states.sweeper = new Minesweeper(app);
 }
 
+function submitSweeperPrompt(e, app) {
+  const fields = app.querySelector('.body .inputs');
+  const values = {
+    height: fields.querySelector('.field.item-height input').value,
+    width: fields.querySelector('.field.item-width input').value,
+    mines: fields.querySelector('.field.item-mines input').value
+  };
+  const sweeper = appStates.get(app).sweeperLink;
+  const states = appStates.get(sweeper).sweeper;
+  states.dims.height = values.height * 16;
+  states.dims.width = values.width * 16;
+  states.bombAmount = values.mines;
+  states.newGame(null, true);
+
+  closeApp(e, app);
+}
+
 function Minesweeper(app) {
   const that = this;
   let timeInterval;
@@ -95,9 +112,9 @@ function Minesweeper(app) {
     if (!e || recompute || e && (that.pattern || that.state)) {
       if (recompute === true) {
         if (that.dims.width > 512) that.dims.width = 512;
-        else if (that.dims.width < 16) that.dims.width = 16;
-        if (that.dims.height < 16) that.dims.height = 16;
-        else if (that.dims.height < 16) that.dims.height = 16;
+        else if (that.dims.width < 128) that.dims.width = 128;
+        if (that.dims.height > 512) that.dims.height = 512;
+        else if (that.dims.height < 64) that.dims.height = 64;
         that.canvas.width = that.dims.width;
         that.canvas.height = that.dims.height;
         that.canvas.style.width = (that.dims.width / 15) + 'em';
@@ -107,8 +124,8 @@ function Minesweeper(app) {
           y: Math.round(that.dims.height) / 16,
         };
         const fieldSize = that.tileCount.x * that.tileCount.y;
-        if (that.bombAmount >= fieldSize) that.bombAmount = fieldSize - 1;
-        else if (that.bombAmount <= 0) that.bombAmount = 1;
+        if (that.bombAmount > fieldSize - 2) that.bombAmount = fieldSize - 2;
+        else if (that.bombAmount < 2) that.bombAmount = 2;
         drawPanel('bombs', that.bombAmount);
       }
       sweeperImgs['tile'].then(img => {
@@ -195,8 +212,9 @@ function Minesweeper(app) {
   }
 
   function changeField(menuItem, menuSection) {
-    if (menuItem.classList.contains('enabled')) return;
-    switch (menuItem.textContent) {
+    const textContent = menuItem.textContent.trim();
+    if (textContent !== 'Custom...' && menuItem.classList.contains('enabled')) return;
+    switch (textContent) {
       case 'Beginner':
         that.dims.width = 128;
         that.dims.height = 128;
@@ -213,6 +231,22 @@ function Minesweeper(app) {
         that.bombAmount = 99;
         break;
       case 'Custom...':
+        //TODO: cross app blocking system
+        addApp('minesweeper-prompt', function(thisApp, states) {
+          const appRect = app.getBoundingClientRect();
+          thisApp.style.transform = 'translate(' + (appRect.left + 30) / 15 + 'em, ' + (appRect.top + 65) / 15 + 'em)';
+          const fields = thisApp.querySelector('.body .inputs');
+          const inputs = {
+            height: fields.querySelector('.field.item-height input'),
+            width: fields.querySelector('.field.item-width input'),
+            mines: fields.querySelector('.field.item-mines input')
+          };
+          inputs.height.value = that.dims.height / 16;
+          inputs.width.value = that.dims.width / 16;
+          inputs.mines.value = that.bombAmount;
+          states.inputs = inputs;
+          states.sweeperLink = app;
+        });
         break;
       default:
         return;

@@ -100,15 +100,16 @@ function executeApp() {
 function addApp(appName, initFn) {
   const appClone = cloneApp(appName);
   const isGhost = appClone.dataset.ghost != null;
-  appStates.set(appClone, {});
+  const states = {};
+  appStates.set(appClone, states);
   if (!isGhost) addTaskButton(appClone);
   appClone.style.transform = 'translate(' + ((appIndent[0] / 15) || '0.001') + 'em, ' + ((appIndent[1] / 15) || '0.001') + 'em)';
   content.appendChild(appClone);
   if (initFn) {
-    (initFn)(appClone);
+    (initFn)(appClone, states);
   }
   if (appClone.dataset.init) {
-    window[appClone.dataset.init](appClone, appStates.get(appClone));
+    window[appClone.dataset.init](appClone, states);
   }
   switchActiveApp(appClone);
   if (!isGhost) {

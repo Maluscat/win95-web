@@ -205,7 +205,64 @@
         </div>
       </div>
 
-      <div class="window-wrapper application template minesweeper" data-app-name="minesweeper" data-init="minesweeperInit">
+      <div class="window-wrapper slim application template minesweeper-prompt" data-app-name="minesweeper-prompt" data-ghost>
+        <div class="window slim">
+          <div class="header">
+            <div class="title">
+              <span class="text">Custom Field</span>
+            </div>
+            <div class="title-btns">
+              <button type="button" class="close-btn click-btn btn">
+                <div class="btn-inner">
+                  <span class="image"></span>
+                </div>
+              </button>
+            </div>
+          </div>
+          <div class="body">
+            <div class="inputs">
+              <div class="field item-height">
+                <div class="caption">
+                  <span class="text">Height:</span>
+                </div>
+                <div class="input-wrapper">
+                  <input class="input" type="text" value="8">
+                </div>
+              </div>
+              <div class="field item-width">
+                <div class="caption">
+                  <span class="text">Width:</span>
+                </div>
+                <div class="input-wrapper">
+                  <input class="input" type="text" value="8">
+                </div>
+              </div>
+              <div class="field item-mines">
+                <div class="caption">
+                  <span class="text">Mines:</span>
+                </div>
+                <div class="input-wrapper">
+                  <input class="input" type="text" value="10">
+                </div>
+              </div>
+            </div>
+            <div class="buttons">
+              <button class="btn click-btn action-btn submit" type="button">
+                <div class="inner btn-inner">
+                  <span class="text">OK</span>
+                </div>
+              </button>
+              <button class="btn click-btn action-btn cancel" type="button">
+                <div class="inner btn-inner">
+                  <span class="text">Cancel</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-wrapper slim application template minesweeper" data-app-name="minesweeper" data-init="minesweeperInit">
         <div class="window">
           <div class="header">
             <div class="title">
@@ -551,6 +608,10 @@
           app.addAppChildrenEvents('.menu > .list', 'mousedown', toggleAppMenu, '> .wrapper');
           app.addAppChildrenEvents('.menu > .list .index', 'mouseup', handleAppMenuItems, null, true);
           app.addAppChildrenEvents('.resize-areas', 'mousedown', addWindowResize, null, true);
+          if (app.dataset.appName == 'minesweeper-prompt') {
+            app.addAppEventListener('.body .buttons .btn.submit', 'click', submitSweeperPrompt);
+            app.addAppEventListener('.body .buttons .btn.cancel', 'click', closeApp);
+          }
         }
 
         window.addEventListener('mousedown', mouseDown);

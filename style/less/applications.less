@@ -3,9 +3,6 @@
 
 /*------------ Minesweeper ------------*/
 .minesweeper {
-  .window {
-    padding: .067em;
-  }
   .game-window {
     .border.around(@50, white, .2em);
     padding: .4em;
@@ -65,6 +62,41 @@
     canvas {
       width: 8.533em;
       height: 8.533em;
+    }
+  }
+}
+
+/*------------ Minesweeper custom field window ------------*/
+.minesweeper-prompt {
+  .body {
+    display: flex;
+    padding: .8em .6em .733em;
+  }
+  .inputs {
+    padding-right: .733em;
+    .field {
+      display: flex;
+      &:not(:first-of-type):not(:last-of-type) {
+        margin: 1em 0;
+      }
+      .caption {
+        padding-right: 1.8em;
+        flex: 1;
+      }
+    }
+  }
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    .btn {
+      display: block;
+      &:first-of-type {
+        margin-bottom: .333em;
+      }
+      .btn-inner {
+        padding-left: .866em;
+        padding-right: .866em;
+      }
     }
   }
 }
