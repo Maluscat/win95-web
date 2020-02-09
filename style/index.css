@@ -761,6 +761,7 @@ body {
   border-left: 0.133em solid hsl(0, 0%, 50%);
   border-top: 0.133em solid hsl(0, 0%, 50%);
   display: flex;
+  justify-content: space-between;
   padding: 0.267em 0.4em;
   margin-bottom: 0.4em;
 }
