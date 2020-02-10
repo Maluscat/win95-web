@@ -118,7 +118,7 @@ function addApp(appName, initFn) {
   }
 }
 function addTaskButton(app, appName) {
-  btnClone = cloneSnippet(snippets['task-btn']);
+  btnClone = cloneSnippet(snipTemplates['task-btn']);
   const title = app.querySelector('.header .title');
   if (title.dataset.trayIcon) btnClone.dataset.trayIcon = title.dataset.trayIcon;
   appHeading = app.querySelector('.header > .title > .text').textContent;
@@ -233,11 +233,11 @@ Node.prototype.addAppChildrenEvents = function(selector, type, callback, modifie
 // ------- Snippet helper functions, somewhat like app helper functions but more general -------
 function cloneSnippet(node) {
   if (typeof node == 'string') {
-    if (!snippets[node]) {
+    if (!snipTemplates[node]) {
       console.error("cloneSnippet Error: No snippet found with a name of the passed string. Skipping.");
       return;
     }
-    node = snippets[node];
+    node = snipTemplates[node];
   }
   const cloned = node.cloneNode(true);
   const name = node.dataset.snippet;

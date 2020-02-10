@@ -64,7 +64,7 @@
         </div>
       </button>
 
-      <div data-app-name="notepad" class="window-wrapper">
+      <div data-template data-app-name="notepad" class="window-wrapper">
         <div class="window">
           <div class="header">
             <div class="title">
@@ -156,7 +156,7 @@
         <div data-expand-snippet="resize-areas"></div>
       </div>
 
-      <div data-app-name="error" class="window-wrapper" data-ghost>
+      <div data-template data-app-name="error" class="window-wrapper" data-ghost>
         <div class="window">
           <div class="header">
             <div class="title">
@@ -205,7 +205,7 @@
         </div>
       </div>
 
-      <div data-app-name="minesweeper-prompt" class="window-wrapper slim" data-ghost>
+      <div data-template data-app-name="minesweeper-prompt" class="window-wrapper slim" data-ghost>
         <div class="window slim">
           <div class="header">
             <div class="title">
@@ -262,7 +262,7 @@
         </div>
       </div>
 
-      <div data-app-name="minesweeper" class="window-wrapper slim" data-init="minesweeperInit">
+      <div data-template data-app-name="minesweeper" class="window-wrapper slim" data-init="minesweeperInit">
         <div class="window">
           <div class="header">
             <div class="title">
@@ -480,7 +480,9 @@
     <script src="script/applications.js"></script>
     <script>
       const content = document.getElementById('content');
-      const snippetNodes = content.querySelectorAll('[data-snippet]');
+
+      const snippets = content.querySelectorAll('[data-snippet]');
+      const templateApps = content.querySelectorAll('[data-app-name]');
 
       const moveIndicator = document.getElementById('move-indicator');
       const headExpander = document.getElementById('header-expander');
@@ -490,8 +492,6 @@
       const taskbarWrapper = content.querySelector('.taskbar-wrapper');
       const taskbarBtns = taskbar.querySelector('.task-btns');
       const taskResize = taskbarWrapper.querySelectorAll('.resize-areas [data-dir="north"]');
-
-      const templateApps = content.querySelectorAll('[data-app-name]');
 
       const executes = content.querySelectorAll('[data-execute]');
       const clock = taskbar.querySelector('#clock .text');
@@ -560,33 +560,27 @@
 
       //Looping over snippets and expanding them
       (function() {
-        for (const snippet of snippetNodes) {
-          snippets[snippet.dataset.snippet] = snippet;
+        for (const snip of snippets) {
+          snipTemplates[snip.dataset.snippet] = snip;
 
-          //NOT IMPLEMENTED FOR MULTIPLE EVENTS
-          //(would be different attributes like data-on-click & getting them with node.attributes)
-          const eventNodes = snippet.querySelectorAll('[data-on]');
-          for (eventNode of eventNodes) {
-            const data = splitDataEvent(eventNode.dataset.on);
-            if (data) snippet.addSnipEventListener(eventNode, data.type, data.fn);
-            delete eventNode.dataset.on;
-          }
-          if (snippet.dataset.on) {
-            const data = splitDataEvent(snippet.dataset.on);
-            if (data) snippet.addSnipEventListener(false, data.type, data.fn);
-            delete snippet.dataset.on;
+          let evtNodes = snip.querySelectorAll('[data-on]');
+          if (evtNodes != null && snip.dataset.on) (evtNodes = Array.from(evtNodes)).push(snip);
+          for (const evtNode of evtNodes) {
+            const data = splitDataEvent(evtNode.dataset.on);
+            if (data) snip.addSnipEventListener(evtNode == snip ? false : evtNode, data.type, data.fn);
+            delete evtNode.dataset.on;
           }
 
-          const expandSpots = document.querySelectorAll('[data-expand-snippet="' + snippet.dataset.snippet + '"]');
+          const expandSpots = content.querySelectorAll('[data-expand-snippet="' + snip.dataset.snippet + '"]');
           for (const expandSpot of expandSpots) {
-            const snip = cloneSnippet(snippet);
-            expandSpot.parentNode.replaceChild(snip, expandSpot);
-            snip.classList.add(snip.dataset.snippet);
-            delete snip.dataset.snippet;
-            delete snip.dataset.expandSnippet;
+            const clone = cloneSnippet(snip);
+            expandSpot.parentNode.replaceChild(clone, expandSpot);
+            clone.classList.add(clone.dataset.snippet);
+            delete clone.dataset.snippet;
+            delete clone.dataset.expandSnippet;
           }
 
-          snippet.remove();
+          snip.remove();
         }
       })();
 
@@ -625,6 +619,7 @@
       (function() {
         for (const app of templateApps) {
           app.remove();
+          delete app.dataset.template;
           appTemplates[app.dataset.appName] = app;
         }
       })();

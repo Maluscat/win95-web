@@ -1,4 +1,4 @@
-const snippets = {};
+const snipTemplates = {};
 const snipEvents = {};
 const appTemplates = {};
 const appEvents = {};
