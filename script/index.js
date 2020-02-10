@@ -71,7 +71,7 @@ function mouseDown(e) { //`window` mousedown event
     if (!menu.parentNode.checkNode(e.target)) removeAppMenu(menu);
   }
 
-  const clickedApp = e.target.findNodeUp('[app-name]');
+  const clickedApp = e.target.findNodeUp('[app]');
   if (clickedApp) {
     switchActiveApp(clickedApp, true);
   } else if (!isTaskBtn) {

@@ -167,7 +167,7 @@ function cloneApp(node) {
     node = appTemplates[node];
   }
   const cloned = node.cloneNode(true);
-  const appName = node.dataset.appName;
+  const appName = node.dataset.app;
   if (appEvents[appName]) {
     const events = appEvents[appName];
     for (let i = 0; i < events.length; i++) {
@@ -185,7 +185,7 @@ Node.prototype.addAppEventListener = function(selector, type, callback, node) {
   //this == app, node? == already gotten element of selector to prevent an unnecessary re-checking
   if (!node) node = this.querySelector(selector);
   if (node) {
-    const appName = this.dataset.appName;
+    const appName = this.dataset.app;
     const data = {
       selector: selector,
       type: type,
@@ -225,7 +225,7 @@ Node.prototype.addAppChildrenEvents = function(selector, type, callback, modifie
       '- type: %s\n' +
       '- callback: %o\n' +
       '- found target node: %o',
-      this.dataset.appName, selector, type, callback, node
+      this.dataset.app, selector, type, callback, node
     );
   }
 };

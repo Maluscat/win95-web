@@ -64,7 +64,7 @@
         </div>
       </button>
 
-      <div data-template data-app-name="notepad" class="window-wrapper">
+      <div data-template data-app="notepad" class="window-wrapper">
         <div class="window">
           <div class="header">
             <div class="title">
@@ -156,7 +156,7 @@
         <div data-expand-snippet="resize-areas"></div>
       </div>
 
-      <div data-template data-app-name="error" class="window-wrapper" data-ghost>
+      <div data-template data-app="error" data-class="window-wrapper" data-ghost>
         <div class="window">
           <div class="header">
             <div class="title">
@@ -205,7 +205,7 @@
         </div>
       </div>
 
-      <div data-template data-app-name="minesweeper-prompt" class="window-wrapper slim" data-ghost>
+      <div data-template data-app="minesweeper-prompt" class="window-wrapper slim" data-ghost>
         <div class="window slim">
           <div class="header">
             <div class="title">
@@ -262,7 +262,7 @@
         </div>
       </div>
 
-      <div data-template data-app-name="minesweeper" class="window-wrapper slim" data-init="minesweeperInit">
+      <div data-template data-app="minesweeper" class="window-wrapper slim" data-init="minesweeperInit">
         <div class="window">
           <div class="header">
             <div class="title">
@@ -482,7 +482,7 @@
       const content = document.getElementById('content');
 
       const snippets = content.querySelectorAll('[data-snippet]');
-      const templateApps = content.querySelectorAll('[data-app-name]');
+      const templateApps = content.querySelectorAll('[data-app]');
 
       const moveIndicator = document.getElementById('move-indicator');
       const headExpander = document.getElementById('header-expander');
@@ -541,7 +541,7 @@
           var sheet = document.head.appendChild(styleNode).sheet;
         }
         for (const icon of availableIcons) {
-          const appTitle = content.querySelector('[data-app-name="' + icon + '"] .header .title');
+          const appTitle = content.querySelector('[data-app="' + icon + '"] .header .title');
           appTitle.dataset.trayIcon = icon;
           sheet.insertRule(`
             [data-tray-icon="${icon}"] .image {
@@ -599,7 +599,7 @@
           app.addAppChildrenEvents('.menu > .list', 'mousedown', toggleAppMenu, '> .wrapper');
           app.addAppChildrenEvents('.menu > .list .index', 'mouseup', handleAppMenuItems, null, true);
           app.addAppChildrenEvents('.resize-areas', 'mousedown', addWindowResize, null, true);
-          if (app.dataset.appName == 'minesweeper-prompt') {
+          if (app.dataset.app == 'minesweeper-prompt') {
             app.addAppEventListener('.body .buttons .btn.submit', 'click', submitSweeperPrompt);
             app.addAppEventListener('.body .buttons .btn.cancel', 'click', closeApp);
           }
@@ -620,7 +620,7 @@
         for (const app of templateApps) {
           app.remove();
           delete app.dataset.template;
-          appTemplates[app.dataset.appName] = app;
+          appTemplates[app.dataset.app] = app;
         }
       })();
 

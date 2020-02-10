@@ -749,14 +749,14 @@ body {
   top: -0.286em;
 }
 /*------------ Minesweeper ------------*/
-[data-app-name="minesweeper"] .game-window {
+[data-app="minesweeper"] .game-window {
   border-right: 0.2em solid hsl(0, 0%, 50%);
   border-bottom: 0.2em solid hsl(0, 0%, 50%);
   border-left: 0.2em solid white;
   border-top: 0.2em solid white;
   padding: 0.4em;
 }
-[data-app-name="minesweeper"] .head-panel {
+[data-app="minesweeper"] .head-panel {
   border-right: 0.133em solid white;
   border-bottom: 0.133em solid white;
   border-left: 0.133em solid hsl(0, 0%, 50%);
@@ -766,18 +766,18 @@ body {
   padding: 0.267em 0.4em;
   margin-bottom: 0.4em;
 }
-[data-app-name="minesweeper"] .head-panel .counter {
+[data-app="minesweeper"] .head-panel .counter {
   background-color: black;
   border-right: 0.067em solid white;
   border-bottom: 0.067em solid white;
   border-left: 0.067em solid hsl(0, 0%, 50%);
   border-top: 0.067em solid hsl(0, 0%, 50%);
 }
-[data-app-name="minesweeper"] .head-panel .counter canvas {
+[data-app="minesweeper"] .head-panel .counter canvas {
   width: 2.6em;
   height: 1.533em;
 }
-[data-app-name="minesweeper"] .head-panel .btn.face {
+[data-app="minesweeper"] .head-panel .btn.face {
   margin: 0 0.4em 0 0.333em;
   box-shadow: 0.067em 0.067em hsl(0, 0%, 50%);
   border-right: 0.067em solid black;
@@ -785,14 +785,14 @@ body {
   border-left: 0.067em solid hsl(0, 0%, 50%);
   border-top: 0.067em solid hsl(0, 0%, 50%);
 }
-[data-app-name="minesweeper"] .head-panel .btn.face .btn-inner {
+[data-app="minesweeper"] .head-panel .btn.face .btn-inner {
   padding: 0;
   border-right: 0.067em solid hsl(0, 0%, 50%);
   border-bottom: 0.067em solid hsl(0, 0%, 50%);
   border-left: 0.067em solid white;
   border-top: 0.067em solid white;
 }
-[data-app-name="minesweeper"] .head-panel .btn.face:active {
+[data-app="minesweeper"] .head-panel .btn.face:active {
   transform: translate(0.067em, 0.067em);
   border-right: 0.067em solid hsl(0, 0%, 50%);
   border-bottom: 0.067em solid hsl(0, 0%, 50%);
@@ -800,13 +800,13 @@ body {
   border-top: 0.067em solid black;
   box-shadow: -0.067em -0.067em hsl(0, 0%, 50%);
 }
-[data-app-name="minesweeper"] .head-panel .btn.face:active .btn-inner {
+[data-app="minesweeper"] .head-panel .btn.face:active .btn-inner {
   border-right: 0.067em solid white;
   border-bottom: 0.067em solid white;
   border-left: 0.067em solid hsl(0, 0%, 50%);
   border-top: 0.067em solid hsl(0, 0%, 50%);
 }
-[data-app-name="minesweeper"] .head-panel .btn.face .image {
+[data-app="minesweeper"] .head-panel .btn.face .image {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: optimizespeed;
   image-rendering: pixelated;
@@ -818,70 +818,70 @@ body {
   background-size: contain;
   background-position: center;
 }
-[data-app-name="minesweeper"] .head-panel .btn.face .image.smile {
+[data-app="minesweeper"] .head-panel .btn.face .image.smile {
   background-image: url(../resource/image/minesweeper/face/smile.png);
 }
-[data-app-name="minesweeper"] .head-panel .btn.face .image.surprised {
+[data-app="minesweeper"] .head-panel .btn.face .image.surprised {
   background-image: url(../resource/image/minesweeper/face/surprised.png);
 }
-[data-app-name="minesweeper"] .head-panel .btn.face .image.devastated {
+[data-app="minesweeper"] .head-panel .btn.face .image.devastated {
   background-image: url(../resource/image/minesweeper/face/utterly-devastated.png);
 }
-[data-app-name="minesweeper"] .head-panel .btn.face .image.swag {
+[data-app="minesweeper"] .head-panel .btn.face .image.swag {
   background-image: url(../resource/image/minesweeper/face/swag.png);
 }
-[data-app-name="minesweeper"] .game-panel {
+[data-app="minesweeper"] .game-panel {
   border-right: 0.2em solid white;
   border-bottom: 0.2em solid white;
   border-left: 0.2em solid hsl(0, 0%, 50%);
   border-top: 0.2em solid hsl(0, 0%, 50%);
 }
-[data-app-name="minesweeper"] .game-panel canvas {
+[data-app="minesweeper"] .game-panel canvas {
   width: 8.533em;
   height: 8.533em;
 }
 /*------------ Minesweeper custom field window ------------*/
-[data-app-name="minesweeper-prompt"] .body {
+[data-app="minesweeper-prompt"] .body {
   display: flex;
   padding: 0.8em 0.6em 0.733em;
 }
-[data-app-name="minesweeper-prompt"] .inputs {
+[data-app="minesweeper-prompt"] .inputs {
   padding-right: 0.733em;
 }
-[data-app-name="minesweeper-prompt"] .inputs .field {
+[data-app="minesweeper-prompt"] .inputs .field {
   display: flex;
 }
-[data-app-name="minesweeper-prompt"] .inputs .field:not(:first-of-type):not(:last-of-type) {
+[data-app="minesweeper-prompt"] .inputs .field:not(:first-of-type):not(:last-of-type) {
   margin: 1em 0;
 }
-[data-app-name="minesweeper-prompt"] .inputs .field .caption {
+[data-app="minesweeper-prompt"] .inputs .field .caption {
   padding-right: 1.8em;
   flex: 1;
 }
-[data-app-name="minesweeper-prompt"] .buttons {
+[data-app="minesweeper-prompt"] .buttons {
   display: flex;
   flex-direction: column;
 }
-[data-app-name="minesweeper-prompt"] .buttons .btn {
+[data-app="minesweeper-prompt"] .buttons .btn {
   display: block;
 }
-[data-app-name="minesweeper-prompt"] .buttons .btn:first-of-type {
+[data-app="minesweeper-prompt"] .buttons .btn:first-of-type {
   margin-bottom: 0.333em;
 }
-[data-app-name="minesweeper-prompt"] .buttons .btn .btn-inner {
+[data-app="minesweeper-prompt"] .buttons .btn .btn-inner {
   padding-left: 0.866em;
   padding-right: 0.866em;
 }
 /*------------ Error window ------------*/
-[data-app-name="error"] .message,
-[data-app-name="error"] .further {
+[data-app="error"] .message,
+[data-app="error"] .further {
   padding: 0.85em;
 }
-[data-app-name="error"] .message {
+[data-app="error"] .message {
   display: flex;
   border-bottom: 0.067em solid hsl(0, 0%, 50%);
 }
-[data-app-name="error"] .message .image {
+[data-app="error"] .message .image {
   background-image: url(../resource/image/error.png);
   background-repeat: no-repeat;
   background-size: contain;
@@ -895,28 +895,28 @@ body {
   min-height: 32px;
   margin-right: 0.8em;
 }
-[data-app-name="error"] .further {
+[data-app="error"] .further {
   border-top: 0.067em solid white;
 }
-[data-app-name="error"] .further .btns {
+[data-app="error"] .further .btns {
   padding-top: 0.8em;
   display: flex;
   justify-content: space-between;
 }
-[data-app-name="error"] .further .btns > a {
+[data-app="error"] .further .btns > a {
   padding: 0;
   width: 4.6em;
 }
-[data-app-name="error"] .further .btns > a ::first-letter {
+[data-app="error"] .further .btns > a ::first-letter {
   text-decoration: underline;
 }
 /*------------ Notepad ------------*/
-[data-app-name="notepad"] .body {
+[data-app="notepad"] .body {
   display: flex;
   min-height: 0;
   flex: 1;
 }
-[data-app-name="notepad"] .body > textarea {
+[data-app="notepad"] .body > textarea {
   display: block;
   font-size: 1em;
   margin-top: 0.133em;
