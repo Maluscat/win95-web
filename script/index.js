@@ -71,7 +71,7 @@ function mouseDown(e) { //`window` mousedown event
     if (!menu.parentNode.checkNode(e.target)) removeAppMenu(menu);
   }
 
-  const clickedApp = e.target.findNodeUp('application');
+  const clickedApp = e.target.findNodeUp('[app-name]');
   if (clickedApp) {
     switchActiveApp(clickedApp, true);
   } else if (!isTaskBtn) {
@@ -401,14 +401,21 @@ Node.prototype.checkNode = function(avoid, protocol) {
 };
 
 //Looking upwards for a node with the specified class
-Node.prototype.findNodeUp = function(target, limit) {
-  if (
-    this == content ||
-    limit instanceof Node && this == limit ||
-    typeof limit == 'string' && this.classList.contains(limit)
-  ) return false;
+Node.prototype.findNodeUp = function(target, isData = false) {
+  if (this == content) return false;
+  if (!isData && target[0] == '[' && target[target.length - 1] == ']') {
+    isData = true;
+    target = target.slice(1, -1);
+    while(target.includes('-')) {
+      const index = target.indexOf('-');
+      target = target.slice(0, index) + target[index + 1].toUpperCase() + target.slice(index + 2);
+    }
+  }
   if (Array.isArray(target)) {
-    for (l of target) if (this.classList.contains(l)) return this;
-  } else if (this.classList.contains(target)) return this;
-  return Node.prototype.findNodeUp.call(this.parentNode, target, limit);
+    for (l of target)
+      if (isData && this.dataset[target] != null || !isData && this.classList.contains(l))
+        return this;
+  } else if (isData && this.dataset[target] != null || !isData && this.classList.contains(target))
+    return this;
+  return Node.prototype.findNodeUp.call(this.parentNode, target, isData);
 };
