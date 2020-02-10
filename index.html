@@ -34,7 +34,7 @@
         </div>
       </aside>
 
-      <div class="snippet" data-snippet="resize-areas">
+      <div data-snippet="resize-areas">
         <div class="edge horizontal north">
           <span class="corner left" data-dir="north-west"></span>
           <span class="filler" data-dir="north"></span>
@@ -57,14 +57,14 @@
         </div>
       </div>
 
-      <button type="button" class="snippet btn click-btn" data-snippet="task-btn" data-on="click, toggleTaskBtn">
+      <button data-snippet="task-btn" type="button" class="btn click-btn" data-on="click, toggleTaskBtn">
         <div class="inner btn-inner">
           <span class="image"></span>
           <span class="text"></span>
         </div>
       </button>
 
-      <div class="window-wrapper application template notepad" data-app-name="notepad">
+      <div data-app-name="notepad" class="window-wrapper">
         <div class="window">
           <div class="header">
             <div class="title">
@@ -156,7 +156,7 @@
         <div data-expand-snippet="resize-areas"></div>
       </div>
 
-      <div class="window-wrapper application template error" data-app-name="error" data-ghost>
+      <div data-app-name="error" class="window-wrapper" data-ghost>
         <div class="window">
           <div class="header">
             <div class="title">
@@ -205,7 +205,7 @@
         </div>
       </div>
 
-      <div class="window-wrapper slim application template minesweeper-prompt" data-app-name="minesweeper-prompt" data-ghost>
+      <div data-app-name="minesweeper-prompt" class="window-wrapper slim" data-ghost>
         <div class="window slim">
           <div class="header">
             <div class="title">
@@ -262,7 +262,7 @@
         </div>
       </div>
 
-      <div class="window-wrapper slim application template minesweeper" data-app-name="minesweeper" data-init="minesweeperInit">
+      <div data-app-name="minesweeper" class="window-wrapper slim" data-init="minesweeperInit">
         <div class="window">
           <div class="header">
             <div class="title">
@@ -491,8 +491,7 @@
       const taskbarBtns = taskbar.querySelector('.task-btns');
       const taskResize = taskbarWrapper.querySelectorAll('.resize-areas [data-dir="north"]');
 
-      const apps = content.getElementsByClassName('application');
-      const templates = content.querySelectorAll('.application.template');
+      const templateApps = content.querySelectorAll('[data-app-name]');
 
       const executes = content.querySelectorAll('[data-execute]');
       const clock = taskbar.querySelector('#clock .text');
@@ -542,7 +541,7 @@
           var sheet = document.head.appendChild(styleNode).sheet;
         }
         for (const icon of availableIcons) {
-          const appTitle = content.querySelector('.application[data-app-name="' + icon + '"] .header .title');
+          const appTitle = content.querySelector('[data-app-name="' + icon + '"] .header .title');
           appTitle.dataset.trayIcon = icon;
           sheet.insertRule(`
             [data-tray-icon="${icon}"] .image {
@@ -585,10 +584,8 @@
             snip.classList.add(snip.dataset.snippet);
             delete snip.dataset.snippet;
             delete snip.dataset.expandSnippet;
-            snip.classList.remove('snippet');
           }
 
-          snippet.classList.remove('snippet');
           snippet.remove();
         }
       })();
@@ -596,7 +593,7 @@
       //Adding event listeners
       (function() {
         //Application events, prepared for cloning
-        for (const app of apps) {
+        for (const app of templateApps) {
           const maxBtn = app.querySelector('.header .title-btns .maximize-btn');
           if (maxBtn && !maxBtn.classList.contains('disabled')) {
             app.addAppEventListener('.maximize-btn', 'click', maximizeApp);
@@ -626,10 +623,9 @@
 
       //Removing template applications, saving them in appTemplates
       (function() {
-        for (const template of templates) {
-          template.remove();
-          template.classList.remove('template');
-          appTemplates[template.dataset.appName] = template;
+        for (const app of templateApps) {
+          app.remove();
+          appTemplates[app.dataset.appName] = app;
         }
       })();
 
