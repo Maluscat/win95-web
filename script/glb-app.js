@@ -46,9 +46,14 @@ function handleAppMenuItems(e, app) {
       path = path ? path[level] : (new Function('"use strict"; return ' + level))();
       task = task.slice(levelIndex + 1);
     }
-    path[task](this, menu, app);
+    (path || window)[task](this, menu, app);
     removeAppMenu(menu);
   }
+}
+
+// ------- App menu functions -------
+function closeAppFromMenu(item, menu, app) {
+  closeApp(null, app)
 }
 
 // ------- App utility buttons -------
