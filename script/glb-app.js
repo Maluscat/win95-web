@@ -46,14 +46,29 @@ function handleAppMenuItems(e, app) {
       path = path ? path[level] : (new Function('"use strict"; return ' + level))();
       task = task.slice(levelIndex + 1);
     }
-    (path || window)[task](this, menu, app);
+    let params;
+    if (task.includes('(')) {
+      const index = task.indexOf('(');
+      params = task.slice(index + 1, -1).split(',').map(val => {
+        if (val === '') return;
+        val = val.trim();
+        switch (val) {
+          case 'app': return app;
+          break;
+          case 'this': return this;
+          break;
+          case 'menu': return menu;
+          break;
+          default:
+          return new Function('"use strict"; return ' + val)();
+        }
+      });
+      task = task.slice(0, index);
+    }
+    if (!params) params = [this, menu, app];
+    (path || window)[task](...params);
     removeAppMenu(menu);
   }
-}
-
-// ------- App menu functions -------
-function closeAppFromMenu(item, menu, app) {
-  closeApp(null, app)
 }
 
 // ------- App utility buttons -------

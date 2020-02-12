@@ -108,7 +108,6 @@ function Minesweeper(app) {
 
   // ------- General functions -------
   function newGame(e, recompute) {
-    //e can also be something different (`this` from the app menu), but hey, it still works
     if (!e || recompute || e && (that.pattern || that.state)) {
       if (recompute === true) {
         if (that.dims.width > 512) that.dims.width = 512;
