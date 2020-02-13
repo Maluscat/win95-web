@@ -599,6 +599,7 @@
           app.addAppChildrenEvents('.menu > .list', 'mousedown', toggleAppMenu, '> .wrapper');
           app.addAppChildrenEvents('.menu > .list .index', 'mouseup', handleAppMenuItems, null, true);
           app.addAppChildrenEvents('.resize-areas', 'mousedown', addWindowResize, null, true);
+
           if (app.dataset.app == 'minesweeper-prompt') {
             app.addAppEventListener('.body .buttons .btn.submit', 'click', submitSweeperPrompt);
             app.addAppEventListener('.body .buttons .btn.cancel', 'click', closeApp);

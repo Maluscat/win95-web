@@ -31,7 +31,7 @@ function handleAppMenuItems(e, app) {
   let task = this.dataset.task;
   if (!task) {
     const section = this.findNodeUp('section');
-    task = section.dataset.task;
+    if (section) task = section.dataset.task;
   }
   if (task) {
     const menu = this.findNodeUp('menu-item');
@@ -54,11 +54,11 @@ function handleAppMenuItems(e, app) {
         val = val.trim();
         switch (val) {
           case 'app': return app;
-          break;
+            break;
           case 'this': return this;
-          break;
+            break;
           case 'menu': return menu;
-          break;
+            break;
           default:
           return new Function('"use strict"; return ' + val)();
         }
