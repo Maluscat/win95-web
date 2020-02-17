@@ -1,3 +1,4 @@
+'use strict';
 const snipTemplates = {};
 const snipEvents = {};
 const appTemplates = {};
