@@ -34,40 +34,29 @@ function handleAppMenuItems(e, app) {
     if (section) task = section.dataset.task;
   }
   if (task) {
-    const menu = this.findNodeUp('menu-item');
-    let path;
-    if (/^!app/.test(task)) {
-      path = appStates.get(app);
-      task = task.slice(5);
+    const exe = appMenuTasks[task];
+    if (exe) {
+      const menu = this.findNodeUp('menu-item');
+      let params;
+      if (exe.params) {
+        params = exe.params.map(val => {
+          if (!val) return;
+          val = val.trim();
+          switch (val) {
+            case 'app': return app;
+              break;
+            case 'this': return this;
+              break;
+            case 'menu': return menu;
+              break;
+            default:
+              return new Function('"use strict"; return ' + val)();
+          }
+        });
+      }
+      exe.path(app).apply(this, params);
+      removeAppMenu(menu);
     }
-    while(task.includes('.')) {
-      const levelIndex = task.indexOf('.');
-      const level = task.slice(0, levelIndex);
-      path = path ? path[level] : (new Function('"use strict"; return ' + level))();
-      task = task.slice(levelIndex + 1);
-    }
-    let params;
-    if (task.includes('(')) {
-      const index = task.indexOf('(');
-      params = task.slice(index + 1, -1).split(',').map(val => {
-        if (val === '') return;
-        val = val.trim();
-        switch (val) {
-          case 'app': return app;
-            break;
-          case 'this': return this;
-            break;
-          case 'menu': return menu;
-            break;
-          default:
-          return new Function('"use strict"; return ' + val)();
-        }
-      });
-      task = task.slice(0, index);
-    }
-    if (!params) params = [this, menu, app];
-    (path || window)[task](...params);
-    removeAppMenu(menu);
   }
 }
 

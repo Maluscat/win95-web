@@ -115,8 +115,10 @@
                 <div class="window-wrapper menu-dropdown">
                   <div class="window">
                     <ul class="index">
-                      <li class="disabled">Word wrap</li>
-                      <li class="disabled">Disabled :(</li>
+                      <div class="section">
+                        <li class="disabled">Word wrap</li>
+                        <li class="disabled">Disabled :(</li>
+                      </div>
                     </ul>
                   </div>
                 </div>
@@ -128,8 +130,10 @@
                 <div class="window-wrapper menu-dropdown">
                   <div class="window">
                     <ul class="index">
-                      <li>More options!</li>
-                      <li>Option 2!</li>
+                      <div class="section">
+                        <li>More options!</li>
+                        <li>Option 2!</li>
+                      </div>
                     </ul>
                   </div>
                 </div>
@@ -141,8 +145,10 @@
                 <div class="window-wrapper menu-dropdown">
                   <div class="window">
                     <ul class="index">
-                      <li>Even more</li>
-                      <li>Options!</li>
+                      <div class="section">
+                        <li>Even more</li>
+                        <li>Options!</li>
+                      </div>
                     </ul>
                   </div>
                 </div>
@@ -302,7 +308,7 @@
                           <span class="shortcut">F2</span>
                         </li>
                       </div>
-                      <div class="section" data-task="!app.sweeper.changeField">
+                      <div class="section" data-task="!app.sweeper.changeField(this, menu)">
                         <li class="checkmark enabled">Beginner</li>
                         <li class="checkmark">Intermediate</li>
                         <li class="checkmark">Expert</li>
@@ -614,6 +620,50 @@
         for (l of taskResize) l.addEventListener('mousedown', addWindowResize);
         for (l of startItems) l.addEventListener('mouseenter', handleStartItems);
         for (l of startItemsExpand) l.addEventListener('mousedown', startExpandableClick);
+      })();
+
+      (function() {
+        for (const app of templateApps) {
+
+          const menuSections = app.querySelectorAll('.menu > .list .index .section');
+          for (const section of menuSections) {
+
+            const items = section.querySelectorAll('li');
+            for (const item of items) {
+
+              const task = item.dataset.task || section.dataset.task;
+              if (task && !appMenuTasks[task]) {
+                let fn = task;
+                let path = '';
+                if (/^!app/.test(fn)) {
+                  path += 'appStates.get(app)';
+                  fn = fn.slice(5);
+                }
+                while(fn.includes('.')) {
+                  const index = fn.indexOf('.');
+                  const level = fn.slice(0, index);
+                  path += '.' + level;
+                  fn = fn.slice(index + 1);
+                }
+                let params;
+                if (fn.includes('(')) {
+                  const index = fn.indexOf('(');
+                  const indexClosing = fn.indexOf(')');
+                  if (indexClosing > index + 1) {
+                    params = fn.slice(index + 1, -1).split(',');
+                  }
+                  fn = fn.slice(0, index);
+                } else params = [item, app];
+
+                path += (path ? '.' : '') + fn;
+                appMenuTasks[task] = {
+                  path: new Function('app', '"use strict"; return ' + path),
+                  params: params
+                };
+              }
+            }
+          }
+        }
       })();
 
       //Removing template applications, saving them in appTemplates
