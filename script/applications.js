@@ -213,6 +213,7 @@ function Minesweeper(app) {
   function changeField(menuItem, menuSection) {
     const textContent = menuItem.textContent.trim();
     if (textContent !== 'Custom...' && menuItem.classList.contains('enabled')) return;
+    let reset = true;
     switch (textContent) {
       case 'Beginner':
         that.dims.width = 128;
@@ -246,13 +247,13 @@ function Minesweeper(app) {
           states.inputs = inputs;
           states.sweeperLink = app;
         });
+        reset = false;
         break;
-      default:
-        return;
+      default: return;
     }
     menuSection.querySelector('li.enabled').classList.remove('enabled');
     menuItem.classList.add('enabled');
-    newGame(null, true);
+    if (reset) newGame(null, true);
   }
 
   function createPattern(tilePos) {
