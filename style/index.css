@@ -264,19 +264,19 @@ body {
 }
 .window .header .title-btns .btn.close-btn .image,
 #header-expander .header .title-btns .btn.close-btn .image {
-  background-image: url(../resource/image//title-btns/close.png);
+  background-image: url(../resource/image/title-btns/close.png);
 }
 .window .header .title-btns .btn.maximize-btn .image,
 #header-expander .header .title-btns .btn.maximize-btn .image {
-  background-image: url(../resource/image//title-btns/maximize.png);
+  background-image: url(../resource/image/title-btns/maximize.png);
 }
 .fullscreen .window .header .title-btns .btn.maximize-btn .image,
 .fullscreen #header-expander .header .title-btns .btn.maximize-btn .image {
-  background-image: url(../resource/image//title-btns/restore.png);
+  background-image: url(../resource/image/title-btns/restore.png);
 }
 .window .header .title-btns .btn.minimize-btn .image,
 #header-expander .header .title-btns .btn.minimize-btn .image {
-  background-image: url(../resource/image//title-btns/minimize.png);
+  background-image: url(../resource/image/title-btns/minimize.png);
 }
 .window .header .title-btns .btn:not(.disabled):active .image,
 #header-expander .header .title-btns .btn:not(.disabled):active .image {
