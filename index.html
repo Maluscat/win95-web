@@ -526,16 +526,16 @@
           } else {
             createImage(srcBase, srcName + icon);
           }
+        }
 
-          function createImage(srcBase, source) {
-            const img = new Image();
-            img.src = srcBase + source + '.png';
-            sweeperImgs[source] = new Promise(resolve => {
-              img.onload = function() {
-                resolve(img);
-              };
-            });
-          }
+        function createImage(srcBase, source) {
+          const img = new Image();
+          img.src = srcBase + source + '.png';
+          sweeperImgs[source] = new Promise(resolve => {
+            img.onload = function() {
+              resolve(img);
+            };
+          });
         }
       })();
 
