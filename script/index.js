@@ -12,17 +12,6 @@ const availableIcons = [
   'notepad',
   'minesweeper'
 ];
-//Icons to be preloaded for Minesweeper's canvas
-const sweeperIcons = [
-  'tile',
-  'tile-empty',
-  'mark',
-  'cross',
-  'flag',
-  'bomb',
-  'number/{1-8}',
-  'counter/{0-9}'
-];
 const sweeperImgs = {};
 
 const startDropoutTime = 375;

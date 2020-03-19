@@ -510,28 +510,28 @@
 
       //Preloading icons for the canvas of Minesweeper
       (function() {
-        for (let icon of sweeperIcons) {
-          let srcBase = 'resource/image/minesweeper/';
-          let srcName = '';
-          if (icon.includes('/')) {
-            const index = icon.indexOf('/');
-            srcName += icon.slice(0, index) + '/';
-            icon = icon.slice(index);
-          }
-          if (icon.includes('{') && icon.includes('}')) {
-            const range = icon.slice(icon.indexOf('{') + 1, icon.indexOf('}')).split('-').map(val => Number(val));
-            for (let i = range[0]; i <= range[1]; i++) {
-              createImage(srcBase, srcName + i);
+        const sweeperIcons = <?php
+          function readSweeperDirectory($initial, $level = '') {
+            $file_str = '';
+            foreach (new DirectoryIterator('resource/image/minesweeper/' . $level) as $file_item) {
+              $dir = '';
+              if ($level) $dir = addslashes($level) . '/';
+              if ($file_item->isFile()) {
+                if (!$initial || $file_str != '') $file_str .= ', ';
+                $file_str .= "'" . $dir . substr(addslashes($file_item->getFileName()), 0, -4) . "'";
+              } else if ($file_item->isDir() && !$file_item->isDot()) {
+                $file_str .= readSweeperDirectory(false, $dir . $file_item->getFileName());
+              }
             }
-          } else {
-            createImage(srcBase, srcName + icon);
+            return $file_str;
           }
-        }
+          echo '[' . readSweeperDirectory(true) . ']';
+        ?>; //PHP injection
 
-        function createImage(srcBase, source) {
+        for (let icon of sweeperIcons) {
           const img = new Image();
-          img.src = srcBase + source + '.png';
-          sweeperImgs[source] = new Promise(resolve => {
+          img.src = 'resource/image/minesweeper/' + icon + '.png';
+          sweeperImgs[icon] = new Promise(resolve => {
             img.onload = function() {
               resolve(img);
             };
