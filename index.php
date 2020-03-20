@@ -542,25 +542,47 @@
       //Adding a new stylesheet with rules for app icon URLs
       //`app-icon` is NOT implemented yet
       (function() {
-        if (availableIcons.length > 0) {
+        const availableIcons = <?php
+          $icons = [];
+          foreach (['app', 'menu', 'tray'] as $dir) {
+            $entries = array_diff(scandir('resource/image/icon/' . $dir . '-icon'), array('..', '.'));
+            foreach ($entries as $entry) {
+              $entry = substr($entry, 0, -4);
+              if (array_key_exists($entry, $icons)) {
+                array_push($icons[$entry], $dir);
+              } else {
+                $icons[$entry] = [$dir];
+              }
+            }
+          }
+          echo json_encode($icons);
+        ?>; //PHP injection
+
+        if (Object.keys(availableIcons).length > 0) {
           const styleNode = document.createElement('style');
           var sheet = document.head.appendChild(styleNode).sheet;
         }
-        for (const icon of availableIcons) {
-          const appTitle = content.querySelector('[data-app="' + icon + '"] .header .title');
-          appTitle.dataset.trayIcon = icon;
-          sheet.insertRule(`
-            [data-tray-icon="${icon}"] .image {
-              background-image: url('resource/image/icon/tray-icon/${icon}.png');
-            }
-          `, 0);
-          const startEntry = startWindow.querySelector('li[data-execute="' + icon + '"]');
-          if (startEntry) startEntry.dataset.menuIcon = icon;
-          sheet.insertRule(`
-            [data-menu-icon="${icon}"] .image {
-              background-image: url('resource/image/icon/menu-icon/${icon}.png');
-            }
-          `, 0);
+        for (const icon in availableIcons) {
+          const item = availableIcons[icon];
+          //'app' icon is not implemented yet (desktop item)
+          if (item.includes('tray')) {
+            const appTitle = content.querySelector('[data-app="' + icon + '"] .header .title');
+            appTitle.dataset.trayIcon = icon;
+            sheet.insertRule(`
+              [data-tray-icon="${icon}"] .image {
+                background-image: url('resource/image/icon/tray-icon/${icon}.png');
+              }
+              `, 0);
+          }
+          if (item.includes('menu')) {
+            const startEntry = startWindow.querySelector('li[data-execute="' + icon + '"]');
+            if (startEntry) startEntry.dataset.menuIcon = icon;
+            sheet.insertRule(`
+              [data-menu-icon="${icon}"] .image {
+                background-image: url('resource/image/icon/menu-icon/${icon}.png');
+              }
+              `, 0);
+          }
         }
       })();
 

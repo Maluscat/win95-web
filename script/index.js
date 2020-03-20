@@ -1,4 +1,5 @@
 'use strict';
+const sweeperImgs = {};
 const snipTemplates = {};
 const snipEvents = {};
 const appTemplates = {};
@@ -6,13 +7,6 @@ const appEvents = {};
 const appMenuTasks = {};
 const appStates = new Map();
 const taskBtnLink = new Map();
-
-//This will be improved once I'm using Nodejs & Express
-const availableIcons = [
-  'notepad',
-  'minesweeper'
-];
-const sweeperImgs = {};
 
 const startDropoutTime = 375;
 const errorCoords = [
