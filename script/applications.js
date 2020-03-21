@@ -246,7 +246,7 @@ function Minesweeper(app) {
           inputs.mines.value = that.bombAmount;
           states.inputs = inputs;
           states.sweeperLink = app;
-        });
+        }, app);
         reset = false;
         break;
       default: return;

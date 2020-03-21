@@ -58,7 +58,7 @@ function mouseDown(e) { //`window` mousedown event
 
   const clickedApp = e.target.findNodeUp('[app]');
   if (clickedApp) {
-    switchActiveApp(clickedApp, true);
+    switchActiveApp(clickedApp);
   } else if (!isTaskBtn) {
     switchActiveApp(false);
   }

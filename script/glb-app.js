@@ -65,6 +65,7 @@ function closeApp(e, app) {
   app.remove();
   switchActiveApp(false);
   const states = appStates.get(app);
+  if (states.blockTarget) unblockApp(states.blockTarget);
   if (states.taskBtn) states.taskBtn.remove();
   appStates.delete(app);
   taskBtnLink.delete(states.taskBtn);
@@ -78,7 +79,7 @@ function expandApp(btn) {
     else
       animateHeadExpander(app, app.style.width, app.style.transform, 'minimized', 'remove');
   }
-  switchActiveApp(app, false, btn);
+  switchActiveApp(app, btn);
 }
 function minimizeApp(e, app) {
   const taskBtn = appStates.get(app).taskBtn;
@@ -99,6 +100,18 @@ function maximizeApp(e, app) {
   }
 }
 
+function blockApp(target, source, srcStates) {
+  appStates.get(target).blockSrc = source;
+  target.classList.add('blocked');
+  srcStates.blockTarget = target;
+}
+function unblockApp(app) {
+  const states = appStates.get(app);
+  delete states.blockSrc;
+  app.classList.remove('blocked');
+  switchActiveApp(app, states.taskBtn);
+}
+
 // ------- Automated adding functions -------
 function executeApp() {
   //For now: always closing the start menu, regardless of how it was executed
@@ -106,7 +119,7 @@ function executeApp() {
   const appName = this.dataset.execute;
   addApp(appName);
 }
-function addApp(appName, initFn) {
+function addApp(appName, initFn, blockTarget) {
   const appClone = cloneApp(appName);
   const isGhost = appClone.dataset.ghost != null;
   const states = {};
@@ -119,6 +132,9 @@ function addApp(appName, initFn) {
   }
   if (appClone.dataset.init) {
     window[appClone.dataset.init](appClone, states);
+  }
+  if (blockTarget) {
+    blockApp(blockTarget, appClone, states);
   }
   switchActiveApp(appClone);
   if (!isGhost) {
@@ -135,7 +151,6 @@ function addTaskButton(app, appName) {
   taskBtnLink.set(btnClone, app);
   const states = appStates.get(app);
   states['taskBtn'] = btnClone;
-  appStates.set(app, states);
   taskbarBtns.appendChild(btnClone);
 }
 
@@ -147,7 +162,7 @@ function translateError(node) {
 }
 
 // ------- App helper functions -------
-function switchActiveApp(newNode, indexCheck, newTaskBtn) {
+function switchActiveApp(newNode, newTaskBtn) {
   if (activeApp) {
     const activeBtn = appStates.get(activeApp).taskBtn;
     if (activeBtn) {
@@ -156,13 +171,19 @@ function switchActiveApp(newNode, indexCheck, newTaskBtn) {
     activeApp.classList.remove('focus');
   }
   if (newNode) {
-    if (newNode.dataset.ghost == null) {
-      if (!newTaskBtn) newTaskBtn = appStates.get(newNode).taskBtn;
-      newTaskBtn.classList.add('active');
+    const states = appStates.get(newNode);
+    if (!newTaskBtn) {
+      newTaskBtn = states.blockTarget ? appStates.get(states.blockTarget).taskBtn : states.taskBtn;
     }
-    newNode.classList.add('focus');
-    activeApp = newNode;
-    if (!indexCheck || newNode.style.zIndex != windowZ) newNode.style.zIndex = ++windowZ;
+    if (newTaskBtn) newTaskBtn.classList.add('active');
+    if (states.blockSrc) {
+      //Proxying activation to another app
+      switchActiveApp(states.blockSrc, newTaskBtn);
+    } else {
+      newNode.classList.add('focus');
+      activeApp = newNode;
+      if (newNode.style.zIndex != windowZ) newNode.style.zIndex = ++windowZ;
+    }
   } else activeApp = null;
 }
 
