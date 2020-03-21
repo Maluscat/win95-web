@@ -511,21 +511,19 @@
       //Preloading icons for the canvas of Minesweeper
       (function() {
         const sweeperIcons = <?php
-          function readSweeperDirectory($initial, $level = '') {
-            $file_str = '';
+          function readSweeperDirectory($file_arr = [], $level = '') {
             foreach (new DirectoryIterator('resource/image/minesweeper/' . $level) as $file_item) {
               $dir = '';
-              if ($level) $dir = addslashes($level) . '/';
+              if ($level) $dir = $level . '/';
               if ($file_item->isFile()) {
-                if (!$initial || $file_str != '') $file_str .= ', ';
-                $file_str .= "'" . $dir . substr(addslashes($file_item->getFileName()), 0, -4) . "'";
+                array_push($file_arr, $dir . substr($file_item->getFileName(), 0, -4));
               } else if ($file_item->isDir() && !$file_item->isDot()) {
-                $file_str .= readSweeperDirectory(false, $dir . $file_item->getFileName());
+                $file_arr = readSweeperDirectory($file_arr, $dir . $file_item->getFileName());
               }
             }
-            return $file_str;
+            return $file_arr;
           }
-          echo '[' . readSweeperDirectory(true) . ']';
+          echo json_encode(readSweeperDirectory());
         ?>; //PHP injection
 
         for (let icon of sweeperIcons) {
@@ -540,7 +538,7 @@
       })();
 
       //Adding a new stylesheet with rules for app icon URLs
-      //`app-icon` is NOT implemented yet
+      //'app' icon (desktop icon) is not implemented yet
       (function() {
         const availableIcons = <?php
           $icons = [];
@@ -564,7 +562,6 @@
         }
         for (const icon in availableIcons) {
           const item = availableIcons[icon];
-          //'app' icon is not implemented yet (desktop item)
           if (item.includes('tray')) {
             const appTitle = content.querySelector('[data-app="' + icon + '"] .header .title');
             appTitle.dataset.trayIcon = icon;
