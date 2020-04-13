@@ -72,7 +72,6 @@ function Minesweeper(app) {
         that.face.classList.toggle('surprised');
         toggleGlobalEvents();
       } else if (e.buttons == 2 && that.state[tilePos.y][tilePos.x] != 1) {
-        //TODO: Fix flags counting as bombs
         if (that.state[tilePos.y][tilePos.x] == 2) {
           drawIcon('tile', tilePos, false, true);
           that.bombVal++;
@@ -174,6 +173,7 @@ function Minesweeper(app) {
     for (const pos of bombPos) {
       if (that.state[pos.y][pos.x] !== 2) drawIcon('flag', pos);
     }
+    drawPanel('bombs', that.bombVal = 0);
     stopTime();
     that.canvas.classList.add('static');
     switchBtnFace('swag');
@@ -205,7 +205,7 @@ function Minesweeper(app) {
       const bombPos = new Array();
       for (let y = 0; y < that.state.length; y++) {
         for (let x = 0; x < that.state[y].length; x++) {
-          if (that.state[y][x] === 0 && that.pattern[y][x] !== true) return;
+          if (that.state[y][x] !== 1 && that.pattern[y][x] !== true) return;
           const pos = {
             x: x,
             y: y
