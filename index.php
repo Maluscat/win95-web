@@ -211,7 +211,7 @@
         </div>
       </div>
 
-      <div data-template data-app="minesweeper-prompt" class="window-wrapper slim" data-ghost>
+      <div data-template data-app="minesweeper:prompt" class="window-wrapper slim" data-ghost>
         <div class="window slim">
           <div class="header">
             <div class="title">
@@ -625,7 +625,7 @@
           app.addAppChildrenEvents('.menu > .list .index', 'mouseup', handleAppMenuItems, null, true);
           app.addAppChildrenEvents('.resize-areas', 'mousedown', addWindowResize, null, true);
 
-          if (app.dataset.app == 'minesweeper-prompt') {
+          if (app.dataset.app == 'minesweeper:prompt') {
             app.addAppEventListener('.body .buttons .btn.submit', 'click', submitSweeperPrompt);
             app.addAppEventListener('.body .buttons .btn.cancel', 'click', closeApp);
           }

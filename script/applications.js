@@ -38,6 +38,8 @@ function Minesweeper(app) {
     that.counterBombs = counterBombs;
     that.counterTime = counterTime;
     that.bombAmount = 10;
+    that.bombVal = 10; //Bomb panel value
+    that.time = 0; //Time panel value
     that.dims = {
       width: 128,
       height: 128
@@ -70,13 +72,17 @@ function Minesweeper(app) {
         that.face.classList.toggle('surprised');
         toggleGlobalEvents();
       } else if (e.buttons == 2 && that.state[tilePos.y][tilePos.x] != 1) {
+        //TODO: Fix flags counting as bombs
         if (that.state[tilePos.y][tilePos.x] == 2) {
           drawIcon('tile', tilePos, false, true);
+          that.bombVal++;
           that.state[tilePos.y][tilePos.x] = 0;
         } else {
           drawIcon('flag', tilePos);
+          that.bombVal--;
           that.state[tilePos.y][tilePos.x] = 2;
         }
+        drawPanel('bombs');
       }
     }
   }
@@ -125,14 +131,15 @@ function Minesweeper(app) {
         const fieldSize = that.tileCount.x * that.tileCount.y;
         if (that.bombAmount > fieldSize - 2) that.bombAmount = fieldSize - 2;
         else if (that.bombAmount < 2) that.bombAmount = 2;
-        drawPanel('bombs', that.bombAmount);
       }
+      that.bombVal = that.bombAmount;
       sweeperImgs['tile'].then(img => {
         ctx.fillStyle = ctx.createPattern(img, 'repeat');
         ctx.fillRect(0, 0, that.dims.width, that.dims.height);
       });
       that.pattern = null;
       that.state = null;
+      drawPanel('bombs');
       stopTime();
       clearTime();
       that.canvas.classList.remove('static');
@@ -231,8 +238,7 @@ function Minesweeper(app) {
         that.bombAmount = 99;
         break;
       case 'Custom...':
-        //TODO: cross app blocking system
-        addApp('minesweeper-prompt', function(thisApp, states) {
+        addApp('minesweeper:prompt', function(thisApp, states) {
           const appRect = app.getBoundingClientRect();
           thisApp.style.transform = 'translate(' + (appRect.left + 30) / 15 + 'em, ' + (appRect.top + 65) / 15 + 'em)';
           const fields = thisApp.querySelector('.body .inputs');
@@ -392,7 +398,7 @@ function Minesweeper(app) {
   }
   function clearTime() {
     that.time = 000;
-    drawPanel('time', that.time);
+    drawPanel('time');
   }
   function updateTime() {
     const time = that.time++ >= 999 ? 999 : that.time;
@@ -404,9 +410,11 @@ function Minesweeper(app) {
     if (method == 'bombs') {
       thisCanvas = that.counterBombs;
       thisCtx = ctxBombs;
+      if (number == null) number = that.bombVal;
     } else if (method == 'time') {
       thisCanvas = that.counterTime;
       thisCtx = ctxTime;
+      if (number == null) number = that.time;
     } else {
       console.error("Error @ Minesweeper drawPanel: method must be either 'bombs' or 'time' but it is " + method);
       return;
@@ -414,9 +422,10 @@ function Minesweeper(app) {
 
     thisCtx.fillStyle = 'black';
     thisCtx.fillRect(0, 0, thisCanvas.clientWidth, thisCanvas.clientHeight);
-    let numStr = number.toString().slice(-3);
+    let numStr = Math.abs(number).toString().slice(-3);
     //Pad the string to a length of 3
     if (numStr.length < 3) numStr = '0'.repeat(3 - numStr.length) + numStr;
+    if (number < 0) numStr = '-' + numStr.slice(1);
     const numParts = numStr.split('');
     for (let i = 0; i < numParts.length; i++) {
       const digit = numParts[i];
