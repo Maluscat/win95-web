@@ -217,51 +217,6 @@ function Minesweeper(app) {
     }
   }
 
-  function changeField(menuItem, menuSection) {
-    const textContent = menuItem.textContent.trim();
-    if (textContent !== 'Custom...' && menuItem.classList.contains('enabled')) return;
-    let reset = true;
-    switch (textContent) {
-      case 'Beginner':
-        that.dims.width = 128;
-        that.dims.height = 128;
-        that.bombAmount = 10;
-        break;
-      case 'Intermediate':
-        that.dims.width = 256;
-        that.dims.height = 256;
-        that.bombAmount = 40;
-        break;
-      case 'Expert':
-        that.dims.width = 480;
-        that.dims.height = 256;
-        that.bombAmount = 99;
-        break;
-      case 'Custom...':
-        addApp('minesweeper:prompt', function(thisApp, states) {
-          const appRect = app.getBoundingClientRect();
-          thisApp.style.transform = 'translate(' + (appRect.left + 30) / 15 + 'em, ' + (appRect.top + 65) / 15 + 'em)';
-          const fields = thisApp.querySelector('.body .inputs');
-          const inputs = {
-            height: fields.querySelector('.field.item-height input'),
-            width: fields.querySelector('.field.item-width input'),
-            mines: fields.querySelector('.field.item-mines input')
-          };
-          inputs.height.value = that.dims.height / 16;
-          inputs.width.value = that.dims.width / 16;
-          inputs.mines.value = that.bombAmount;
-          states.inputs = inputs;
-          states.sweeperLink = app;
-        }, app);
-        reset = false;
-        break;
-      default: return;
-    }
-    menuSection.querySelector('li.enabled').classList.remove('enabled');
-    menuItem.classList.add('enabled');
-    if (reset) newGame(null, true);
-  }
-
   function createPattern(tilePos) {
     const pattern = mapField();
 
@@ -331,6 +286,52 @@ function Minesweeper(app) {
       }
     }
     return positions;
+  }
+
+  // ------- Context menu functions -------
+  function changeField(menuItem, menuSection) {
+    const textContent = menuItem.textContent.trim();
+    if (textContent !== 'Custom...' && menuItem.classList.contains('enabled')) return;
+    let reset = true;
+    switch (textContent) {
+      case 'Beginner':
+        that.dims.width = 128;
+        that.dims.height = 128;
+        that.bombAmount = 10;
+        break;
+      case 'Intermediate':
+        that.dims.width = 256;
+        that.dims.height = 256;
+        that.bombAmount = 40;
+        break;
+      case 'Expert':
+        that.dims.width = 480;
+        that.dims.height = 256;
+        that.bombAmount = 99;
+        break;
+      case 'Custom...':
+        addApp('minesweeper:prompt', function(thisApp, states) {
+          const appRect = app.getBoundingClientRect();
+          thisApp.style.transform = 'translate(' + (appRect.left + 30) / 15 + 'em, ' + (appRect.top + 65) / 15 + 'em)';
+          const fields = thisApp.querySelector('.body .inputs');
+          const inputs = {
+            height: fields.querySelector('.field.item-height input'),
+            width: fields.querySelector('.field.item-width input'),
+            mines: fields.querySelector('.field.item-mines input')
+          };
+          inputs.height.value = that.dims.height / 16;
+          inputs.width.value = that.dims.width / 16;
+          inputs.mines.value = that.bombAmount;
+          states.inputs = inputs;
+          states.sweeperLink = app;
+        }, app);
+        reset = false;
+        break;
+      default: return;
+    }
+    menuSection.querySelector('li.enabled').classList.remove('enabled');
+    menuItem.classList.add('enabled');
+    if (reset) newGame(null, true);
   }
 
   // ------- Helper functions -------
