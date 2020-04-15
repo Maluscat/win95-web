@@ -54,7 +54,12 @@ function handleAppMenuItems(e, app) {
           }
         });
       }
-      exe.path(app).apply(this, params);
+      const fn = exe.path(app); //The actual function is wrapped in an anonymous function
+      if (fn == null) {
+        console.error(`Error @ handleAppMenuItems: Function '${task}' could not be found.\nIs it exposed to global scope?`);
+      } else {
+        fn.apply(this, params);
+      }
       removeAppMenu(menu);
     }
   }

@@ -26,6 +26,7 @@ function Minesweeper(app) {
 
   this.newGame = newGame;
   this.changeField = changeField;
+  this.toggleQuestionMarks = toggleQuestionMarks;
   (function() {
     const counterBombs = app.querySelector('.body .head-panel .counter.bombs canvas');
     const counterTime = app.querySelector('.body .head-panel .counter.time canvas');
@@ -40,6 +41,13 @@ function Minesweeper(app) {
     that.bombAmount = 10;
     that.bombVal = 10; //Bomb panel value
     that.time = 0; //Time panel value
+    that.marks = false;
+    that.stateIcons = {
+      0: 'tile',
+      1: 'tile-empty',
+      2: 'flag',
+      3: 'mark'
+    };
     that.dims = {
       width: 128,
       height: 128
@@ -63,24 +71,32 @@ function Minesweeper(app) {
       if (e.buttons == 1 || e.buttons == 2) {
         var tilePos = getTilePosition(e);
         if (!that.state) {
-          //0 == undiscovered, 1 == discovered, 2 == flagged
+          //0 == undiscovered, 1 == discovered, 2 == flagged, 3 == question marked
           that.state = mapField(Uint8Array);
         }
       }
+      const tileState = that.state[tilePos.y][tilePos.x];
       if (e.buttons == 1) {
         drawIcon('tile-empty', tilePos, true);
+        if (tileState == 3) drawIcon('mark', tilePos, true, false, true);
         that.face.classList.toggle('surprised');
         toggleGlobalEvents();
-      } else if (e.buttons == 2 && that.state[tilePos.y][tilePos.x] != 1) {
-        if (that.state[tilePos.y][tilePos.x] == 2) {
-          drawIcon('tile', tilePos, false, true);
-          that.bombVal++;
+      } else if (e.buttons == 2 && tileState != 1) {
+        if (that.marks && tileState == 3) {
           that.state[tilePos.y][tilePos.x] = 0;
-        } else {
-          drawIcon('flag', tilePos);
-          that.bombVal--;
+        } else if (tileState == 2) {
+          let state = 0;
+          if (that.marks) {
+            state = 3;
+            drawIcon('tile', tilePos, false, true);
+          }
+          that.state[tilePos.y][tilePos.x] = state;
+          that.bombVal++;
+        } else { //tileState == 0
           that.state[tilePos.y][tilePos.x] = 2;
+          that.bombVal--;
         }
+        drawIcon(null, tilePos);
         drawPanel('bombs');
       }
     }
@@ -91,7 +107,11 @@ function Minesweeper(app) {
       if (that.activeTile && tilePos.x === that.activeTile.x && tilePos.y === that.activeTile.y) return;
       else {
         drawIcon('tile', that.activeTile);
-        if (tilePosIsValid(tilePos)) drawIcon('tile-empty', tilePos, true);
+        if (that.state[that.activeTile.y][that.activeTile.x] == 3) drawIcon('mark', that.activeTile);
+        if (tilePosIsValid(tilePos)) {
+          drawIcon('tile-empty', tilePos, true);
+          if (that.state[tilePos.y][tilePos.x] == 3) drawIcon('mark', tilePos, true, false, true);
+        }
       }
     }
   }
@@ -103,7 +123,7 @@ function Minesweeper(app) {
         that.pattern = createPattern(tilePos);
       }
 
-      if (tilePosIsValid(tilePos) && that.state[tilePos.y][tilePos.x] === 0) uncoverTile(tilePos);
+      if (tilePosIsValid(tilePos) && (that.state[tilePos.y][tilePos.x] === 0 || that.state[tilePos.y][tilePos.x] == 3)) uncoverTile(tilePos);
 
       that.face.classList.toggle('surprised');
 
@@ -198,6 +218,7 @@ function Minesweeper(app) {
       icon = 'number/' + tile;
     }
     if (recursion || tile !== 0) {
+      if (that.state[tilePos.y][tilePos.x] == 3) drawIcon('tile-empty', tilePos, false, true, false);
       drawIcon(icon, tilePos);
       that.state[tilePos.y][tilePos.x] = 1;
     }
@@ -289,6 +310,12 @@ function Minesweeper(app) {
   }
 
   // ------- Context menu functions -------
+  //TODO: automatic checkmark toggling
+  function toggleQuestionMarks() {
+    that.marks = !that.marks;
+    this.classList.toggle('enabled');
+  }
+
   function changeField(menuItem, menuSection) {
     const textContent = menuItem.textContent.trim();
     if (textContent !== 'Custom...' && menuItem.classList.contains('enabled')) return;
@@ -335,11 +362,14 @@ function Minesweeper(app) {
   }
 
   // ------- Helper functions -------
-  function drawIcon(icon, tilePos, keepActive, force) {
-    if (tilePos && (!that.state || force || that.state[tilePos.y][tilePos.x] === 0)) {
+  function drawIcon(icon, tilePos, keepActive, force, offset) {
+    if (tilePos && (!that.state || force || !icon || that.state[tilePos.y][tilePos.x] === 0 || that.state[tilePos.y][tilePos.x] == 3)) {
+      const iconPos = [tilePos.x * 16, tilePos.y * 16];
+      if (offset) iconPos[0] += 1;
+      if (!icon) icon = that.stateIcons[that.state[tilePos.y][tilePos.x]];
       sweeperImgs[icon].then(img => {
         that.activeTile = keepActive ? tilePos : null;
-        ctx.drawImage(img, tilePos.x * 16, tilePos.y * 16);
+        ctx.drawImage(img, iconPos[0], iconPos[1]);
       });
     }
   }

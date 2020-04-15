@@ -315,7 +315,7 @@
                         <li class="checkmark">Custom...</li>
                       </div>
                       <div class="section">
-                        <li class="checkmark enabled">Marks (?)</li>
+                        <li class="checkmark" data-task="!app.sweeper.toggleQuestionMarks()">Marks (?)</li>
                       </div>
                       <div class="section">
                         <li>Best Times</li>
@@ -658,7 +658,7 @@
                   path += 'appStates.get(app)';
                   fn = fn.slice(5);
                 }
-                while(fn.includes('.')) {
+                while (fn.includes('.')) {
                   const index = fn.indexOf('.');
                   const level = fn.slice(0, index);
                   path += '.' + level;
