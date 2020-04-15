@@ -107,7 +107,7 @@ function Minesweeper(app) {
       if (that.activeTile && tilePos.x === that.activeTile.x && tilePos.y === that.activeTile.y) return;
       else {
         drawIcon('tile', that.activeTile);
-        if (that.state[that.activeTile.y][that.activeTile.x] == 3) drawIcon('mark', that.activeTile);
+        if (that.activeTile && that.state[that.activeTile.y][that.activeTile.x] == 3) drawIcon('mark', that.activeTile);
         if (tilePosIsValid(tilePos)) {
           drawIcon('tile-empty', tilePos, true);
           if (that.state[tilePos.y][tilePos.x] == 3) drawIcon('mark', tilePos, true, false, true);
