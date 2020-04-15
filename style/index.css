@@ -849,34 +849,34 @@ body {
   height: 8.533em;
 }
 /*------------ Minesweeper custom field window ------------*/
-[data-app="minesweeper-prompt"] .body {
+[data-app="minesweeper:prompt"] .body {
   display: flex;
   padding: 0.8em 0.6em 0.733em;
 }
-[data-app="minesweeper-prompt"] .inputs {
+[data-app="minesweeper:prompt"] .inputs {
   padding-right: 0.733em;
 }
-[data-app="minesweeper-prompt"] .inputs .field {
+[data-app="minesweeper:prompt"] .inputs .field {
   display: flex;
 }
-[data-app="minesweeper-prompt"] .inputs .field:not(:first-of-type):not(:last-of-type) {
+[data-app="minesweeper:prompt"] .inputs .field:not(:first-of-type):not(:last-of-type) {
   margin: 1em 0;
 }
-[data-app="minesweeper-prompt"] .inputs .field .caption {
+[data-app="minesweeper:prompt"] .inputs .field .caption {
   padding-right: 1.8em;
   flex: 1;
 }
-[data-app="minesweeper-prompt"] .buttons {
+[data-app="minesweeper:prompt"] .buttons {
   display: flex;
   flex-direction: column;
 }
-[data-app="minesweeper-prompt"] .buttons .btn {
+[data-app="minesweeper:prompt"] .buttons .btn {
   display: block;
 }
-[data-app="minesweeper-prompt"] .buttons .btn:first-of-type {
+[data-app="minesweeper:prompt"] .buttons .btn:first-of-type {
   margin-bottom: 0.333em;
 }
-[data-app="minesweeper-prompt"] .buttons .btn .btn-inner {
+[data-app="minesweeper:prompt"] .buttons .btn .btn-inner {
   padding-left: 0.866em;
   padding-right: 0.866em;
 }
