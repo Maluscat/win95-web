@@ -311,6 +311,7 @@ function Minesweeper(app) {
 
   // ------- Context menu functions -------
   //TODO: automatic checkmark toggling
+  //TODO: ^ what did I mean by this?
   function toggleQuestionMarks() {
     that.marks = !that.marks;
     this.classList.toggle('enabled');
