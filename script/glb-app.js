@@ -129,14 +129,15 @@ function addApp(appName, initFn, blockTarget) {
   const isGhost = appClone.dataset.ghost != null;
   const states = {};
   appStates.set(appClone, states);
-  if (!isGhost) addTaskButton(appClone);
+  if (!isGhost) {
+    addTaskButton(appClone);
+    const constructorFn = appName.slice(0, 1).toUpperCase() + appName.slice(1);
+    if (window[constructorFn]) states[appName] = new window[constructorFn](appClone);
+  }
   appClone.style.transform = 'translate(' + ((appIndent[0] / 15) || '0.001') + 'em, ' + ((appIndent[1] / 15) || '0.001') + 'em)';
   content.appendChild(appClone);
   if (initFn) {
     (initFn)(appClone, states);
-  }
-  if (appClone.dataset.init) {
-    window[appClone.dataset.init](appClone, states);
   }
   if (blockTarget) {
     blockApp(blockTarget, appClone, states);

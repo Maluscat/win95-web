@@ -268,7 +268,7 @@
         </div>
       </div>
 
-      <div data-template data-app="minesweeper" class="window-wrapper slim" data-init="minesweeperInit">
+      <div data-template data-app="minesweeper" class="window-wrapper slim">
         <div class="window">
           <div class="header">
             <div class="title">
