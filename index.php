@@ -162,7 +162,7 @@
         <div data-expand-snippet="resize-areas"></div>
       </div>
 
-      <div data-template data-app="error" data-class="window-wrapper" data-ghost>
+      <div data-template data-app="error" class="window-wrapper" data-ghost>
         <div class="window">
           <div class="header">
             <div class="title">
