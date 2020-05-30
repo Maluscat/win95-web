@@ -483,7 +483,12 @@
 
     <script src="script/index.js"></script>
     <script src="script/glb-app.js"></script>
-    <script src="script/applications.js"></script>
+    <?php
+      $apps = array_diff(scandir('script/application'), array('..', '.'));
+      foreach ($apps as $app) {
+        echo '<script src="script/application/' . $app . '"></script>' . "\n";
+      }
+    ?>
     <script>
       const content = document.getElementById('content');
 
