@@ -303,19 +303,19 @@
                   <div class="window">
                     <ul class="index">
                       <div class="section">
-                        <li class="shortcut" data-task="!app.sweeper.newGame()">
+                        <li class="shortcut" data-task="!app.minesweeper.newGame()">
                           <span class="text">New</span>
                           <span class="shortcut">F2</span>
                         </li>
                       </div>
-                      <div class="section" data-task="!app.sweeper.changeField(this, menu)">
+                      <div class="section" data-task="!app.minesweeper.changeField(this, menu)">
                         <li class="checkmark enabled">Beginner</li>
                         <li class="checkmark">Intermediate</li>
                         <li class="checkmark">Expert</li>
                         <li class="checkmark">Custom...</li>
                       </div>
                       <div class="section">
-                        <li class="checkmark" data-task="!app.sweeper.toggleQuestionMarks()">Marks (?)</li>
+                        <li class="checkmark" data-task="!app.minesweeper.toggleQuestionMarks()">Marks (?)</li>
                       </div>
                       <div class="section">
                         <li>Best Times</li>
@@ -630,6 +630,7 @@
           app.addAppChildrenEvents('.menu > .list .index', 'mouseup', handleAppMenuItems, null, true);
           app.addAppChildrenEvents('.resize-areas', 'mousedown', addWindowResize, null, true);
 
+          //TODO?: data event attributes
           if (app.dataset.app == 'minesweeper:prompt') {
             app.addAppEventListener('.body .buttons .btn.submit', 'click', submitSweeperPrompt);
             app.addAppEventListener('.body .buttons .btn.cancel', 'click', closeApp);

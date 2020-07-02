@@ -1,8 +1,4 @@
 // ------- Minesweeper -------
-function minesweeperInit(app, states) {
-  states.sweeper = new Minesweeper(app);
-}
-
 function submitSweeperPrompt(e, app) {
   const fields = app.querySelector('.body .inputs');
   const values = {
@@ -11,7 +7,7 @@ function submitSweeperPrompt(e, app) {
     mines: fields.querySelector('.field.item-mines input').value
   };
   const sweeper = appStates.get(app).sweeperLink;
-  const states = appStates.get(sweeper).sweeper;
+  const states = appStates.get(sweeper).minesweeper;
   states.dims.height = values.height * 16;
   states.dims.width = values.width * 16;
   states.bombAmount = values.mines;

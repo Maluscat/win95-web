@@ -131,6 +131,7 @@ function addApp(appName, initFn, blockTarget) {
   appStates.set(appClone, states);
   if (!isGhost) {
     addTaskButton(appClone);
+    //automatically call the constructor (title cased app name) and add it to states[appname]
     const constructorFn = appName.slice(0, 1).toUpperCase() + appName.slice(1);
     if (window[constructorFn]) states[appName] = new window[constructorFn](appClone);
   }
