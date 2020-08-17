@@ -102,6 +102,20 @@
   }
 }
 
+/*------------ File Explorer ------------*/
+[data-app="explorer"] {
+  .body {
+    flex: 1;
+    .border.around(white, @50);
+    .file-wrapper {
+      background-color: white;
+      width: 100%;
+      height: 100%;
+      .border.around(@87, black);
+    }
+  }
+}
+
 /*------------ Error window ------------*/
 [data-app="error"] {
   .message, .further {

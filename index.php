@@ -64,6 +64,135 @@
         </div>
       </button>
 
+      <div data-template data-app="explorer" class="window-wrapper">
+        <div class="window">
+          <div class="header">
+            <div class="title">
+              <span class="image"></span>
+              <span class="text"></span>
+            </div>
+            <div class="title-btns">
+              <button type="button" class="minimize-btn click-btn btn">
+                <div class="btn-inner">
+                  <span class="image"></span>
+                </div>
+              </button>
+              <button type="button" class="maximize-btn click-btn btn">
+                <div class="btn-inner">
+                  <span class="image"></span>
+                </div>
+              </button>
+              <button type="button" class="close-btn click-btn btn">
+                <div class="btn-inner">
+                  <span class="image"></span>
+                </div>
+              </button>
+            </div>
+          </div>
+          <div class="menu">
+            <ul class="list">
+              <li class="menu-item">
+                <div class="wrapper">
+                  <span class="text">File</span>
+                </div>
+                <div class="window-wrapper menu-dropdown">
+                  <div class="window">
+                    <ul class="index">
+                      <div class="section">
+                        <li>Open</li>
+                        <li>Explore</li>
+                        <li>Find...</li>
+                      </div>
+                      <div class="section">
+                        <li>New //TODO COLLAPSIBLE ARROW MENU</li>
+                      </div>
+                      <div class="section">
+                        <li>Create Shortcut</li>
+                        <li>Delete</li>
+                        <li>Rename</li>
+                        <li>Properties</li>
+                      </div>
+                      <div class="section">
+                        <li>Close</li>
+                      </div>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li class="menu-item">
+                <div class="wrapper">
+                  <span class="text">Edit</span>
+                </div>
+                <div class="window-wrapper menu-dropdown">
+                  <div class="window">
+                    <ul class="index">
+                      <div class="section">
+                        <li>Undo Rename</li>
+                      </div>
+                      <div class="section">
+                        <li class="shortcut">
+                          <span class="text">Cut</span>
+                          <span class="shortcut">Ctrl+X</span>
+                        </li>
+                        <li class="shortcut">
+                          <span class="text">Copy</span>
+                          <span class="shortcut">Ctrl+C</span>
+                        </li>
+                        <li class="shortcut disabled">
+                          <span class="text">Paste</span>
+                          <span class="shortcut">Ctrl+V</span>
+                        </li>
+                        <li class="disabled">Paste Shortcut</li>
+                      </div>
+                      <div class="section">
+                        <li class="shortcut">
+                          <span class="text">Select All</span>
+                          <span class="shortcut">Ctrl+A</span>
+                        </li>
+                        <li>Invert Selection</li>
+                      </div>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li class="menu-item">
+                <div class="wrapper">
+                  <span class="text">View</span>
+                </div>
+                <div class="window-wrapper menu-dropdown">
+                  <div class="window">
+                    <ul class="index">
+                      <div class="section">
+                        <li>Toolbar</li>
+                        <li class="checkmark">Status bar</li>
+                      </div>
+                      <div class="section">
+                        <li class="radio-btn">Large Icons</li>
+                        <li>Small Icons</li>
+                        <li>List</li>
+                        <li>Details</li>
+                      </div>
+                      <div class="section">
+                        <li>Arrange Icons //TODO COLLAPSIBLE ARROW MENU</li>
+                        <li>Line up Icons //?</li>
+                      </div>
+                      <div class="section">
+                        <li>Refresh</li>
+                        <li>Options</li>
+                      </div>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="body">
+            <div class="file-wrapper"></div>
+          </div>
+        </div>
+        <div data-expand-snippet="resize-areas"></div>
+      </div>
+
       <div data-template data-app="notepad" class="window-wrapper">
         <div class="window">
           <div class="header">
@@ -481,6 +610,7 @@
 
     </div>
 
+    <script src="script/filesystem.js"></script>
     <script src="script/index.js"></script>
     <script src="script/glb-app.js"></script>
     <?php
