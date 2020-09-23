@@ -373,14 +373,30 @@ String.prototype.computeTranslate = function(callback, indexStart) {
 };
 
 //Looping over all children of a specified node, stopping when finding a target
-Node.prototype.checkNode = function(avoid, protocol) {
-  //protocol: boolean? = concatenate the nodes to a selector
-  if (this == avoid) return true;
-  for (let i = 0; i < this.childElementCount; i++) {
-    const result = Node.prototype.checkNode.call(this.children[i], avoid, protocol);
+Node.prototype.checkNode = function(target, protocol, original = this) {
+  //protocol: boolean? = construct a unique selector path from `original` to `target`
+  //implicit unchecked condition: `original` needs to be unique across all of its descendants
+  if (this == target) return true;
+
+  for (var i = 0; i < this.childElementCount; i++) {
+    let result = this.children[i].checkNode(target, protocol, original);
     if (result) {
-      if (protocol != null) protocol = ' > :nth-child(' + (i + 1) +')' + (result === true ? '' : result);
-      return protocol || true;
+      if (protocol) {
+        let selector = '';
+        //The original caller element needs to be uniquely matched because a nested tree of `:nth-child`s can start and match anywhere
+        if (this == original) {
+          if (this.tagName)
+            selector += this.tagName.toLowerCase();
+          if (this.classList.length != 0)
+            selector += '.' + Array.prototype.join.call(this.classList, '.');
+          if (this.hasAttributes())
+            selector += Array.from(this.attributes)
+              .filter(attr => attr.name != 'class' || attr.name != 'style')
+              .reduce((acc, curr) => acc + `[${curr.name}="${curr.value}"]`, '');
+        }
+        selector += ' > :nth-child(' + (i + 1) +')' + (result === true ? '' : result);
+        return selector;
+      } else return true;
     }
   }
 };
