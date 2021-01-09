@@ -326,6 +326,17 @@ function removeHeadExpander() {
   headExpander.style.removeProperty('transform');
   delete headExpander.dataset.trayIcon;
 }
+function animateHeadExpander(app, width, transform, cssClass, classMethod) {
+  setTimeout(function() {
+    headExpander.classList.add('transition');
+    headExpander.style.width = width;
+    headExpander.style.transform = transform;
+    setTimeout(function() {
+      app.classList[classMethod](cssClass);
+      removeHeadExpander();
+    }, 275);
+  }, 15);
+}
 
 // ------- Misc -------
 function updateClock() {
@@ -339,18 +350,6 @@ function updateClock() {
 }
 
 // ------- Helper functions -------
-function animateHeadExpander(app, width, transform, cssClass, classMethod) {
-  setTimeout(function() {
-    headExpander.classList.add('transition');
-    headExpander.style.width = width;
-    headExpander.style.transform = transform;
-    setTimeout(function() {
-      app.classList[classMethod](cssClass);
-      removeHeadExpander();
-    }, 275);
-  }, 15);
-}
-
 function parseFunctionStr(fnStr, params, paramsDefault) {
   //params: Array<String> = parameters of the new Function
   //paramsDefault: bool = whether to use `params` as the default when none were defined
