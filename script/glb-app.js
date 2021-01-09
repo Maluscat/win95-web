@@ -34,32 +34,10 @@ function handleAppMenuItems(e, app) {
     if (section) task = section.dataset.task;
   }
   if (task) {
-    const exe = appMenuTasks[task];
-    if (exe) {
+    const fn = appMenuTasks[task];
+    if (fn) {
       const menu = this.findNodeUp('menu-item');
-      let params;
-      if (exe.params) {
-        params = exe.params.map(val => {
-          if (!val) return;
-          val = val.trim();
-          switch (val) {
-            case 'app': return app;
-              break;
-            case 'this': return this;
-              break;
-            case 'menu': return menu;
-              break;
-            default:
-              return new Function('"use strict"; return ' + val)();
-          }
-        });
-      }
-      const fn = exe.path(app); //The actual function is wrapped in an anonymous function
-      if (fn == null) {
-        console.error(`Error @ handleAppMenuItems: Function '${task}' could not be found.\nIs it exposed to global scope?`);
-      } else {
-        fn.apply(this, params);
-      }
+      fn.call(this, app, menu);
       removeAppMenu(menu);
     }
   }

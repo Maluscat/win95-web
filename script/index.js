@@ -328,7 +328,6 @@ function removeHeadExpander() {
 }
 
 // ------- Misc -------
-
 function updateClock() {
   const date = new Date();
   const currentDate = clock.textContent;
@@ -351,19 +350,43 @@ function animateHeadExpander(app, width, transform, cssClass, classMethod) {
     }, 275);
   }, 15);
 }
-function splitDataEvent(str) {
-  const splitVal = str.split(',').map(val => val.trim());
-  if (splitVal.length != 2) {
-    console.error("Snippet Error: event attribute (%s) doesnt follow the pattern 'data-on=\"event, function\"'", str);
-    return false;
-  } else if (!window[splitVal[1]]) {
-    console.error("Snippet Error: specified function (%s) does not exist", splitVal[1]);
-    return false;
-  } else return {
-    type: splitVal[0],
-    fn: window[splitVal[1]]
+
+function parseFunctionStr(fnStr, params, paramsDefault) {
+  //params: Array<String> = parameters of the new Function
+  //paramsDefault: bool = whether to use `params` as the default when none were defined
+  if (Array.isArray(params) && params.length == 0) {
+    throw new Error('@ parseFunctionStr: second argument `params` may not be an empty array.');
+  }
+  const STATE_PRFX = '!app.';
+  const hasNoArguments = fnStr.indexOf('(') + 1 == fnStr.indexOf(')');
+
+  if (paramsDefault && hasNoArguments) {
+    fnStr = fnStr.replace('()', '(' + params.join(',') + ')');
+  }
+  //converting the function string to a `call` for passing `this`
+  fnStr = fnStr.replace('(', '.call(this' + (hasNoArguments && (!params || !paramsDefault) ? '' : ','));
+  fnStr = fnStr.replace(STATE_PRFX, 'appStates.get(app).');
+
+  return new Function(...params, `'use strict'; ${fnStr}`);
+}
+function parseDataEvents(node, args, callback, allowSelf) {
+  let eventNodes = node.querySelectorAll('[data-on]');
+  if (node.dataset.on && allowSelf) {
+    (eventNodes = Array.from(eventNodes)).push(node);
+  }
+  for (const eventNode of eventNodes) {
+    const events = eventNode.dataset.on
+      .split(';')
+      .map(evt => evt
+        .split(',')
+        .map(val => val.trim()));
+    for (const [type, fnStr] of events) {
+      const fn = parseFunctionStr(fnStr, args, true);
+      callback(eventNode, type, fn);
+    }
   }
 }
+
 String.prototype.computeTranslate = function(callback, indexStart) {
   return this
     .slice(indexStart || this.indexOf('translate(') + 'translate('.length, -1)

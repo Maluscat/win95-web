@@ -57,7 +57,7 @@
         </div>
       </div>
 
-      <button data-snippet="task-btn" type="button" class="btn click-btn" data-on="click, toggleTaskBtn">
+      <button data-snippet="task-btn" type="button" class="btn click-btn" data-on="click, toggleTaskBtn()">
         <div class="inner btn-inner">
           <span class="image"></span>
           <span class="text"></span>
@@ -382,12 +382,12 @@
               </div>
             </div>
             <div class="buttons">
-              <button class="btn click-btn action-btn submit" type="button">
+              <button class="btn click-btn action-btn submit" type="button" data-on="click, submitSweeperPrompt()">
                 <div class="inner btn-inner">
                   <span class="text">OK</span>
                 </div>
               </button>
-              <button class="btn click-btn action-btn cancel" type="button">
+              <button class="btn click-btn action-btn cancel" type="button" data-on="click, closeApp()">
                 <div class="inner btn-inner">
                   <span class="text">Cancel</span>
                 </div>
@@ -723,13 +723,9 @@
         for (const snip of snippets) {
           snipTemplates[snip.dataset.snippet] = snip;
 
-          let evtNodes = snip.querySelectorAll('[data-on]');
-          if (evtNodes != null && snip.dataset.on) (evtNodes = Array.from(evtNodes)).push(snip);
-          for (const evtNode of evtNodes) {
-            const data = splitDataEvent(evtNode.dataset.on);
-            if (data) snip.addSnipEventListener(evtNode == snip ? false : evtNode, data.type, data.fn);
-            delete evtNode.dataset.on;
-          }
+          parseDataEvents(snip, ['e'], (node, type, fn) => {
+            snip.addSnipEventListener(node == snip ? false : node, type, fn);
+          }, true);
 
           const expandSpots = content.querySelectorAll('[data-expand-snippet="' + snip.dataset.snippet + '"]');
           for (const expandSpot of expandSpots) {
@@ -759,12 +755,6 @@
           app.addAppChildrenEvents('.menu > .list', 'mousedown', toggleAppMenu, '> .wrapper');
           app.addAppChildrenEvents('.menu > .list .index', 'mouseup', handleAppMenuItems, null, true);
           app.addAppChildrenEvents('.resize-areas', 'mousedown', addWindowResize, null, true);
-
-          //TODO?: data event attributes
-          if (app.dataset.app == 'minesweeper:prompt') {
-            app.addAppEventListener('.body .buttons .btn.submit', 'click', submitSweeperPrompt);
-            app.addAppEventListener('.body .buttons .btn.cancel', 'click', closeApp);
-          }
         }
 
         window.addEventListener('mousedown', mouseDown);
@@ -777,6 +767,7 @@
         for (l of startItemsExpand) l.addEventListener('mousedown', startExpandableClick);
       })();
 
+      //Parsing app menu tasks and saving their functions in appMenuTasks
       (function() {
         for (const app of templateApps) {
 
@@ -788,33 +779,8 @@
 
               const task = item.dataset.task || section.dataset.task;
               if (task && !appMenuTasks[task]) {
-                let fn = task;
-                let path = '';
-                if (/^!app/.test(fn)) {
-                  path += 'appStates.get(app)';
-                  fn = fn.slice(5);
-                }
-                while (fn.includes('.')) {
-                  const index = fn.indexOf('.');
-                  const level = fn.slice(0, index);
-                  path += '.' + level;
-                  fn = fn.slice(index + 1);
-                }
-                let params;
-                if (fn.includes('(')) {
-                  const index = fn.indexOf('(');
-                  const indexClosing = fn.indexOf(')');
-                  if (indexClosing > index + 1) {
-                    params = fn.slice(index + 1, -1).split(',');
-                  }
-                  fn = fn.slice(0, index);
-                } else params = [item, app];
-
-                path += (path ? '.' : '') + fn;
-                appMenuTasks[task] = {
-                  path: new Function('app', '"use strict"; return ' + path),
-                  params: params
-                };
+                fn = parseFunctionStr(task, ['app', 'menu']);
+                appMenuTasks[task] = fn;
               }
             }
           }
@@ -827,6 +793,17 @@
           app.remove();
           delete app.dataset.template;
           appTemplates[app.dataset.app] = app;
+        }
+      })();
+
+      //Registering data event attributes
+      //Needs to be the last init loop to ensure that the apps have finished processing (e.g. data-template is removed)
+      (function() {
+        for (const app of templateApps) {
+          parseDataEvents(app, ['e', 'app'], (node, type, fn) => {
+            const selector = app.checkNode(node, true);
+            app.addAppEventListener(selector, type, fn, node);
+          });
         }
       })();
 
