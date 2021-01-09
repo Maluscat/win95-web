@@ -167,7 +167,7 @@ function switchActiveApp(newNode, newTaskBtn) {
     } else {
       newNode.classList.add('focus');
       activeApp = newNode;
-      if (newNode.style.zIndex != windowZ) newNode.style.zIndex = ++windowZ;
+      if (newNode.style.zIndex !== windowZ) newNode.style.zIndex = ++windowZ;
     }
   } else activeApp = null;
 }
