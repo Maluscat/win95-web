@@ -904,6 +904,13 @@ body {
   padding: 0.133em 0.467em;
   margin: 0 0.933em;
 }
+[data-app="explorer"] .file-wrapper .item:focus > .image > .image {
+  display: inline-block;
+}
+[data-app="explorer"] .file-wrapper .item:focus .text {
+  background-color: #000080;
+  color: white;
+}
 [data-app="explorer"] .file-wrapper .item .image {
   background-repeat: no-repeat;
   background-size: contain;
@@ -915,6 +922,20 @@ body {
   image-rendering: crisp-edges;
   width: 2.133em;
   height: 2.133em;
+}
+[data-app="explorer"] .file-wrapper .item > .image {
+  position: relative;
+  overflow: hidden;
+}
+[data-app="explorer"] .file-wrapper .item > .image > .image {
+  position: absolute;
+  top: -2.133em;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
+  z-index: 1;
+  filter: drop-shadow(0 2.133em rgba(0, 0, 128, 0.5));
 }
 [data-app="explorer"] .file-wrapper .item.folder .image {
   background-image: url(../resource/image/folder.png);

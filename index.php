@@ -58,8 +58,10 @@
       </div>
 
       <li data-snippet="explorer-item" class="item" data-on="dblclick, appStates.get(arguments[1]).explorer.openItem()" tabindex="0">
-        <span class="image"></span>
-        <span class="text"></span>
+        <span class="image">
+          <span class="image"></span>
+        </span>
+        <span class="text noselect"></span>
       </li>
 
       <button data-snippet="task-btn" type="button" class="btn click-btn" data-on="click, toggleTaskBtn()">
