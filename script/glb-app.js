@@ -107,20 +107,20 @@ function addApp(appName, initFn, blockTarget) {
   const isGhost = appClone.dataset.ghost != null;
   const states = {};
   appStates.set(appClone, states);
-  if (!isGhost) {
-    addTaskButton(appClone);
-    //automatically call the constructor (title cased app name) and add it to states[appname]
-    const constructorFn = appName.slice(0, 1).toUpperCase() + appName.slice(1);
-    if (window[constructorFn]) states[appName] = new window[constructorFn](appClone);
-  }
-  appClone.style.transform = 'translate(' + ((appIndent[0] / 15) || '0.001') + 'em, ' + ((appIndent[1] / 15) || '0.001') + 'em)';
-  content.appendChild(appClone);
   if (initFn) {
     (initFn)(appClone, states);
   }
   if (blockTarget) {
     blockApp(blockTarget, appClone, states);
   }
+  if (!isGhost) {
+    //automatically call the constructor (title cased app name) and add it to states[appname]
+    const constructorFn = appName.slice(0, 1).toUpperCase() + appName.slice(1);
+    if (window[constructorFn]) states[appName] = new window[constructorFn](appClone, states);
+    addTaskButton(appClone);
+  }
+  appClone.style.transform = 'translate(' + ((appIndent[0] / 15) || '0.001') + 'em, ' + ((appIndent[1] / 15) || '0.001') + 'em)';
+  content.appendChild(appClone);
   switchActiveApp(appClone);
   if (!isGhost) {
     appIndent[0] += 24;
@@ -246,7 +246,7 @@ Node.prototype.addAppChildrenEvents = function(selector, type, callback, modifie
 };
 
 // ------- Snippet helper functions, somewhat like app helper functions but more general -------
-function cloneSnippet(node) {
+function cloneSnippet(node, extraArgs = []) {
   if (typeof node == 'string') {
     if (!snipTemplates[node]) {
       console.error("cloneSnippet Error: No snippet found with a name of the passed string. Skipping.");
@@ -259,7 +259,9 @@ function cloneSnippet(node) {
   if (snipEvents[name]) {
     snipEvents[name].forEach(function(event, i) {
       const elem = event.selector ? cloned.querySelector(event.selector) : cloned;
-      elem.addEventListener(event.type, event.fn);
+      elem.addEventListener(event.type, function(e) {
+        event.fn.apply(this, [e, ...extraArgs]);
+      });
     });
   }
   cloned.classList.add(cloned.dataset.snippet);
