@@ -356,17 +356,22 @@ function parseFunctionStr(fnStr, params, paramsDefault) {
   if (Array.isArray(params) && params.length == 0) {
     throw new Error('@ parseFunctionStr: second argument `params` may not be an empty array.');
   }
-  const STATE_PRFX = '!app.';
-  const hasNoArguments = fnStr.indexOf('(') + 1 == fnStr.indexOf(')');
+  const lastOpenParen = fnStr.lastIndexOf('(');
+  const hasNoArguments = lastOpenParen + 1 == fnStr.lastIndexOf(')');
 
+  fnStr = fnStr.trim();
   if (paramsDefault && hasNoArguments) {
-    fnStr = fnStr.replace('()', '(' + params.join(',') + ')');
+    fnStr = replaceAtIndex(lastOpenParen, fnStr, '(' + params.join(','));
   }
   //converting the function string to a `call` for passing `this`
-  fnStr = fnStr.replace('(', '.call(this' + (hasNoArguments && (!params || !paramsDefault) ? '' : ','));
-  fnStr = fnStr.replace(STATE_PRFX, 'appStates.get(app).');
+  fnStr = replaceAtIndex(lastOpenParen, fnStr, '.call(this' + (hasNoArguments && (!params || !paramsDefault) ? '' : ','));
+  fnStr = fnStr.replace('!app.', 'appStates.get(app).');
 
   return new Function(...params, `'use strict'; ${fnStr}`);
+
+  function replaceAtIndex(idx, source, target) {
+    return source.slice(0, idx) + target + source.slice(idx + 1);
+  }
 }
 function parseDataEvents(node, args, callback, allowSelf) {
   let eventNodes = node.querySelectorAll('[data-on]');
