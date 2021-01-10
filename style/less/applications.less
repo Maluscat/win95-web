@@ -107,11 +107,27 @@
   .body {
     flex: 1;
     .border.around(white, @50);
-    .file-wrapper {
-      background-color: white;
-      width: 100%;
-      height: 100%;
-      .border.around(@87, black);
+  }
+  .file-wrapper {
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    .border.around(@87, black);
+    .item {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      padding: .133em .467em; //7px
+      margin: 0 .933em; //14px
+      .image {
+        .bg-img-props();
+        .pixel-image();
+        width: 2.133em;
+        height: 2.133em;
+      }
+      &.folder .image {
+        .bg-img('folder');
+      }
     }
   }
 }

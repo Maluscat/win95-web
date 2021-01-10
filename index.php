@@ -57,6 +57,11 @@
         </div>
       </div>
 
+      <li data-snippet="explorer-item" class="item" data-on="dblclick, appStates.get(arguments[1]).explorer.openItem()" tabindex="0">
+        <span class="image"></span>
+        <span class="text"></span>
+      </li>
+
       <button data-snippet="task-btn" type="button" class="btn click-btn" data-on="click, toggleTaskBtn()">
         <div class="inner btn-inner">
           <span class="image"></span>
@@ -187,7 +192,10 @@
             </ul>
           </div>
           <div class="body">
-            <div class="file-wrapper"></div>
+            <div class="file-wrapper">
+              <ul class="items">
+              </ul>
+            </div>
           </div>
         </div>
         <div data-expand-snippet="resize-areas"></div>
@@ -702,18 +710,25 @@
             appTitle.dataset.trayIcon = icon;
             sheet.insertRule(`
               [data-tray-icon="${icon}"] .image {
-                background-image: url('resource/image/icon/tray-icon/${icon}.png');
-              }
-              `, 0);
+                background-image: url('./resource/image/icon/tray-icon/${icon}.png');
+              }`, 0
+            );
           }
           if (item.includes('menu')) {
             const startEntry = startWindow.querySelector('li[data-execute="' + icon + '"]');
             if (startEntry) startEntry.dataset.menuIcon = icon;
             sheet.insertRule(`
               [data-menu-icon="${icon}"] .image {
-                background-image: url('resource/image/icon/menu-icon/${icon}.png');
-              }
-              `, 0);
+                background-image: url('./resource/image/icon/menu-icon/${icon}.png');
+              }`, 0
+            );
+          }
+          if (item.includes('app')) {
+            sheet.insertRule(`
+              [data-app-icon="${icon}"] .image {
+                background-image: url('./resource/image/icon/app-icon/${icon}.png');
+              }`, 0
+            );
           }
         }
       })();
@@ -815,8 +830,6 @@
       //     }, 125 * i);
       //   }
       // })();
-
-      // addApp('minesweeper');
 
       updateClock();
       setInterval(updateClock, 1000);
