@@ -37,11 +37,13 @@ function Explorer(app, states) {
 
 
   function openItem() {
-    const itemName = this.querySelector('.text').textContent;
-    addApp('explorer', function(newApp, newStates) {
-      const newPath = Array.from(path);
-      newPath.push(itemName);
-      newStates.path = newPath;
-    });
+    if (this.classList.contains('folder')) {
+      const itemName = this.querySelector('.text').textContent;
+      addApp('explorer', function(newApp, newStates) {
+        const newPath = Array.from(path);
+        newPath.push(itemName);
+        newStates.path = newPath;
+      });
+    }
   }
 }
