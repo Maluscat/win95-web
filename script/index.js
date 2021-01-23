@@ -1,4 +1,6 @@
 'use strict';
+const DROPOUT_DELAY = 375;
+
 const sweeperImgs = {};
 const snipTemplates = {};
 const snipEvents = {};
@@ -8,7 +10,6 @@ const appMenuTasks = {};
 const appStates = new Map();
 const taskBtnLink = new Map();
 
-const startDropoutTime = 375;
 const errorCoords = [
   Math.floor(Math.random() * 15 + 15),
   Math.floor(Math.random() * 15 + 15)
@@ -79,31 +80,32 @@ function toggleStartMenu(action) {
 }
 function startExpandableClick(e) {
   if (e.button == 0) {
-    const item = this.parentNode;
-    if (item.classList.contains('active')) {
-      const postActive = item.querySelector('li.active');
+    const li = this.parentNode;
+    if (li.classList.contains('active')) {
+      const postActive = li.querySelector('li.active');
       if (postActive) removeStartDropouts(postActive.parentNode, false);
     } else {
-      item.classList.add('active');
-      item.classList.add('expanded');
+      li.classList.add('active');
+      li.classList.add('expanded');
     }
   }
 }
 function handleStartItems() {
-  const item = this;
-  if (!item.classList.contains('active')) {
-    removeStartDropouts(item.parentNode, true);
+  const li = this;
+  if (!li.classList.contains('active')) {
+    removeStartDropouts(li.parentNode, true);
   }
-  if (item.classList.contains('expandable')) {
-    startEventNode = this;
-    this.addEventListener('mouseleave', clearStartItemMeta);
-    itemLeaveTimeout = setTimeout(function() {
-      startEventNode.removeEventListener('mouseleave', clearStartItemMeta);
-    }, startDropoutTime);
-    startItemTimeout = setTimeout(function() {
-      item.classList.add('active');
-      item.classList.add('expanded');
-    }, startDropoutTime);
+  if (li.classList.contains('expandable')) {
+    li.addEventListener('mouseleave', clearStartItemMeta);
+
+    itemLeaveTimeout = setTimeout(() => {
+      li.removeEventListener('mouseleave', clearStartItemMeta);
+    }, DROPOUT_DELAY);
+
+    startItemTimeout = setTimeout(() => {
+      li.classList.add('active');
+      li.classList.add('expanded');
+    }, DROPOUT_DELAY);
   }
 }
 function clearStartItemMeta() {
@@ -111,20 +113,16 @@ function clearStartItemMeta() {
   startEventNode.removeEventListener('mouseleave', clearStartItemMeta);
   clearTimeout(itemLeaveTimeout);
 }
-function removeStartDropouts(target, withTransition) {
+function removeStartDropouts(target, useDelay) {
   const activeItems = target.querySelectorAll('li.active');
-  //Very interesting Javascript mechanic: `item` has to be initialized with either const or let.
-  //No variable keyword defaults to var - a singular variable which overwrites the last value with the current one.
-  //That way, `item` is always the last assigned variable (here: the last item of activeItems) after the loop finishes
-  //And the timeout executes long after the loop has finished
-  for (const item of activeItems) {
-    item.classList.remove('active');
-    if (withTransition) {
-      setTimeout(function() {
-        item.classList.remove('expanded');
-      }, startDropoutTime);
+  for (const li of activeItems) {
+    li.classList.remove('active');
+    if (useDelay) {
+      setTimeout(() => {
+        li.classList.remove('expanded');
+      }, DROPOUT_DELAY);
     } else {
-      item.classList.remove('expanded');
+      li.classList.remove('expanded');
     }
   }
 }
