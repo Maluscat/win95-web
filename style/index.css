@@ -330,13 +330,13 @@ body {
   position: relative;
   white-space: nowrap;
 }
-.window .menu .menu-item .wrapper {
+.window .menu .menu-item > .wrapper {
   padding: 0.067em 0.4em;
 }
-.window .menu .menu-item.active .wrapper {
+.window .menu .menu-item.active > .wrapper {
   background-color: #000080;
 }
-.window .menu .menu-item.active .wrapper .text {
+.window .menu .menu-item.active > .wrapper .text {
   color: white;
 }
 .window .menu .menu-item.active .item-list {
@@ -559,6 +559,17 @@ body {
   image-rendering: crisp-edges;
   width: 4px;
 }
+.item-list ul li.expandable .window-wrapper {
+  display: none;
+  z-index: 1;
+  right: 0.214em;
+  top: -0.214em;
+  transform: translateX(100%);
+}
+.item-list ul li.expandable .window-wrapper .window {
+  padding-top: 0.143em;
+  padding-bottom: 0.143em;
+}
 /*------------ Global Input ------------*/
 .input-wrapper {
   width: 4em;
@@ -744,26 +755,12 @@ body {
 #start-window .body li[data-menu-icon] .image {
   margin-right: 0.429em;
 }
-#start-window .body li .window-wrapper {
-  display: none;
-  z-index: 1;
-  right: 0.214em;
-  top: -0.286em;
-  transform: translateX(100%);
-}
-#start-window .body li .window-wrapper .window {
-  padding-top: 0.143em;
-  padding-bottom: 0.143em;
-}
 #first-list > .section {
   padding: 0;
 }
 #first-list > .section > li:not(.expandable),
 #first-list > .section > li.expandable > .wrapper {
   padding: 0.571em 2.786em 0.643em 0.667em;
-}
-#first-list > .section > li > .window-wrapper {
-  top: -0.214em;
 }
 /*------------ Minesweeper ------------*/
 [data-app="minesweeper"] .game-window {

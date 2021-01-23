@@ -292,11 +292,11 @@ body {
     .menu-item {
       position: relative;
       white-space: nowrap;
-      .wrapper {
+      > .wrapper {
         padding: .067em .4em;
       }
       &.active {
-        .wrapper {
+        > .wrapper {
           background-color: @blue;
           .text {
             color: white;
@@ -504,6 +504,17 @@ body {
           .pixel-image();
           width: 4px;
         }
+        .window-wrapper {
+          display: none;
+          z-index: 1;
+          right: .214em;
+          top: -.214em;
+          transform: translateX(100%);
+          .window {
+            padding-top: .143em;
+            padding-bottom: .143em;
+          }
+        }
       }
     }
   }
@@ -665,17 +676,6 @@ body {
           margin-right: .429em;
         }
       }
-      .window-wrapper {
-        display: none;
-        z-index: 1;
-        right: .214em;
-        top: -.286em;
-        transform: translateX(100%);
-        .window {
-          padding-top: .143em;
-          padding-bottom: .143em;
-        }
-      }
     }
   }
 }
@@ -685,9 +685,6 @@ body {
   > li {
     &:not(.expandable), &.expandable > .wrapper {
       padding: .571em 2.786em .643em .667em;
-    }
-    > .window-wrapper {
-      top: -.214em;
     }
   }
 }
