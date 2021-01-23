@@ -660,28 +660,25 @@
           if (item.includes('tray')) {
             const appTitle = content.querySelector('[data-app="' + icon + '"] .header .title');
             appTitle.dataset.trayIcon = icon;
-            sheet.insertRule(`
-              [data-tray-icon="${icon}"] .image {
-                background-image: url('./resource/image/icon/tray-icon/${icon}.png');
-              }`, 0
-            );
+            addIconRule('tray', icon);
           }
           if (item.includes('menu')) {
-            const startEntry = startWindow.querySelector('li[data-execute="' + icon + '"]');
-            if (startEntry) startEntry.dataset.menuIcon = icon;
-            sheet.insertRule(`
-              [data-menu-icon="${icon}"] .image {
-                background-image: url('./resource/image/icon/menu-icon/${icon}.png');
-              }`, 0
-            );
+            const startExecute = startWindow.querySelector('li[data-execute="' + icon + '"]');
+            if (startExecute) startExecute.dataset.menuIcon = icon;
+            addIconRule('menu', icon);
           }
           if (item.includes('app')) {
-            sheet.insertRule(`
-              [data-app-icon="${icon}"] .image {
-                background-image: url('./resource/image/icon/app-icon/${icon}.png');
-              }`, 0
-            );
+            addIconRule('app', icon);
           }
+        }
+
+        function addIconRule(type, icon) {
+          sheet.insertRule(
+            `[data-${type}-icon="${icon}"] .image {
+              background-image: url('./resource/image/icon/${type}-icon/${icon}.png');
+            }`,
+            0
+          );
         }
       })();
 
