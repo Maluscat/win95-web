@@ -698,9 +698,6 @@
           for (const expandSpot of expandSpots) {
             const clone = cloneSnippet(snip);
             expandSpot.parentNode.replaceChild(clone, expandSpot);
-            clone.classList.add(clone.dataset.snippet);
-            delete clone.dataset.snippet;
-            delete clone.dataset.expandSnippet;
           }
 
           snip.remove();
