@@ -96,10 +96,11 @@ function handleStartItems() {
     removeStartDropouts(li.parentNode, true);
   }
   if (li.classList.contains('expandable')) {
-    li.addEventListener('mouseleave', clearStartItemMeta);
+    startEventNode = li;
+    startEventNode.addEventListener('mouseleave', clearStartItemMeta);
 
     itemLeaveTimeout = setTimeout(() => {
-      li.removeEventListener('mouseleave', clearStartItemMeta);
+      startEventNode.removeEventListener('mouseleave', clearStartItemMeta);
     }, DROPOUT_DELAY);
 
     startItemTimeout = setTimeout(() => {
