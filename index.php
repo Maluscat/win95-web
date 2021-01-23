@@ -570,7 +570,6 @@
 
     </div>
 
-    <script src="script/filesystem.js"></script>
     <script src="script/index.js"></script>
     <script src="script/glb-app.js"></script>
     <?php
