@@ -147,7 +147,7 @@ body {
     margin-right: .2em;
   }
 }
-#start-window .body .item,
+#start-window .body li,
 #header-expander .header .title,
 .window-wrapper .header .title,
 .task-btn {
@@ -295,11 +295,6 @@ body {
       .wrapper {
         padding: .067em .4em;
       }
-      .menu-dropdown {
-        left: 0;
-        z-index: 1;
-        display: none;
-      }
       &.active {
         .wrapper {
           background-color: @blue;
@@ -307,69 +302,8 @@ body {
             color: white;
           }
         }
-        .menu-dropdown {
+        .item-list {
           display: block;
-        }
-      }
-      .index {
-        .section {
-          border-top: .067em solid white;
-          border-bottom: .067em solid @50;
-          padding: .2em 0;
-          &:first-child {
-            padding-top: 0;
-            border-top: none;
-          }
-          &:last-child {
-            padding-bottom: 0;
-            border-bottom: none;
-          }
-        }
-        li {
-          @padding-left: 1.267em;
-          padding: 0.067em 1.2em 0.067em @padding-left;
-          &:hover {
-            background-color: @blue;
-            color: white;
-          }
-          &.disabled {
-            color: @50;
-            text-shadow: 1px 1px white;
-            &:hover {
-              text-shadow: none;
-            }
-          }
-          &.shortcut {
-            display: flex;
-            .text {
-              flex: 1;
-            }
-          }
-          &:not(.shortcut) {
-            padding-right: 3em;
-          }
-          &.checkmark {
-            position: relative;
-            &::before {
-              position: absolute;
-              top: .2em;
-              left: 0;
-              bottom: 0;
-              width: @padding-left - .133em;
-              .bg-img('menu-checkmark');
-              .bg-img-props(.467em);
-              .pixel-image();
-            }
-            &.enabled {
-              &::before {
-                content: '';
-              }
-              &:hover::before {
-                -webkit-filter: invert(1);
-                filter: invert(1);
-              }
-            }
-          }
         }
       }
     }
@@ -472,6 +406,105 @@ body {
       padding: 0 .4em 0 .6em;
       flex: 1;
       text-align: center;
+    }
+  }
+}
+
+/*------------ Global Item Dropdown ------------*/
+.item-list {
+  left: 0;
+  z-index: 1;
+  display: none;
+  ul {
+    .section {
+      border-top: .067em solid white;
+      border-bottom: .067em solid @50;
+      padding: .2em 0;
+      &:first-child {
+        padding-top: 0;
+        border-top: none;
+      }
+      &:last-child {
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+    }
+    li {
+      @padding-left: 1.267em;
+      white-space: nowrap;
+      //li.expandable's text is wrapper in a .wrapper, li's isn't
+      &:not(.expandable), &.expandable > .wrapper {
+        padding: 0.067em 1.2em 0.067em @padding-left;
+      }
+      &:hover, &.active {
+        background-color: @blue;
+        &:not(.expandable), &.expandable > .wrapper {
+          color: white;
+        }
+      }
+      &.disabled {
+        color: @50;
+        text-shadow: 1px 1px white;
+        &:hover {
+          text-shadow: none;
+        }
+      }
+      &.shortcut {
+        display: flex;
+        .text {
+          flex: 1;
+        }
+      }
+      &:not(.shortcut) {
+        padding-right: 3em;
+      }
+      &.checkmark {
+        position: relative;
+        &::before {
+          position: absolute;
+          top: .2em;
+          left: 0;
+          bottom: 0;
+          width: @padding-left - .133em;
+          .bg-img('menu-checkmark');
+          .bg-img-props(.467em);
+          .pixel-image();
+        }
+        &.enabled {
+          &::before {
+            content: '';
+          }
+          &:hover::before {
+            -webkit-filter: invert(1);
+            filter: invert(1);
+          }
+        }
+      }
+      &.expandable {
+        position: relative;
+        &.expanded {
+          > .window-wrapper {
+            display: block !important;
+          }
+        }
+        &:hover, &.active {
+          &::after {
+            -webkit-filter: invert(1);
+            filter: invert(1);
+          }
+        }
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          right: .429em; //6px with the applied font-size of 14px
+          .bg-img('expand-arrow');
+          .bg-img-props(4px);
+          .pixel-image();
+          width: 4px;
+        }
+      }
     }
   }
 }
@@ -621,69 +654,40 @@ body {
     display: flex;
     flex-direction: column;
     overflow: visible;
-    .section-main {
-      border-bottom: .071em solid @50;
-    }
-    .section-bottom {
-      border-top: .071em solid white;
-    }
-    .item {
-      position: relative;
-      .wrapper {
-        display: flex;
-        white-space: nowrap;
-        padding: .571em 2.786em .643em .667em;
-      }
-      .image {
-        margin-right: .429em;
-      }
-      &:hover, &.active {
-        > .wrapper {
-          background-color: @blue;
-          color: white;
-        }
-      }
-      &.expandable {
-        &.enabled {
-          > .menu-dropout {
-            display: block;
-          }
-        }
-        &:hover, &.active {
-          &::after {
-            -webkit-filter: invert(1);
-            filter: invert(1);
-          }
-        }
-        &::after {
-          content: '';
-          position: absolute;
-          top: .214em;
-          bottom: 0;
-          right: .429em;
-          .bg-img('expand-arrow');
-          .bg-img-props(4px);
-          .pixel-image();
-          width: 4px;
-        }
-      }
-    }
-    .menu-dropout {
-      display: none;
-      z-index: 1;
-      right: .214em;
-      top: -.214em;
-      transform: translateX(100%);
-      .window {
-        padding-top: .143em;
-        padding-bottom: .143em;
-      }
-      .item .wrapper {
+    li {
+      padding-right: 0;
+      &:not(.expandable), &.expandable > .wrapper {
         padding: .143em 1.786em .214em .429em;
       }
-      .menu-dropout {
-        top: -.286em;
+      &[data-menu-icon] {
+        display: flex;
+        .image {
+          margin-right: .429em;
+        }
       }
+      .window-wrapper {
+        display: none;
+        z-index: 1;
+        right: .214em;
+        top: -.286em;
+        transform: translateX(100%);
+        .window {
+          padding-top: .143em;
+          padding-bottom: .143em;
+        }
+      }
+    }
+  }
+}
+//first start menu `ul`, which has different styles than other item lists (e.g. more padding)
+#first-list > .section {
+  padding: 0;
+  > li {
+    &:not(.expandable), &.expandable > .wrapper {
+      padding: .571em 2.786em .643em .667em;
+    }
+    > .window-wrapper {
+      top: -.214em;
     }
   }
 }

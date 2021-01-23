@@ -102,7 +102,7 @@
                 <div class="wrapper">
                   <span class="text">File</span>
                 </div>
-                <div class="window-wrapper menu-dropdown">
+                <div class="window-wrapper item-list">
                   <div class="window">
                     <ul class="index">
                       <div class="section">
@@ -130,7 +130,7 @@
                 <div class="wrapper">
                   <span class="text">Edit</span>
                 </div>
-                <div class="window-wrapper menu-dropdown">
+                <div class="window-wrapper item-list">
                   <div class="window">
                     <ul class="index">
                       <div class="section">
@@ -166,7 +166,7 @@
                 <div class="wrapper">
                   <span class="text">View</span>
                 </div>
-                <div class="window-wrapper menu-dropdown">
+                <div class="window-wrapper item-list">
                   <div class="window">
                     <ul class="index">
                       <div class="section">
@@ -234,7 +234,7 @@
                 <div class="wrapper">
                   <span class="text">File</span>
                 </div>
-                <div class="window-wrapper menu-dropdown">
+                <div class="window-wrapper item-list">
                   <div class="window">
                     <ul class="index">
                       <div class="section">
@@ -251,7 +251,7 @@
                 <div class="wrapper">
                   <span class="text">Edit</span>
                 </div>
-                <div class="window-wrapper menu-dropdown">
+                <div class="window-wrapper item-list">
                   <div class="window">
                     <ul class="index">
                       <div class="section">
@@ -266,7 +266,7 @@
                 <div class="wrapper">
                   <span class="text">Search</span>
                 </div>
-                <div class="window-wrapper menu-dropdown">
+                <div class="window-wrapper item-list">
                   <div class="window">
                     <ul class="index">
                       <div class="section">
@@ -281,7 +281,7 @@
                 <div class="wrapper">
                   <span class="text">Help</span>
                 </div>
-                <div class="window-wrapper menu-dropdown">
+                <div class="window-wrapper item-list">
                   <div class="window">
                     <ul class="index">
                       <div class="section">
@@ -438,7 +438,7 @@
                 <div class="wrapper">
                   <span class="text">Game</span>
                 </div>
-                <div class="window-wrapper menu-dropdown">
+                <div class="window-wrapper item-list">
                   <div class="window">
                     <ul class="index">
                       <div class="section">
@@ -499,102 +499,52 @@
       <div class="taskbar-wrapper">
         <div id="taskbar">
           <div class="start-menu">
-            <div class="window-wrapper" id="start-window">
+            <div class="window-wrapper item-list" id="start-window">
               <div class="window">
                 <aside class="brand">
                   <span class="image"></span>
                 </aside>
                 <div class="body">
-                  <div class="section-main">
-                    <ul>
+                  <ul id="first-list">
+                    <div class="section">
                       <li class="item expandable">
-                        <div class="wrapper">
-                          <span class="image"></span>
-                          <span class="text">Programs</span>
-                        </div>
-                        <div class="window-wrapper menu-dropout">
+                        <div class="wrapper">Programs</div>
+                        <div class="window-wrapper">
                           <div class="window">
                             <ul>
                               <li class="item expandable">
-                                <div class="wrapper">
-                                  <span class="image"></span>
-                                  <span class="text">Accessories</span>
-                                </div>
-                                <div class="window-wrapper menu-dropout">
+                                <div class="wrapper">Accessories</div>
+                                <div class="window-wrapper">
                                   <div class="window">
                                     <ul>
-                                      <li class="item" data-execute="minesweeper">
-                                        <div class="wrapper">
-                                          <span class="image"></span>
-                                          <span class="text">Minesweeper</span>
-                                        </div>
+                                      <li data-execute="minesweeper">
+                                        <span class="image"></span>
+                                        <span class="text">Minesweeper</span>
                                       </li>
-                                      <li class="item" data-execute="notepad">
-                                        <div class="wrapper">
-                                          <span class="image"></span>
-                                          <span class="text">Notepad</span>
-                                        </div>
+                                      <li data-execute="notepad">
+                                        <span class="image"></span>
+                                        <span class="text">Notepad</span>
                                       </li>
                                     </ul>
                                   </div>
                                 </div>
                               </li>
-                              <li class="item">
-                                <div class="wrapper">
-                                  <span class="image"></span>
-                                  <span class="text">Startup</span>
-                                </div>
-                              </li>
-                              <li class="item">
-                                <div class="wrapper">
-                                  <span class="image"></span>
-                                  <span class="text">MS-DOS Prompt</span>
-                                </div>
-                              </li>
-                              <li class="item">
-                                <div class="wrapper">
-                                  <span class="image"></span>
-                                  <span class="text">The Microsoft Network</span>
-                                </div>
-                              </li>
-                              <li class="item">
-                                <div class="wrapper">
-                                  <span class="image"></span>
-                                  <span class="text">Windows Explorer</span>
-                                </div>
-                              </li>
+                              <li>Startup</li>
+                              <li>MS-DOS Prompt</li>
+                              <li>The Microsoft Network</li>
+                              <li>Windows Explorer</li>
                             </ul>
                           </div>
                         </div>
                       </li>
-                      <li class="item">
-                        <div class="wrapper">
-                          <span class="image"></span>
-                          <span class="text">Documents</span>
-                        </div>
-                      </li>
-                      <li class="item">
-                        <div class="wrapper">
-                          <span class="image"></span>
-                          <span class="text">Settings</span>
-                        </div>
-                      </li>
-                      <li class="item">
-                        <div class="wrapper">
-                          <span class="image"></span>
-                          <span class="text">Disclaimer</span>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="section-bottom">
-                    <div class="item">
-                      <div class="wrapper">
-                        <span class="image"></span>
-                        <span class="text">Shut Down</span>
-                      </div>
+                      <li>Documents</li>
+                      <li>Settings</li>
+                      <li>Disclaimer</li>
                     </div>
-                  </div>
+                    <div class="section">
+                      <li>Shut Down</li>
+                    </div>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -649,9 +599,9 @@
 
       const startBtn = document.getElementById('start-btn');
       const startWindow = document.getElementById('start-window');
-      const firstStartList = startWindow.querySelector('.section-main > ul');
-      const startItems = firstStartList.querySelectorAll('.item .wrapper');
-      const startItemsExpand = firstStartList.querySelectorAll('.item.expandable > .wrapper');
+      const firstStartList = document.getElementById('first-list');
+      const startItems = firstStartList.querySelectorAll('li');
+      const startItemsExpand = firstStartList.querySelectorAll('li.expandable .wrapper');
 
       //Preloading icons for the canvas of Minesweeper
       (function() {

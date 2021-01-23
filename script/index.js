@@ -81,16 +81,16 @@ function startExpandableClick(e) {
   if (e.button == 0) {
     const item = this.parentNode;
     if (item.classList.contains('active')) {
-      const postActive = item.querySelector('.item.active');
+      const postActive = item.querySelector('li.active');
       if (postActive) removeStartDropouts(postActive.parentNode, false);
     } else {
       item.classList.add('active');
-      item.classList.add('enabled');
+      item.classList.add('expanded');
     }
   }
 }
 function handleStartItems() {
-  const item = this.parentNode;
+  const item = this;
   if (!item.classList.contains('active')) {
     removeStartDropouts(item.parentNode, true);
   }
@@ -102,7 +102,7 @@ function handleStartItems() {
     }, startDropoutTime);
     startItemTimeout = setTimeout(function() {
       item.classList.add('active');
-      item.classList.add('enabled');
+      item.classList.add('expanded');
     }, startDropoutTime);
   }
 }
@@ -112,7 +112,7 @@ function clearStartItemMeta() {
   clearTimeout(itemLeaveTimeout);
 }
 function removeStartDropouts(target, withTransition) {
-  const activeItems = target.querySelectorAll('.item.active');
+  const activeItems = target.querySelectorAll('li.active');
   //Very interesting Javascript mechanic: `item` has to be initialized with either const or let.
   //No variable keyword defaults to var - a singular variable which overwrites the last value with the current one.
   //That way, `item` is always the last assigned variable (here: the last item of activeItems) after the loop finishes
@@ -121,10 +121,10 @@ function removeStartDropouts(target, withTransition) {
     item.classList.remove('active');
     if (withTransition) {
       setTimeout(function() {
-        item.classList.remove('enabled');
+        item.classList.remove('expanded');
       }, startDropoutTime);
     } else {
-      item.classList.remove('enabled');
+      item.classList.remove('expanded');
     }
   }
 }

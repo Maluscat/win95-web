@@ -151,7 +151,7 @@ body {
 .task-btn .image {
   margin-right: 0.2em;
 }
-#start-window .body .item .image,
+#start-window .body li .image,
 #header-expander .header .title .image,
 .window-wrapper .header .title .image,
 .task-btn .image {
@@ -333,81 +333,14 @@ body {
 .window .menu .menu-item .wrapper {
   padding: 0.067em 0.4em;
 }
-.window .menu .menu-item .menu-dropdown {
-  left: 0;
-  z-index: 1;
-  display: none;
-}
 .window .menu .menu-item.active .wrapper {
   background-color: #000080;
 }
 .window .menu .menu-item.active .wrapper .text {
   color: white;
 }
-.window .menu .menu-item.active .menu-dropdown {
+.window .menu .menu-item.active .item-list {
   display: block;
-}
-.window .menu .menu-item .index .section {
-  border-top: 0.067em solid white;
-  border-bottom: 0.067em solid hsl(0, 0%, 50%);
-  padding: 0.2em 0;
-}
-.window .menu .menu-item .index .section:first-child {
-  padding-top: 0;
-  border-top: none;
-}
-.window .menu .menu-item .index .section:last-child {
-  padding-bottom: 0;
-  border-bottom: none;
-}
-.window .menu .menu-item .index li {
-  padding: 0.067em 1.2em 0.067em 1.267em;
-}
-.window .menu .menu-item .index li:hover {
-  background-color: #000080;
-  color: white;
-}
-.window .menu .menu-item .index li.disabled {
-  color: hsl(0, 0%, 50%);
-  text-shadow: 1px 1px white;
-}
-.window .menu .menu-item .index li.disabled:hover {
-  text-shadow: none;
-}
-.window .menu .menu-item .index li.shortcut {
-  display: flex;
-}
-.window .menu .menu-item .index li.shortcut .text {
-  flex: 1;
-}
-.window .menu .menu-item .index li:not(.shortcut) {
-  padding-right: 3em;
-}
-.window .menu .menu-item .index li.checkmark {
-  position: relative;
-}
-.window .menu .menu-item .index li.checkmark::before {
-  position: absolute;
-  top: 0.2em;
-  left: 0;
-  bottom: 0;
-  width: 1.134em;
-  background-image: url(../resource/image/menu-checkmark.png);
-  background-repeat: no-repeat;
-  background-size: 0.467em;
-  background-position: center;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: optimizespeed;
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-}
-.window .menu .menu-item .index li.checkmark.enabled::before {
-  content: '';
-}
-.window .menu .menu-item .index li.checkmark.enabled:hover::before {
-  -webkit-filter: invert(1);
-  filter: invert(1);
 }
 .window .body {
   overflow: hidden;
@@ -519,6 +452,112 @@ body {
   padding: 0 0.4em 0 0.6em;
   flex: 1;
   text-align: center;
+}
+/*------------ Global Item Dropdown ------------*/
+.item-list {
+  left: 0;
+  z-index: 1;
+  display: none;
+}
+.item-list ul .section {
+  border-top: 0.067em solid white;
+  border-bottom: 0.067em solid hsl(0, 0%, 50%);
+  padding: 0.2em 0;
+}
+.item-list ul .section:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+.item-list ul .section:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+.item-list ul li {
+  white-space: nowrap;
+}
+.item-list ul li:not(.expandable),
+.item-list ul li.expandable > .wrapper {
+  padding: 0.067em 1.2em 0.067em 1.267em;
+}
+.item-list ul li:hover,
+.item-list ul li.active {
+  background-color: #000080;
+}
+.item-list ul li:hover:not(.expandable),
+.item-list ul li.active:not(.expandable),
+.item-list ul li:hover.expandable > .wrapper,
+.item-list ul li.active.expandable > .wrapper {
+  color: white;
+}
+.item-list ul li.disabled {
+  color: hsl(0, 0%, 50%);
+  text-shadow: 1px 1px white;
+}
+.item-list ul li.disabled:hover {
+  text-shadow: none;
+}
+.item-list ul li.shortcut {
+  display: flex;
+}
+.item-list ul li.shortcut .text {
+  flex: 1;
+}
+.item-list ul li:not(.shortcut) {
+  padding-right: 3em;
+}
+.item-list ul li.checkmark {
+  position: relative;
+}
+.item-list ul li.checkmark::before {
+  position: absolute;
+  top: 0.2em;
+  left: 0;
+  bottom: 0;
+  width: 1.134em;
+  background-image: url(../resource/image/menu-checkmark.png);
+  background-repeat: no-repeat;
+  background-size: 0.467em;
+  background-position: center;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimizespeed;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+.item-list ul li.checkmark.enabled::before {
+  content: '';
+}
+.item-list ul li.checkmark.enabled:hover::before {
+  -webkit-filter: invert(1);
+  filter: invert(1);
+}
+.item-list ul li.expandable {
+  position: relative;
+}
+.item-list ul li.expandable.expanded > .window-wrapper {
+  display: block !important;
+}
+.item-list ul li.expandable:hover::after,
+.item-list ul li.expandable.active::after {
+  -webkit-filter: invert(1);
+  filter: invert(1);
+}
+.item-list ul li.expandable::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0.429em;
+  background-image: url(../resource/image/expand-arrow.png);
+  background-repeat: no-repeat;
+  background-size: 4px;
+  background-position: center;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimizespeed;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  width: 4px;
 }
 /*------------ Global Input ------------*/
 .input-wrapper {
@@ -692,69 +731,39 @@ body {
   flex-direction: column;
   overflow: visible;
 }
-#start-window .body .section-main {
-  border-bottom: 0.071em solid hsl(0, 0%, 50%);
+#start-window .body li {
+  padding-right: 0;
 }
-#start-window .body .section-bottom {
-  border-top: 0.071em solid white;
+#start-window .body li:not(.expandable),
+#start-window .body li.expandable > .wrapper {
+  padding: 0.143em 1.786em 0.214em 0.429em;
 }
-#start-window .body .item {
-  position: relative;
-}
-#start-window .body .item .wrapper {
+#start-window .body li[data-menu-icon] {
   display: flex;
-  white-space: nowrap;
-  padding: 0.571em 2.786em 0.643em 0.667em;
 }
-#start-window .body .item .image {
+#start-window .body li[data-menu-icon] .image {
   margin-right: 0.429em;
 }
-#start-window .body .item:hover > .wrapper,
-#start-window .body .item.active > .wrapper {
-  background-color: #000080;
-  color: white;
-}
-#start-window .body .item.expandable.enabled > .menu-dropout {
-  display: block;
-}
-#start-window .body .item.expandable:hover::after,
-#start-window .body .item.expandable.active::after {
-  -webkit-filter: invert(1);
-  filter: invert(1);
-}
-#start-window .body .item.expandable::after {
-  content: '';
-  position: absolute;
-  top: 0.214em;
-  bottom: 0;
-  right: 0.429em;
-  background-image: url(../resource/image/expand-arrow.png);
-  background-repeat: no-repeat;
-  background-size: 4px;
-  background-position: center;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: optimizespeed;
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-  width: 4px;
-}
-#start-window .body .menu-dropout {
+#start-window .body li .window-wrapper {
   display: none;
   z-index: 1;
   right: 0.214em;
-  top: -0.214em;
+  top: -0.286em;
   transform: translateX(100%);
 }
-#start-window .body .menu-dropout .window {
+#start-window .body li .window-wrapper .window {
   padding-top: 0.143em;
   padding-bottom: 0.143em;
 }
-#start-window .body .menu-dropout .item .wrapper {
-  padding: 0.143em 1.786em 0.214em 0.429em;
+#first-list > .section {
+  padding: 0;
 }
-#start-window .body .menu-dropout .menu-dropout {
-  top: -0.286em;
+#first-list > .section > li:not(.expandable),
+#first-list > .section > li.expandable > .wrapper {
+  padding: 0.571em 2.786em 0.643em 0.667em;
+}
+#first-list > .section > li > .window-wrapper {
+  top: -0.214em;
 }
 /*------------ Minesweeper ------------*/
 [data-app="minesweeper"] .game-window {
