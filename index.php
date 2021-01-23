@@ -511,12 +511,12 @@
                         <div class="wrapper">Programs</div>
                         <div class="window-wrapper">
                           <div class="window">
-                            <ul>
+                            <ul class="index">
                               <li class="item expandable">
                                 <div class="wrapper">Accessories</div>
                                 <div class="window-wrapper">
                                   <div class="window">
-                                    <ul>
+                                    <ul class="index">
                                       <li data-execute="minesweeper">
                                         <span class="image"></span>
                                         <span class="text">Minesweeper</span>
@@ -721,8 +721,8 @@
         startBtn.addEventListener('click', () => toggleStartMenu());
         for (l of executes) l.addEventListener('click', executeApp);
         for (l of taskResize) l.addEventListener('mousedown', addWindowResize);
-        for (l of startItems) l.addEventListener('mouseenter', handleStartItems);
-        for (l of startItemsExpand) l.addEventListener('mousedown', startExpandableClick);
+        for (l of startItems) l.addEventListener('mouseenter', handleListItems);
+        for (l of startItemsExpand) l.addEventListener('mousedown', expandableListClick);
       })();
 
       //Parsing app menu tasks and saving their functions in appMenuTasks

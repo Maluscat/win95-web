@@ -1,5 +1,5 @@
 'use strict';
-const DROPOUT_DELAY = 375;
+const LIST_DROPOUT_DELAY = 375;
 
 const sweeperImgs = {};
 const snipTemplates = {};
@@ -25,8 +25,8 @@ var appIndent = [
   0
 ];
 var itemLeaveTimeout;
-var startItemTimeout;
-var startEventNode;
+var itemExpandTimeout;
+var activeListItem;
 var windowZ = 0;
 var resizeDir;
 var resizeOffset;
@@ -69,7 +69,7 @@ function mouseDown(e) { //`window` mousedown event
 function toggleStartMenu(action) {
   if (startWindow.classList.contains('active')) {
     if (action != 'add') {
-      removeStartDropouts(firstStartList, false);
+      removeListDropouts(firstStartList, false);
       startWindow.classList.remove('active');
       startBtn.classList.remove('active');
     }
@@ -78,50 +78,54 @@ function toggleStartMenu(action) {
     startBtn.classList.add('active');
   }
 }
-function startExpandableClick(e) {
+
+// ------- Item list functions -------
+function expandableListClick(e) {
   if (e.button == 0) {
     const li = this.parentNode;
     if (li.classList.contains('active')) {
       const postActive = li.querySelector('li.active');
-      if (postActive) removeStartDropouts(postActive.parentNode, false);
+      if (postActive) {
+        removeListDropouts(postActive.parentNode.parentNode, false);
+      }
     } else {
       li.classList.add('active');
       li.classList.add('expanded');
     }
   }
 }
-function handleStartItems() {
+function handleListItems() {
   const li = this;
   if (!li.classList.contains('active')) {
-    removeStartDropouts(li.parentNode, true);
+    removeListDropouts(li.parentNode.parentNode, true);
   }
   if (li.classList.contains('expandable')) {
-    startEventNode = li;
-    startEventNode.addEventListener('mouseleave', clearStartItemMeta);
+    activeListItem = li;
+    activeListItem.addEventListener('mouseleave', clearListItemMeta);
 
     itemLeaveTimeout = setTimeout(() => {
-      startEventNode.removeEventListener('mouseleave', clearStartItemMeta);
-    }, DROPOUT_DELAY);
+      activeListItem.removeEventListener('mouseleave', clearListItemMeta);
+    }, LIST_DROPOUT_DELAY);
 
-    startItemTimeout = setTimeout(() => {
+    itemExpandTimeout = setTimeout(() => {
       li.classList.add('active');
       li.classList.add('expanded');
-    }, DROPOUT_DELAY);
+    }, LIST_DROPOUT_DELAY);
   }
 }
-function clearStartItemMeta() {
-  clearTimeout(startItemTimeout);
-  startEventNode.removeEventListener('mouseleave', clearStartItemMeta);
+function clearListItemMeta() {
+  clearTimeout(itemExpandTimeout);
+  activeListItem.removeEventListener('mouseleave', clearListItemMeta);
   clearTimeout(itemLeaveTimeout);
 }
-function removeStartDropouts(target, useDelay) {
+function removeListDropouts(target, useDelay) {
   const activeItems = target.querySelectorAll('li.active');
   for (const li of activeItems) {
     li.classList.remove('active');
     if (useDelay) {
       setTimeout(() => {
         li.classList.remove('expanded');
-      }, DROPOUT_DELAY);
+      }, LIST_DROPOUT_DELAY);
     } else {
       li.classList.remove('expanded');
     }
