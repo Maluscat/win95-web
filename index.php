@@ -448,7 +448,7 @@
                         </li>
                       </div>
                       <div class="section" data-task="!app.minesweeper.changeField(this, menu)">
-                        <li class="checkmark enabled">Beginner</li>
+                        <li class="checkmark checked">Beginner</li>
                         <li class="checkmark">Intermediate</li>
                         <li class="checkmark">Expert</li>
                         <li class="checkmark">Custom...</li>

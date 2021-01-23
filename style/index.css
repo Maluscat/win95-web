@@ -524,10 +524,10 @@ body {
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
 }
-.item-list ul li.checkmark.enabled::before {
+.item-list ul li.checkmark.checked::before {
   content: '';
 }
-.item-list ul li.checkmark.enabled:hover::before {
+.item-list ul li.checkmark.checked:hover::before {
   -webkit-filter: invert(1);
   filter: invert(1);
 }

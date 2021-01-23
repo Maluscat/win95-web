@@ -310,12 +310,12 @@ function Minesweeper(app) {
   //TODO: ^ what did I mean by this?
   function toggleQuestionMarks() {
     that.marks = !that.marks;
-    this.classList.toggle('enabled');
+    this.classList.toggle('checked');
   }
 
   function changeField(menuItem, menuSection) {
     const textContent = menuItem.textContent.trim();
-    if (textContent !== 'Custom...' && menuItem.classList.contains('enabled')) return;
+    if (textContent !== 'Custom...' && menuItem.classList.contains('checked')) return;
     let reset = true;
     switch (textContent) {
       case 'Beginner':
@@ -353,8 +353,8 @@ function Minesweeper(app) {
         break;
       default: return;
     }
-    menuSection.querySelector('li.enabled').classList.remove('enabled');
-    menuItem.classList.add('enabled');
+    menuSection.querySelector('li.checked').classList.remove('checked');
+    menuItem.classList.add('checked');
     if (reset) newGame(null, true);
   }
 
