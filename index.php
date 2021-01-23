@@ -632,7 +632,6 @@
       })();
 
       //Adding a new stylesheet with rules for app icon URLs
-      //'app' icon (desktop icon) is not implemented yet
       (function() {
         const availableIcons = <?php
           $icons = [];
@@ -712,15 +711,14 @@
           app.addAppEventListener('.minimize-btn', 'click', minimizeApp);
           app.addAppEventListener('.close-btn', 'click', closeApp);
           app.addAppEventListener('.header', 'mousedown', addWindowMove);
-          app.addAppChildrenEvents('.menu > .list', 'mousedown', toggleAppMenu, '> .wrapper');
-          app.addAppChildrenEvents('.menu > .list .index', 'mouseup', handleAppMenuItems, null, true);
-          app.addAppChildrenEvents('.resize-areas', 'mousedown', addWindowResize, null, true);
+
+          app.addAppEventListener('.menu .menu-item > .wrapper', 'mousedown', toggleAppMenu, true);
+          app.addAppEventListener('.item-list li', 'mouseup', handleAppMenuItems, true);
+          app.addAppEventListener('.resize-areas > .edge > span', 'mousedown', addWindowResize, true);
         }
 
         window.addEventListener('mousedown', mouseDown);
-        startBtn.addEventListener('click', function() {
-          toggleStartMenu();
-        });
+        startBtn.addEventListener('click', () => toggleStartMenu());
         for (l of executes) l.addEventListener('click', executeApp);
         for (l of taskResize) l.addEventListener('mousedown', addWindowResize);
         for (l of startItems) l.addEventListener('mouseenter', handleStartItems);
@@ -762,7 +760,7 @@
         for (const app of templateApps) {
           parseDataEvents(app, ['e', 'app'], (node, type, fn) => {
             const selector = app.checkNode(node, true);
-            app.addAppEventListener(selector, type, fn, node);
+            app.addAppEventListener(selector, type, fn, false, true);
           });
         }
       })();

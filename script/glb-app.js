@@ -183,65 +183,45 @@ function cloneApp(node) {
   }
   const cloned = node.cloneNode(true);
   const appName = node.dataset.app;
-  if (appEvents[appName]) {
-    const events = appEvents[appName];
-    for (let i = 0; i < events.length; i++) {
-      const elem = cloned.querySelector(events[i].selector);
-      elem.addEventListener(events[i].type, function() {
-        events[i].fn.call(this, event, cloned);
-      });
+  const events = appEvents[appName];
+  if (events) {
+    for (const evtData of events) {
+      if (evtData.matchAll) {
+        const nodes = cloned.querySelectorAll(evtData.selector);
+        for (const node of nodes) {
+          addEvent(node, cloned, evtData);
+        }
+      } else {
+        const node = cloned.querySelector(evtData.selector);
+        addEvent(node, cloned, evtData)
+      }
     }
   }
   return cloned;
+
+  function addEvent(node, cloned, evtData) {
+    node.addEventListener(evtData.type, function(e) {
+      evtData.fn.call(this, e, cloned);
+    });
+  }
 };
 
-//Adding an event listener to an app and saving it in appEvents
-Node.prototype.addAppEventListener = function(selector, type, callback, node) {
-  //this == app, node? == already gotten element of selector to prevent an unnecessary re-checking
-  if (!node) node = this.querySelector(selector);
-  if (node) {
+//Adding one or multiple event listeners to an app respectively and saving it in appEvents
+Node.prototype.addAppEventListener = function(selector, type, callback, matchAll, skipCheck) {
+  //matchAll? == use querySelectorAll, skipCheck? == don't check whether the selector is valid within `this`
+  if (skipCheck || matchAll ? this.querySelectorAll(selector).length > 0 : this.querySelector(selector)) {
     const appName = this.dataset.app;
     const data = {
       selector: selector,
       type: type,
-      fn: callback
+      fn: callback,
+      matchAll: !!matchAll
     };
     if (!appEvents[appName]) {
-      const item = new Array(data);
-      appEvents[appName] = item;
+      appEvents[appName] = new Array(data);
     } else {
-      const item = appEvents[appName];
-      item.push(data);
+      appEvents[appName].push(data);
     }
-  }
-};
-//Adding an event listener to all children of an app and saving them in appEvents
-Node.prototype.addAppChildrenEvents = function(selector, type, callback, modifier, deep) {
-  //this == app, deep? == depth of 2
-  const node = this.querySelector(selector);
-  if (node && node.children) {
-    for (let i = 0; i < node.children.length; i++) {
-      if (deep) {
-        for (let n = 0; n < node.children[i].children.length; n++) {
-          let childSelector = selector + ' > :nth-child(' + (i + 1) + ')';
-          childSelector += ' > :nth-child(' + (n + 1) + ')' + (modifier ? ' ' + modifier : '');
-          this.addAppEventListener(childSelector, type, callback);
-        }
-      } else {
-        const childSelector = selector + ' > :nth-child(' + (i + 1) + ')' + (modifier ? ' ' + modifier : '');
-        this.addAppEventListener(childSelector, type, callback);
-      }
-    }
-  } else if (node && !node.children) {
-    console.error(
-      'addAppChildrenEvents error: Specified node does not have any children. Skipping event.\n' +
-      '- app name: %s\n' +
-      '- selector: %s\n' +
-      '- type: %s\n' +
-      '- callback: %o\n' +
-      '- found target node: %o',
-      this.dataset.app, selector, type, callback, node
-    );
   }
 };
 
