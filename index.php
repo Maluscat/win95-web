@@ -111,7 +111,22 @@
                         <li>Find...</li>
                       </div>
                       <div class="section">
-                        <li>New //TODO COLLAPSIBLE ARROW MENU</li>
+                        <li class="expandable">
+                          <div class="wrapper">New</div>
+                          <div class="window-wrapper">
+                            <div class="window">
+                              <ul class="index">
+                                <div class="section">
+                                  <li>Folder</li>
+                                  <li>Shortcut</li>
+                                </div>
+                                <div class="section">
+                                  <li>Text Document</li>
+                                </div>
+                              </ul>
+                            </div>
+                          </div>
+                        </li>
                       </div>
                       <div class="section">
                         <li>Create Shortcut</li>
@@ -712,8 +727,10 @@
           app.addAppEventListener('.close-btn', 'click', closeApp);
           app.addAppEventListener('.header', 'mousedown', addWindowMove);
 
-          app.addAppEventListener('.menu .menu-item > .wrapper', 'mousedown', toggleAppMenu, true);
+          app.addAppEventListener('.item-list li.expandable > .wrapper', 'mousedown', expandableListClick, true);
+          app.addAppEventListener('.item-list li', 'mouseenter', handleListItems, true);
           app.addAppEventListener('.item-list li', 'mouseup', handleAppMenuItems, true);
+          app.addAppEventListener('.menu .menu-item > .wrapper', 'mousedown', toggleAppMenu, true);
           app.addAppEventListener('.resize-areas > .edge > span', 'mousedown', addWindowResize, true);
         }
 
