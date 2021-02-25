@@ -1,12 +1,3 @@
-const WinFileSystem = {
-  Test: {},
-  'Program Files': {
-    notepad: 'notepad',
-    Winmine: 'minesweeper'
-  }
-};
-
-
 function Explorer(app, states) {
   const that = this;
 
@@ -18,20 +9,26 @@ function Explorer(app, states) {
 
   //TODO pass a custom path
   const path = states.path || new Array();
-  const directory = path.reduce((acc, curr) => acc[curr], WinFileSystem);
+  const directory = path.reduce((acc, curr) => {
+    for (const item of acc) {
+      if (item.name == curr) return item.children;
+    }
+  }, WinFileSystem);
 
   const pathName = ['C:', ...path].join('\\') + '\\';
   titleText.textContent = pathName;
 
-  for (const [item, val] of Object.entries(directory)) {
+  for (const item of directory) {
     const node = cloneSnippet('explorer-item', [app]);
-    node.querySelector('.text').textContent = item;
-    if (typeof val == 'object') {
+    let fullName = item.name;
+    if (item instanceof Folder) {
       node.classList.add('folder');
     } else {
       node.classList.add('file');
-      node.dataset.appIcon = val;
+      node.dataset.appIcon = item.execute || item.name;
+      fullName += '.' + item.extension;
     }
+    node.querySelector('.text').textContent = fullName;
     itemWrapper.appendChild(node);
   }
 
