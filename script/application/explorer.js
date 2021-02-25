@@ -2,9 +2,9 @@ function Explorer(app, states) {
   const that = this;
 
   that.openItem = openItem;
+  that.newFolder = newFolder;
 
-  const itemWrapperSelector = '.body > .file-wrapper > .items';
-  const itemWrapper = app.querySelector(itemWrapperSelector);
+  const itemWrapper = app.querySelector('.body > .file-wrapper > .items');
   const titleText = app.querySelector('.header > .title > .text');
 
   //TODO pass a custom path
@@ -15,10 +15,30 @@ function Explorer(app, states) {
     }
   }, WinFileSystem);
 
-  const pathName = ['C:', ...path].join('\\') + '\\';
-  titleText.textContent = pathName;
+  // ------- Init -------
+  titleText.textContent = ['C:', ...path].join('\\') + '\\';
+  directory.forEach(addItem);
 
-  for (const item of directory) {
+  // ------- Class functions -------
+  function openItem() {
+    if (this.classList.contains('folder')) {
+      const itemName = this.querySelector('.text').textContent;
+      addApp('explorer', function(newApp, newStates) {
+        const newPath = Array.from(path);
+        newPath.push(itemName);
+        newStates.path = newPath;
+      });
+    }
+  }
+
+  function newFolder() {
+    const folder = new Folder('New folder');
+    directory.push(folder);
+    addItem(folder);
+  }
+
+  // ------- Helper functions -------
+  function addItem(item) {
     const node = cloneSnippet('explorer-item', [app]);
     let fullName = item.name;
     if (item instanceof Folder) {
@@ -30,17 +50,5 @@ function Explorer(app, states) {
     }
     node.querySelector('.text').textContent = fullName;
     itemWrapper.appendChild(node);
-  }
-
-
-  function openItem() {
-    if (this.classList.contains('folder')) {
-      const itemName = this.querySelector('.text').textContent;
-      addApp('explorer', function(newApp, newStates) {
-        const newPath = Array.from(path);
-        newPath.push(itemName);
-        newStates.path = newPath;
-      });
-    }
   }
 }
