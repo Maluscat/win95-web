@@ -11,20 +11,22 @@ function toggleAppMenu(e) {
     }
   }
 }
-function removeAppMenu(node) {
+function removeAppMenu(node, ignoreEvents) {
   node.classList.remove('active');
-  handleAppMenuEvents('remove', node.parentNode);
+  removeListDropouts(node, false);
+  if (!ignoreEvents) handleAppMenuEvents('remove', node.parentNode);
 }
 function switchAppMenu() {
   const active = this.parentNode.parentNode.querySelector('.menu-item.active');
-  if (active) active.classList.remove('active');
+  if (active) removeAppMenu(active, true);
   this.parentNode.classList.add('active');
 }
 function handleAppMenuEvents(type, node) {
   if (!type || type != 'add' && type != 'remove') type = 'add';
-  const children = node.querySelectorAll('.menu-item > .wrapper');
-  for (let i = 0; i < node.children.length; i++)
-    children[i][type + 'EventListener']('mouseenter', switchAppMenu);
+
+  for (const menuWrapper of node.querySelectorAll('.menu-item > .wrapper')) {
+    menuWrapper[type + 'EventListener']('mouseenter', switchAppMenu);
+  }
 }
 
 function handleAppMenuItems(e, app) {
