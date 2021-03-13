@@ -611,7 +611,7 @@
       const taskbarBtns = taskbar.querySelector('.task-btns');
       const taskResize = taskbarWrapper.querySelectorAll('.resize-areas [data-dir="north"]');
 
-      const executes = content.querySelectorAll('[data-execute]');
+      const startExecutables = content.querySelectorAll('[data-execute]');
       const clock = taskbar.querySelector('#clock .text');
 
       const startBtn = document.getElementById('start-btn');
@@ -739,7 +739,7 @@
 
         window.addEventListener('mousedown', mouseDown);
         startBtn.addEventListener('click', () => toggleStartMenu());
-        for (l of executes) l.addEventListener('click', executeApp);
+        for (l of startExecutables) l.addEventListener('click', executeApp);
         for (l of taskResize) l.addEventListener('mousedown', addWindowResize);
         for (l of startItems) l.addEventListener('mouseenter', handleListItems);
         for (l of startItemsExpand) l.addEventListener('mousedown', expandableListClick);

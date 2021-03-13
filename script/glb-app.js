@@ -99,10 +99,8 @@ function unblockApp(app) {
 
 // ------- Automated adding functions -------
 function executeApp() {
-  //For now: always closing the start menu, regardless of how it was executed
   toggleStartMenu('remove');
-  const appName = this.dataset.execute;
-  addApp(appName);
+  addApp(this.dataset.execute);
 }
 function addApp(appName, initFn, blockTarget) {
   const appClone = cloneApp(appName);

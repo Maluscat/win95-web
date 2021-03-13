@@ -28,6 +28,10 @@ function Explorer(app, states) {
         newPath.push(itemName);
         newStates.path = newPath;
       });
+    } else {
+      if (this.dataset.execute) {
+        addApp(this.dataset.execute);
+      }
     }
   }
 
@@ -44,8 +48,9 @@ function Explorer(app, states) {
     if (item instanceof Folder) {
       node.classList.add('folder');
     } else {
+      const internalName = item.execute || item.name;
       node.classList.add('file');
-      node.dataset.appIcon = item.execute || item.name;
+      node.dataset.execute = node.dataset.appIcon = internalName;
       fullName += '.' + item.extension;
     }
     node.querySelector('.text').textContent = fullName;
