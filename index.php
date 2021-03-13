@@ -57,7 +57,7 @@
         </div>
       </div>
 
-      <li data-snippet="explorer-item" class="item" data-on="dblclick, appStates.get(arguments[1]).explorer.openItem()" tabindex="0">
+      <li data-snippet="explorer-item" class="item" tabindex="0">
         <span class="image">
           <span class="image"></span>
         </span>
@@ -590,6 +590,7 @@
 
     <script src="script/index.js"></script>
     <script src="script/glb-app.js"></script>
+    <script src="script/FileViewer.js"></script>
     <?php
       $apps = array_diff(scandir('script/application'), array('..', '.'));
       foreach ($apps as $app) {
