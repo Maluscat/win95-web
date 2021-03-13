@@ -547,7 +547,10 @@
                               <li>Startup</li>
                               <li>MS-DOS Prompt</li>
                               <li>The Microsoft Network</li>
-                              <li>Windows Explorer</li>
+                              <li data-execute="explorer">
+                                <span class="image"></span>
+                                <span class="text">Windows Explorer</span>
+                              </li>
                             </ul>
                           </div>
                         </div>
