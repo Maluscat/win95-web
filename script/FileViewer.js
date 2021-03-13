@@ -40,7 +40,7 @@ function FileViewer(itemTarget, path = new Array()) {
   }
 
   function addItem(item) {
-    const node = cloneSnippet('explorer-item');
+    const node = cloneSnippet('file-item');
     node.addEventListener('dblclick', that.openItem);
     let fullName = item.name;
     if (item instanceof Folder) {

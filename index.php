@@ -57,7 +57,7 @@
         </div>
       </div>
 
-      <li data-snippet="explorer-item" class="item" tabindex="0">
+      <li data-snippet="file-item" tabindex="0">
         <span class="image">
           <span class="image"></span>
         </span>
@@ -209,8 +209,8 @@
             </ul>
           </div>
           <div class="body">
-            <div class="file-wrapper">
-              <ul class="items">
+            <div class="file-viewer">
+              <ul class="file-items">
               </ul>
             </div>
           </div>

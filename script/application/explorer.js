@@ -1,7 +1,7 @@
 function Explorer(app, states) {
   const that = this;
 
-  const itemWrapper = app.querySelector('.body > .file-wrapper > .items');
+  const itemWrapper = app.querySelector('.body > .file-viewer > .file-items');
   const titleText = app.querySelector('.header > .title > .text');
 
   // ------- Init -------
