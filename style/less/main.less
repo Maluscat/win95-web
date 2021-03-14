@@ -410,6 +410,48 @@ body {
   }
 }
 
+/*------------ File viewer ------------*/
+.file-viewer .file-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: .133em .467em; //7px
+  margin: 0 .933em; //14px
+  &:focus {
+    > .image > .image {
+      display: inline-block;
+    }
+    .text {
+      background-color: @blue;
+      color: white;
+    }
+  }
+  @dim: 2.133em;
+  .image {
+    .bg-img-props();
+    .pixel-image();
+    width: @dim;
+    height: @dim;
+  }
+  > .image {
+    position: relative;
+    overflow: hidden;
+    > .image {
+      position: absolute;
+      top: -@dim;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: none;
+      z-index: 1;
+      filter: drop-shadow(0 @dim fade(@blue, 50%));
+    }
+  }
+  &.folder .image {
+    .bg-img('folder');
+  }
+}
+
 /*------------ Global Item Dropdown ------------*/
 .item-list {
   left: 0;

@@ -453,6 +453,50 @@ body {
   flex: 1;
   text-align: center;
 }
+/*------------ File viewer ------------*/
+.file-viewer .file-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.133em 0.467em;
+  margin: 0 0.933em;
+}
+.file-viewer .file-item:focus > .image > .image {
+  display: inline-block;
+}
+.file-viewer .file-item:focus .text {
+  background-color: #000080;
+  color: white;
+}
+.file-viewer .file-item .image {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimizespeed;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  width: 2.133em;
+  height: 2.133em;
+}
+.file-viewer .file-item > .image {
+  position: relative;
+  overflow: hidden;
+}
+.file-viewer .file-item > .image > .image {
+  position: absolute;
+  top: -2.133em;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
+  z-index: 1;
+  filter: drop-shadow(0 2.133em rgba(0, 0, 128, 0.5));
+}
+.file-viewer .file-item.folder .image {
+  background-image: url(../resource/image/folder.png);
+}
 /*------------ Global Item Dropdown ------------*/
 .item-list {
   left: 0;
@@ -902,49 +946,6 @@ body {
   border-bottom: 0.067em solid hsl(0, 0%, 87%);
   border-left: 0.067em solid black;
   border-top: 0.067em solid black;
-}
-[data-app="explorer"] .file-viewer .item {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0.133em 0.467em;
-  margin: 0 0.933em;
-}
-[data-app="explorer"] .file-viewer .item:focus > .image > .image {
-  display: inline-block;
-}
-[data-app="explorer"] .file-viewer .item:focus .text {
-  background-color: #000080;
-  color: white;
-}
-[data-app="explorer"] .file-viewer .item .image {
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: optimizespeed;
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-  width: 2.133em;
-  height: 2.133em;
-}
-[data-app="explorer"] .file-viewer .item > .image {
-  position: relative;
-  overflow: hidden;
-}
-[data-app="explorer"] .file-viewer .item > .image > .image {
-  position: absolute;
-  top: -2.133em;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: none;
-  z-index: 1;
-  filter: drop-shadow(0 2.133em rgba(0, 0, 128, 0.5));
-}
-[data-app="explorer"] .file-viewer .item.folder .image {
-  background-image: url(../resource/image/folder.png);
 }
 /*------------ Error window ------------*/
 [data-app="error"] .message,
