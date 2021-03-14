@@ -415,8 +415,9 @@ body {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  padding: .133em .467em; //7px
-  margin: 0 .933em; //14px
+  width: 6.267em; //94px
+  height: 5em; //75px
+  padding: .133em 0;
   &:focus {
     > .image > .image {
       display: inline-block;
@@ -424,6 +425,32 @@ body {
     .text {
       background-color: @blue;
       color: white;
+      &::before {
+        content: '';
+      }
+    }
+  }
+  .text {
+    position: relative;
+    width: min-intrinsic;
+    width: -moz-min-content;
+    width: min-content;
+    max-width: 100%;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 .133em .067em .133em;
+    margin-top: .267em;
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      border: .067em dotted white;
+      border-image: url('../resource/image/border_focus.png') 8 round;
+      filter: invert(1);
+      mix-blend-mode: difference;
     }
   }
   @dim: 2.133em;
@@ -432,6 +459,7 @@ body {
     .pixel-image();
     width: @dim;
     height: @dim;
+    flex-shrink: 0;
   }
   > .image {
     position: relative;

@@ -458,8 +458,9 @@ body {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.133em 0.467em;
-  margin: 0 0.933em;
+  width: 6.267em;
+  height: 5em;
+  padding: 0.133em 0;
 }
 .file-viewer .file-item:focus > .image > .image {
   display: inline-block;
@@ -467,6 +468,32 @@ body {
 .file-viewer .file-item:focus .text {
   background-color: #000080;
   color: white;
+}
+.file-viewer .file-item:focus .text::before {
+  content: '';
+}
+.file-viewer .file-item .text {
+  position: relative;
+  width: min-intrinsic;
+  width: -moz-min-content;
+  width: min-content;
+  max-width: 100%;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 0.133em 0.067em 0.133em;
+  margin-top: 0.267em;
+}
+.file-viewer .file-item .text::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  border: 0.067em dotted white;
+  border-image: url('../resource/image/border_focus.png') 8 round;
+  filter: invert(1);
+  mix-blend-mode: difference;
 }
 .file-viewer .file-item .image {
   background-repeat: no-repeat;
@@ -479,6 +506,7 @@ body {
   image-rendering: crisp-edges;
   width: 2.133em;
   height: 2.133em;
+  flex-shrink: 0;
 }
 .file-viewer .file-item > .image {
   position: relative;
