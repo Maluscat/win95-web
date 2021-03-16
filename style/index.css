@@ -348,8 +348,7 @@ body {
 /*------------ Taskbar ------------*/
 .taskbar-wrapper {
   width: 100%;
-  position: absolute;
-  bottom: 0;
+  position: relative;
   height: 1.86667em;
   border-top: 0.067em solid hsl(0, 0%, 75%);
   background-color: hsl(0, 0%, 75%);
@@ -767,6 +766,16 @@ body {
 .btn.click-btn:not(.disabled):active .btn-inner::after,
 .btn.click-btn:not(.disabled).active .btn-inner::after {
   content: none;
+}
+/*------------ Desktop ------------*/
+#desktop {
+  flex: 1;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(auto-fill, 5em);
+  justify-content: start;
+  width: 100%;
+  color: white;
 }
 /*------------ Starting menu ------------*/
 #start-window {

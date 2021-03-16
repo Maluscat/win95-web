@@ -15,11 +15,19 @@ class File {
 }
 
 const WinFileSystem = [
-  new Folder('Test'),
   new Folder('Program Files', [
     new File('notepad', 'exe'),
     new File('Winmine', 'exe', {
       execute: 'minesweeper'
     })
+  ]),
+  new Folder('Windows', [
+    new Folder('Desktop', [
+      new File('explorer', 'exe'),
+      new File('notepad', 'exe'),
+      new File('Winmine', 'exe', {
+        execute: 'minesweeper'
+      })
+    ])
   ])
 ];

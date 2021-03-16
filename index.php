@@ -511,6 +511,8 @@
         </div>
       </div>
 
+      <div id="desktop" class="file-viewer"></div>
+
       <div class="taskbar-wrapper">
         <div id="taskbar">
           <div class="start-menu">
@@ -606,6 +608,8 @@
       const moveIndicator = document.getElementById('move-indicator');
       const headExpander = document.getElementById('header-expander');
       const expanderTitle = headExpander.querySelector('.title .text');
+
+      const desktop = document.getElementById('desktop');
 
       const taskbar = document.getElementById('taskbar');
       const taskbarWrapper = content.querySelector('.taskbar-wrapper');
@@ -785,6 +789,11 @@
           });
         }
       })();
+
+      // ------- Feature specific init functions -------
+      (function() {
+        new FileViewer(desktop, ['Windows', 'Desktop']);
+      }());
 
       //Adding error windows to have it serve as error (404, etc.) page
       // (function() {

@@ -316,8 +316,7 @@ body {
 /*------------ Taskbar ------------*/
 .taskbar-wrapper {
   width: 100%;
-  position: absolute;
-  bottom: 0;
+  position: relative;
   height: 1.86667em;
   border-top: .067em solid @75;
   background-color: @75;
@@ -411,12 +410,13 @@ body {
 }
 
 /*------------ File viewer ------------*/
+@file-item-height: 5em; //75px
 .file-viewer .file-item {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
   width: 6.267em; //94px
-  height: 5em; //75px
+  height: @file-item-height;
   padding: .133em 0;
   &:focus {
     > .image > .image {
@@ -697,6 +697,17 @@ body {
       }
     }
   }
+}
+
+/*------------ Desktop ------------*/
+#desktop {
+  flex: 1;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(auto-fill, @file-item-height);
+  justify-content: start;
+  width: 100%;
+  color: white;
 }
 
 /*------------ Starting menu ------------*/
