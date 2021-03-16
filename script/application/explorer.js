@@ -6,5 +6,6 @@ function Explorer(app, states) {
 
   // ------- Init -------
   const viewer = new FileViewer(itemWrapper, states.path);
+  that.viewer = viewer;
   titleText.textContent = ['C:', ...viewer.path].join('\\') + '\\';
 }

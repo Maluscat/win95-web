@@ -117,7 +117,7 @@
                             <div class="window">
                               <ul class="index">
                                 <div class="section">
-                                  <li data-task="!app.explorer.newFolder()">Folder</li>
+                                  <li data-task="!app.explorer.viewer.newFolder()">Folder</li>
                                   <li>Shortcut</li>
                                 </div>
                                 <div class="section">
