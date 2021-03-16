@@ -514,13 +514,13 @@ body {
 }
 .file-viewer .file-item > .image > .image {
   position: absolute;
-  top: -2.133em;
+  top: 2.133em;
   bottom: 0;
   left: 0;
   right: 0;
   display: none;
   z-index: 1;
-  filter: drop-shadow(0 2.133em rgba(0, 0, 128, 0.5));
+  filter: drop-shadow(0 -2.133em rgba(0, 0, 128, 0.5));
 }
 .file-viewer .file-item.folder .image {
   background-image: url(../resource/image/folder.png);

@@ -466,13 +466,13 @@ body {
     overflow: hidden;
     > .image {
       position: absolute;
-      top: -@dim;
+      top: @dim;
       bottom: 0;
       left: 0;
       right: 0;
       display: none;
       z-index: 1;
-      filter: drop-shadow(0 @dim fade(@blue, 50%));
+      filter: drop-shadow(0 -@dim fade(@blue, 50%));
     }
   }
   &.folder .image {
