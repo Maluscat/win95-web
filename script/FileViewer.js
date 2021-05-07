@@ -1,3 +1,4 @@
+'use strict';
 function FileViewer(itemTarget, path = new Array()) {
   const that = this;
 

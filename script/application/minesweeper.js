@@ -1,3 +1,4 @@
+'use strict';
 // ------- Minesweeper -------
 function submitSweeperPrompt(e, app) {
   const fields = app.querySelector('.body .inputs');
@@ -425,7 +426,7 @@ function Minesweeper(app) {
     }
   }
   function clearTime() {
-    that.time = 000;
+    that.time = 0;
     drawPanel('time');
   }
   function updateTime() {

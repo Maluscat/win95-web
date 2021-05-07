@@ -1,3 +1,4 @@
+'use strict';
 // ------- App menu -------
 function toggleAppMenu(e) {
   if (e.button == 0) {
@@ -128,13 +129,15 @@ function addApp(appName, initFn, blockTarget) {
   }
 }
 function addTaskButton(app, appName) {
-  btnClone = cloneSnippet(snipTemplates['task-btn']);
-  const title = app.querySelector('.header .title');
-  if (title.dataset.trayIcon) btnClone.dataset.trayIcon = title.dataset.trayIcon;
-  appHeading = app.querySelector('.header > .title > .text').textContent;
-  btnClone.querySelector('.text').textContent = appHeading;
-  taskBtnLink.set(btnClone, app);
   const states = appStates.get(app);
+  const btnClone = cloneSnippet(snipTemplates['task-btn']);
+  const title = app.querySelector('.header .title');
+  const appHeading = app.querySelector('.header > .title > .text').textContent;
+
+  if (title.dataset.trayIcon) btnClone.dataset.trayIcon = title.dataset.trayIcon;
+  btnClone.querySelector('.text').textContent = appHeading;
+
+  taskBtnLink.set(btnClone, app);
   states['taskBtn'] = btnClone;
   taskbarBtns.appendChild(btnClone);
 }

@@ -1,3 +1,4 @@
+'use strict';
 function Explorer(app, states) {
   const that = this;
 
