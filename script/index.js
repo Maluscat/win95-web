@@ -9,6 +9,8 @@ const appEvents = {};
 const appMenuTasks = {};
 const appStates = new Map();
 const taskBtnLink = new Map();
+// For visual syncing across multiple FileViewers (e.g. when creating a new folder)
+const fileViewerInstances = new Map();
 
 const errorCoords = [
   Math.floor(Math.random() * 15 + 15),

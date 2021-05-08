@@ -2,21 +2,33 @@
 function FileViewer(itemTarget, path = new Array()) {
   const that = this;
 
+  that.itemTarget = itemTarget;
   that.path = path;
 
-  that.openItem = openItem;
   that.newFolder = newFolder;
   that.addItem = addItem;
+  that.removeFileViewer = removeFileViewer;
 
   //TODO pass a custom path
-  const directory = path.reduce((acc, curr) => {
-    for (const item of acc) {
-      if (item.name == curr) return item.children;
+  that.directory = path.reduce((acc, curr) => {
+    for (const item of acc.children) {
+      if (item.name == curr) return item;
     }
   }, WinFileSystem);
 
   // ------- Init -------
-  directory.forEach(addItem);
+  for (const directoryChild of that.directory.children) {
+    addItem(directoryChild);
+  }
+
+  let linkedViewers;
+  if (fileViewerInstances.has(that.directory)) {
+    linkedViewers = fileViewerInstances.get(that.directory);
+  } else {
+    linkedViewers = new Set();
+    fileViewerInstances.set(that.directory, linkedViewers);
+  }
+  linkedViewers.add(that);
 
   // ------- Class functions -------
   function openItem() {
@@ -36,13 +48,15 @@ function FileViewer(itemTarget, path = new Array()) {
 
   function newFolder() {
     const folder = new Folder('New folder');
-    directory.push(folder);
-    addItem(folder);
+    that.directory.children.push(folder);
+    for (const viewer of linkedViewers) {
+      addItem(folder, viewer.itemTarget);
+    }
   }
 
-  function addItem(item) {
+  function addItem(item, target = that.itemTarget) {
     const node = cloneSnippet('file-item');
-    node.addEventListener('dblclick', that.openItem);
+    node.addEventListener('dblclick', openItem);
     let fullName = item.name;
     if (item instanceof Folder) {
       node.classList.add('folder');
@@ -53,6 +67,13 @@ function FileViewer(itemTarget, path = new Array()) {
       fullName += '.' + item.extension;
     }
     node.querySelector('.text').textContent = fullName;
-    itemTarget.appendChild(node);
+    target.appendChild(node);
+  }
+
+  function removeFileViewer() {
+    linkedViewers.delete(that);
+    if (linkedViewers.size == 0) {
+      fileViewerInstances.delete(that.directory);
+    }
   }
 }

@@ -14,7 +14,7 @@ class File {
   }
 }
 
-const WinFileSystem = [
+const WinFileSystem = new Folder('', [
   new Folder('Program Files', [
     new File('notepad', 'exe'),
     new File('Winmine', 'exe', {
@@ -30,4 +30,4 @@ const WinFileSystem = [
       })
     ])
   ])
-];
+]);

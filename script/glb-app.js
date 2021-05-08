@@ -51,6 +51,9 @@ function closeApp(e, app) {
   app.remove();
   switchActiveApp(false);
   const states = appStates.get(app);
+  if (states[app.dataset.app] && states[app.dataset.app].onClose) {
+    states[app.dataset.app].onClose();
+  }
   if (states.blockTarget) unblockApp(states.blockTarget);
   if (states.taskBtn) states.taskBtn.remove();
   appStates.delete(app);
