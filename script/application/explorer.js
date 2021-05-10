@@ -8,12 +8,11 @@ function Explorer(app, states) {
   const titleText = app.querySelector('.header > .title > .text');
 
   // ------- Init -------
-  const viewer = new FileViewer(itemWrapper, states.path);
-  that.viewer = viewer;
-  titleText.textContent = ['C:', ...viewer.path].join('\\') + '\\';
+  Object.assign(that, new FileViewer(itemWrapper, states.path));
+  titleText.textContent = ['C:', ...that.path].join('\\') + '\\';
 
   // ------- Prototype functions -------
   function onClose() {
-    that.viewer.removeFileViewer();
+    that.removeFileViewer();
   }
 }
