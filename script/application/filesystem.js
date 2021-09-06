@@ -7,10 +7,31 @@ class FileItemBase {
   addToDOM(targetNode, path = new Array(), className, name) {
     const node = cloneSnippet('file-item');
     node.classList.add(className);
-    node.querySelector('.text').textContent = name;
+    node.querySelector('.text').textContent = this.prepareItemNameWhitespace(name);
     node.addEventListener('dblclick', this.open.bind(this, path));
     targetNode.appendChild(node);
     return node;
+  }
+
+  // Replacing spaces with non-breaking spaces until width exceeds a threshold
+  // This is needed to counter the needed min-content style of file items (see CSS)
+  prepareItemNameWhitespace(text) {
+    textMeasureCtx.font = '1rem Unifont';
+
+    const words = text.split(/ /g);
+    let intermediate = words[0];
+    let result = '';
+    for (var i = 1; i < words.length; i++) {
+      const word = words[i];
+      if (textMeasureCtx.measureText(intermediate + ' ' + word).width <= 96) {
+        // xa0 is a non-breaking space
+        intermediate += '\xa0' + word;
+      } else {
+        result += (result ? ' ' + intermediate : intermediate);
+        intermediate = word;
+      }
+    }
+    return result + ' ' + intermediate;
   }
 }
 
