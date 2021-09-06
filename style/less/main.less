@@ -432,15 +432,22 @@ body {
   }
   .text {
     position: relative;
+    padding: 0 .133em .067em .133em;
+    margin-top: .267em;
+    text-align: center;
+    overflow: hidden;
+    max-width: 100%;
+    // The width has to be set to min-content for the blue focus area to match the text width
     width: min-intrinsic;
     width: -moz-min-content;
     width: min-content;
-    max-width: 100%;
-    text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 0 .133em .067em .133em;
-    margin-top: .267em;
+    // `text-overflow: ellipsis` doesn't work with the hack below, which is why I wrap
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    // Vertical overflow hack (Making an ellipsis after n lines of text)
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
     &::before {
       position: absolute;
       top: 0;

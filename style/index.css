@@ -473,15 +473,19 @@ body {
 }
 .file-viewer .file-item .text {
   position: relative;
+  padding: 0 0.133em 0.067em 0.133em;
+  margin-top: 0.267em;
+  text-align: center;
+  overflow: hidden;
+  max-width: 100%;
   width: min-intrinsic;
   width: -moz-min-content;
   width: min-content;
-  max-width: 100%;
-  text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 0 0.133em 0.067em 0.133em;
-  margin-top: 0.267em;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 .file-viewer .file-item .text::before {
   position: absolute;
