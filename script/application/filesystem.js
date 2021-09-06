@@ -23,7 +23,7 @@ class FileItemBase {
     let result = '';
     for (var i = 1; i < words.length; i++) {
       const word = words[i];
-      if (textMeasureCtx.measureText(intermediate + ' ' + word).width <= 96) {
+      if (textMeasureCtx.measureText(intermediate + ' ' + word).width <= 90) {
         // xa0 is a non-breaking space
         intermediate += '\xa0' + word;
       } else {
