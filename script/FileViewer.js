@@ -8,6 +8,8 @@ function FileViewer(itemTarget, path = new Array()) {
   that.newFolder = newFolder;
   that.removeFileViewer = removeFileViewer;
 
+  that.newFolderCounter = 1;
+
   that.directory = path.reduce((acc, curr) => {
     for (const item of acc.children) {
       if (item.name == curr) return item;
@@ -29,7 +31,11 @@ function FileViewer(itemTarget, path = new Array()) {
 
   // ------- Prototype functions -------
   function newFolder() {
-    const folder = new Folder('New folder');
+    let newFolderName = 'New Folder';
+    if (that.newFolderCounter > 1) newFolderName += ' (' + that.newFolderCounter + ')';
+    that.newFolderCounter++;
+
+    const folder = new Folder(newFolderName);
     that.directory.children.push(folder);
     for (const viewer of linkedViewers) {
       folder.addToDOM(viewer.itemTarget, path);
