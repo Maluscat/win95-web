@@ -590,6 +590,7 @@
 
     </div>
 
+    <script src="script/TemplateEngine.js"></script>
     <script src="script/index.js"></script>
     <script src="script/glb-app.js"></script>
     <script src="script/FileViewer.js"></script>
@@ -624,6 +625,11 @@
       const firstStartList = document.getElementById('first-list');
       const startItems = firstStartList.querySelectorAll('li');
       const startItemsExpand = firstStartList.querySelectorAll('li.expandable .wrapper');
+
+      const engine = new TemplateEngine({
+        templates: templateApps,
+        snippets: snippets,
+      });
 
       //Preloading icons for the canvas of Minesweeper
       (function() {
@@ -703,24 +709,7 @@
         }
       })();
 
-      //Looping over snippets and expanding them
-      (function() {
-        for (const snip of snippets) {
-          snipTemplates[snip.dataset.snippet] = snip;
-
-          parseDataEvents(snip, ['e'], (node, type, fn) => {
-            snip.addSnipEventListener(node == snip ? false : node, type, fn);
-          }, true);
-
-          const expandSpots = content.querySelectorAll('[data-expand-snippet="' + snip.dataset.snippet + '"]');
-          for (const expandSpot of expandSpots) {
-            const clone = cloneSnippet(snip);
-            expandSpot.parentNode.replaceChild(clone, expandSpot);
-          }
-
-          snip.remove();
-        }
-      })();
+      engine.parseSnippets();
 
       //Adding event listeners
       (function() {
@@ -770,25 +759,9 @@
         }
       })();
 
-      //Removing template applications, saving them in appTemplates
-      (function() {
-        for (const app of templateApps) {
-          app.remove();
-          delete app.dataset.template;
-          appTemplates[app.dataset.app] = app;
-        }
-      })();
+      engine.parseTemplates();
 
-      //Registering data event attributes
-      //Needs to be the last init loop to ensure that the apps have finished processing (e.g. data-template is removed)
-      (function() {
-        for (const app of templateApps) {
-          parseDataEvents(app, ['e', 'app'], (node, type, fn) => {
-            const selector = app.checkNode(node, true);
-            app.addAppEventListener(selector, type, fn, false, true);
-          });
-        }
-      })();
+      engine.parseDataEvents();
 
       // ------- Feature specific init functions -------
       (function() {
