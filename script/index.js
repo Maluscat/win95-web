@@ -356,100 +356,10 @@ function updateClock() {
 }
 
 // ------- Helper functions -------
-function parseFunctionStr(fnStr, params, paramsDefault) {
-  //params: Array<String> = parameters of the new Function
-  //paramsDefault: bool = whether to use `params` as the default when none were defined
-  if (Array.isArray(params) && params.length == 0) {
-    throw new Error('@ parseFunctionStr: second argument `params` may not be an empty array.');
-  }
-  const lastOpenParen = fnStr.lastIndexOf('(');
-  const hasNoArguments = lastOpenParen + 1 == fnStr.lastIndexOf(')');
-
-  fnStr = fnStr.trim();
-  if (paramsDefault && hasNoArguments) {
-    fnStr = replaceAtIndex(lastOpenParen, fnStr, '(' + params.join(','));
-  }
-  //converting the function string to a `call` for passing `this`
-  fnStr = replaceAtIndex(lastOpenParen, fnStr, '.call(this' + (hasNoArguments && (!params || !paramsDefault) ? '' : ','));
-  fnStr = fnStr.replace('!app.', 'appStates.get(app).');
-
-  return new Function(...params, `'use strict'; ${fnStr}`);
-
-  function replaceAtIndex(idx, source, target) {
-    return source.slice(0, idx) + target + source.slice(idx + 1);
-  }
-}
-function parseDataEvents(node, args, callback, allowSelf) {
-  let eventNodes = node.querySelectorAll('[data-on]');
-  if (node.dataset.on && allowSelf) {
-    (eventNodes = Array.from(eventNodes)).push(node);
-  }
-  for (const eventNode of eventNodes) {
-    const events = eventNode.dataset.on
-      .split(';')
-      .map(evt => evt
-        .split(',')
-        .map(val => val.trim()));
-    for (const [type, fnStr] of events) {
-      const fn = parseFunctionStr(fnStr, args, true);
-      callback(eventNode, type, fn);
-    }
-  }
-}
-
 String.prototype.computeTranslate = function(callback, indexStart) {
   return this
     .slice(indexStart || this.indexOf('translate(') + 'translate('.length, -1)
     .split(', ')
     .reduce(callback, 'translate(')
     + ')';
-};
-
-//Looping over all children of a specified node, stopping when finding a target
-Node.prototype.checkNode = function(target, protocol, original = this) {
-  //protocol: boolean? = construct a unique selector path from `original` to `target`
-  //implicit unchecked condition: `original` needs to be unique across all of its descendants
-  if (this == target) return true;
-
-  for (var i = 0; i < this.childElementCount; i++) {
-    let result = this.children[i].checkNode(target, protocol, original);
-    if (result) {
-      if (protocol) {
-        let selector = '';
-        //The original caller element needs to be uniquely matched because a nested tree of `:nth-child`s can start and match anywhere
-        if (this == original) {
-          if (this.tagName)
-            selector += this.tagName.toLowerCase();
-          if (this.classList.length != 0)
-            selector += '.' + Array.prototype.join.call(this.classList, '.');
-          if (this.hasAttributes())
-            selector += Array.from(this.attributes)
-              .filter(attr => attr.name != 'class' || attr.name != 'style')
-              .reduce((acc, curr) => acc + `[${curr.name}="${curr.value}"]`, '');
-        }
-        selector += ' > :nth-child(' + (i + 1) +')' + (result === true ? '' : result);
-        return selector;
-      } else return true;
-    }
-  }
-};
-
-//Looking upwards for a node with the specified class
-Node.prototype.findNodeUp = function(target, isData = false) {
-  if (this == content) return false;
-  if (!isData && target[0] == '[' && target[target.length - 1] == ']') {
-    isData = true;
-    target = target.slice(1, -1);
-    while(target.includes('-')) {
-      const index = target.indexOf('-');
-      target = target.slice(0, index) + target[index + 1].toUpperCase() + target.slice(index + 2);
-    }
-  }
-  if (Array.isArray(target)) {
-    for (l of target)
-      if (isData && this.dataset[target] != null || !isData && this.classList.contains(l))
-        return this;
-  } else if (isData && this.dataset[target] != null || !isData && this.classList.contains(target))
-    return this;
-  return Node.prototype.findNodeUp.call(this.parentNode, target, isData);
 };
