@@ -13,7 +13,7 @@ class TemplateEngine {
 
       const expandSpots = content.querySelectorAll('[data-expand-snippet="' + snip.dataset.snippet + '"]');
       for (const expandSpot of expandSpots) {
-        const clone = cloneSnippet(snip);
+        const clone = engine.cloneSnippet(snip);
         expandSpot.parentNode.replaceChild(clone, expandSpot);
       }
 
@@ -35,42 +35,63 @@ class TemplateEngine {
       });
     }
   }
-}
 
-// ------- App helper functions -------
-//Cloning an application including event listeners saved in appEvents
-function cloneApp(node) {
-  if (typeof node == 'string') {
-    if (!appTemplates[node]) {
-      console.error("cloneApp Error: No app found with a name of the passed string. Skipping.");
-      return;
+  cloneApp(node) {
+    if (typeof node == 'string') {
+      if (!appTemplates[node]) {
+        console.error("cloneApp Error: No app found with a name of the passed string. Skipping.");
+        return;
+      }
+      node = appTemplates[node];
     }
-    node = appTemplates[node];
-  }
-  const cloned = node.cloneNode(true);
-  const appName = node.dataset.app;
-  const events = appEvents[appName];
-  if (events) {
-    for (const evtData of events) {
-      if (evtData.matchAll) {
-        const nodes = cloned.querySelectorAll(evtData.selector);
-        for (const node of nodes) {
-          addEvent(node, cloned, evtData);
+    const cloned = node.cloneNode(true);
+    const appName = node.dataset.app;
+    const events = appEvents[appName];
+    if (events) {
+      for (const evtData of events) {
+        if (evtData.matchAll) {
+          const nodes = cloned.querySelectorAll(evtData.selector);
+          for (const node of nodes) {
+            addEvent(node, cloned, evtData);
+          }
+        } else {
+          const node = cloned.querySelector(evtData.selector);
+          addEvent(node, cloned, evtData)
         }
-      } else {
-        const node = cloned.querySelector(evtData.selector);
-        addEvent(node, cloned, evtData)
       }
     }
-  }
-  return cloned;
+    return cloned;
 
-  function addEvent(node, cloned, evtData) {
-    node.addEventListener(evtData.type, function(e) {
-      evtData.fn.call(this, e, cloned);
-    });
-  }
-};
+    function addEvent(node, cloned, evtData) {
+      node.addEventListener(evtData.type, function(e) {
+        evtData.fn.call(this, e, cloned);
+      });
+    }
+  };
+
+  cloneSnippet(node, extraArgs = []) {
+    if (typeof node == 'string') {
+      if (!snipTemplates[node]) {
+        console.error("cloneSnippet Error: No snippet found with a name of the passed string. Skipping.");
+        return;
+      }
+      node = snipTemplates[node];
+    }
+    const cloned = node.cloneNode(true);
+    const name = node.dataset.snippet;
+    if (snipEvents[name]) {
+      snipEvents[name].forEach(function(event, i) {
+        const elem = event.selector ? cloned.querySelector(event.selector) : cloned;
+        elem.addEventListener(event.type, function(e) {
+          event.fn.apply(this, [e, ...extraArgs]);
+        });
+      });
+    }
+    cloned.classList.add(cloned.dataset.snippet);
+    delete cloned.dataset.snippet;
+    return cloned;
+  };
+}
 
 //Adding one or multiple event listeners to an app respectively and saving it in appEvents
 Node.prototype.addAppEventListener = function(selector, type, callback, matchAll, skipCheck) {
@@ -89,30 +110,6 @@ Node.prototype.addAppEventListener = function(selector, type, callback, matchAll
       appEvents[appName].push(data);
     }
   }
-};
-
-// ------- Snippet helper functions, somewhat like app helper functions but more general -------
-function cloneSnippet(node, extraArgs = []) {
-  if (typeof node == 'string') {
-    if (!snipTemplates[node]) {
-      console.error("cloneSnippet Error: No snippet found with a name of the passed string. Skipping.");
-      return;
-    }
-    node = snipTemplates[node];
-  }
-  const cloned = node.cloneNode(true);
-  const name = node.dataset.snippet;
-  if (snipEvents[name]) {
-    snipEvents[name].forEach(function(event, i) {
-      const elem = event.selector ? cloned.querySelector(event.selector) : cloned;
-      elem.addEventListener(event.type, function(e) {
-        event.fn.apply(this, [e, ...extraArgs]);
-      });
-    });
-  }
-  cloned.classList.add(cloned.dataset.snippet);
-  delete cloned.dataset.snippet;
-  return cloned;
 };
 
 //This is fundamentally different from addAppEventListener

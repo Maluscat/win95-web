@@ -107,7 +107,7 @@ function executeApp() {
   addApp(this.dataset.execute);
 }
 function addApp(appName, initFn, blockTarget) {
-  const appClone = cloneApp(appName);
+  const appClone = engine.cloneApp(appName);
   const isGhost = appClone.dataset.ghost != null;
   const states = {};
   appStates.set(appClone, states);
@@ -133,7 +133,7 @@ function addApp(appName, initFn, blockTarget) {
 }
 function addTaskButton(app, appName) {
   const states = appStates.get(app);
-  const btnClone = cloneSnippet(snipTemplates['task-btn']);
+  const btnClone = engine.cloneSnippet(snipTemplates['task-btn']);
   const title = app.querySelector('.header .title');
   const appHeading = app.querySelector('.header > .title > .text').textContent;
 

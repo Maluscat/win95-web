@@ -5,7 +5,7 @@ class FileItemBase {
   }
 
   addToDOM(targetNode, path = new Array(), className, name) {
-    const node = cloneSnippet('file-item');
+    const node = engine.cloneSnippet('file-item');
     node.classList.add(className);
     node.querySelector('.text').textContent = this.prepareItemNameWhitespace(name);
     node.addEventListener('dblclick', this.open.bind(this, path));
