@@ -18,7 +18,7 @@ class TemplateEngine {
 
       const expandSpots = content.querySelectorAll('[data-expand-snippet="' + snip.dataset.snippet + '"]');
       for (const expandSpot of expandSpots) {
-        const clone = engine.cloneSnippet(snip);
+        const clone = this.cloneSnippet(snip);
         expandSpot.parentNode.replaceChild(clone, expandSpot);
       }
 
@@ -36,7 +36,7 @@ class TemplateEngine {
     for (const app of this.templates) {
       parseDataEvents(app, ['e', 'app'], (node, type, fn) => {
         const selector = app.checkNode(node, true);
-        engine.addAppEventListener(app, selector, type, fn, false, true);
+        this.addAppEventListener(app, selector, type, fn, false, true);
       });
     }
   }
