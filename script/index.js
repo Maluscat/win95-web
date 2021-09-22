@@ -3,10 +3,6 @@ const LIST_DROPOUT_DELAY = 375;
 
 const textMeasureCtx = document.createElement('canvas').getContext('2d');
 const sweeperImgs = {};
-const snipTemplates = {};
-const snipEvents = {};
-const appTemplates = {};
-const appEvents = {};
 const appMenuTasks = {};
 const appStates = new Map();
 const taskBtnLink = new Map();

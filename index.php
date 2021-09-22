@@ -717,18 +717,18 @@
         for (const app of templateApps) {
           const maxBtn = app.querySelector('.header .title-btns .maximize-btn');
           if (maxBtn && !maxBtn.classList.contains('disabled')) {
-            app.addAppEventListener('.maximize-btn', 'click', maximizeApp);
-            app.addAppEventListener('.header .title .text', 'dblclick', maximizeApp);
+            engine.addAppEventListener(app, '.maximize-btn', 'click', maximizeApp);
+            engine.addAppEventListener(app, '.header .title .text', 'dblclick', maximizeApp);
           }
-          app.addAppEventListener('.minimize-btn', 'click', minimizeApp);
-          app.addAppEventListener('.close-btn', 'click', closeApp);
-          app.addAppEventListener('.header', 'mousedown', addWindowMove);
+          engine.addAppEventListener(app, '.minimize-btn', 'click', minimizeApp);
+          engine.addAppEventListener(app, '.close-btn', 'click', closeApp);
+          engine.addAppEventListener(app, '.header', 'mousedown', addWindowMove);
 
-          app.addAppEventListener('.item-list li.expandable > .wrapper', 'mousedown', expandableListClick, true);
-          app.addAppEventListener('.item-list li', 'mouseenter', handleListItems, true);
-          app.addAppEventListener('.item-list li', 'mouseup', handleAppMenuItems, true);
-          app.addAppEventListener('.menu .menu-item > .wrapper', 'mousedown', toggleAppMenu, true);
-          app.addAppEventListener('.resize-areas > .edge > span', 'mousedown', addWindowResize, true);
+          engine.addAppEventListener(app, '.item-list li.expandable > .wrapper', 'mousedown', expandableListClick, true);
+          engine.addAppEventListener(app, '.item-list li', 'mouseenter', handleListItems, true);
+          engine.addAppEventListener(app, '.item-list li', 'mouseup', handleAppMenuItems, true);
+          engine.addAppEventListener(app, '.menu .menu-item > .wrapper', 'mousedown', toggleAppMenu, true);
+          engine.addAppEventListener(app, '.resize-areas > .edge > span', 'mousedown', addWindowResize, true);
         }
 
         window.addEventListener('mousedown', mouseDown);

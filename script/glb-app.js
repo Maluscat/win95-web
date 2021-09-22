@@ -133,7 +133,7 @@ function addApp(appName, initFn, blockTarget) {
 }
 function addTaskButton(app, appName) {
   const states = appStates.get(app);
-  const btnClone = engine.cloneSnippet(snipTemplates['task-btn']);
+  const btnClone = engine.cloneSnippet(engine.snipTemplates['task-btn']);
   const title = app.querySelector('.header .title');
   const appHeading = app.querySelector('.header > .title > .text').textContent;
 
