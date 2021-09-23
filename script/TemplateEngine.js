@@ -8,7 +8,7 @@ class TemplateEngine {
     Object.assign(this, options);
   }
 
-  parseSnippets() {
+  initSnippets() {
     for (const snip of this.snippets) {
       this.snipTemplates[snip.dataset.snippet] = snip;
 
@@ -25,14 +25,14 @@ class TemplateEngine {
       snip.remove();
     }
   }
-  parseTemplates() {
+  initTemplates() {
     for (const app of this.templates) {
       app.remove();
       delete app.dataset.template;
       this.appTemplates[app.dataset.app] = app;
     }
   }
-  parseDataEvents() {
+  initDataEvents() {
     for (const app of this.templates) {
       parseDataEvents(app, ['e', 'app'], (node, type, fn) => {
         const selector = app.checkNode(node, true);

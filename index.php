@@ -709,7 +709,7 @@
         }
       })();
 
-      engine.parseSnippets();
+      engine.initSnippets();
 
       //Adding event listeners
       (function() {
@@ -759,9 +759,9 @@
         }
       })();
 
-      engine.parseTemplates();
+      engine.initTemplates();
 
-      engine.parseDataEvents();
+      engine.initDataEvents();
 
       // ------- Feature specific init functions -------
       (function() {
