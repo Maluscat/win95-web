@@ -7,11 +7,6 @@ const appMenuTasks = {};
 const taskBtnLink = new Map();
 // For visual syncing across multiple FileViewers (e.g. when creating a new folder)
 const fileViewerInstances = new Map();
-
-const errorCoords = [
-  Math.floor(Math.random() * 15 + 15),
-  Math.floor(Math.random() * 15 + 15)
-];
 const resizeLimit = [
   112,
   65

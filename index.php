@@ -764,18 +764,7 @@
       engine.initDataEvents();
 
       // ------- Feature specific init functions -------
-      (function() {
-        new FileViewer(desktop, ['Windows', 'Desktop']);
-      }());
-
-      //Adding error windows to have it serve as error (404, etc.) page
-      // (function() {
-      //   for (let i = 0; i < 10; i++) {
-      //     setTimeout(function() {
-      //       addApp('error', translateError);
-      //     }, 125 * i);
-      //   }
-      // })();
+      new FileViewer(desktop, ['Windows', 'Desktop']);
 
       updateClock();
       setInterval(updateClock, 1000);
