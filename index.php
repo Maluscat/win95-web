@@ -591,8 +591,8 @@
     </div>
 
     <script src="script/TemplateEngine.js"></script>
-    <script src="script/index.js"></script>
-    <script src="script/glb-app.js"></script>
+    <script src="script/main.js"></script>
+    <script src="script/main-app.js"></script>
     <script src="script/FileViewer.js"></script>
     <?php
       $apps = array_diff(scandir('script/application'), array('..', '.'));
