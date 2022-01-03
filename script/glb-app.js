@@ -40,7 +40,7 @@ function handleAppMenuItems(e, app) {
     const fn = appMenuTasks[task];
     if (fn) {
       const menu = this.findNodeUp('menu-item');
-      fn.call(this, app, menu);
+      fn.call(this, app, menu, engine);
       removeAppMenu(menu);
     }
   }
@@ -50,13 +50,13 @@ function handleAppMenuItems(e, app) {
 function closeApp(e, app) {
   app.remove();
   switchActiveApp(false);
-  const states = appStates.get(app);
+  const states = engine.appStates.get(app);
   if (states[app.dataset.app] && states[app.dataset.app].onClose) {
     states[app.dataset.app].onClose();
   }
   if (states.blockTarget) unblockApp(states.blockTarget);
   if (states.taskBtn) states.taskBtn.remove();
-  appStates.delete(app);
+  engine.appStates.delete(app);
   taskBtnLink.delete(states.taskBtn);
 }
 function expandApp(btn) {
@@ -71,7 +71,7 @@ function expandApp(btn) {
   switchActiveApp(app, btn);
 }
 function minimizeApp(e, app) {
-  const taskBtn = appStates.get(app).taskBtn;
+  const taskBtn = engine.appStates.get(app).taskBtn;
   const width = (taskBtn.offsetWidth / 15) + 'em';
   const innerRect = taskBtn.querySelector('.btn-inner').getBoundingClientRect();
   const transform = 'translate(' + innerRect.left + 'px, ' + innerRect.top + 'px)';
@@ -90,12 +90,12 @@ function maximizeApp(e, app) {
 }
 
 function blockApp(target, source, srcStates) {
-  appStates.get(target).blockSrc = source;
+  engine.appStates.get(target).blockSrc = source;
   target.classList.add('blocked');
   srcStates.blockTarget = target;
 }
 function unblockApp(app) {
-  const states = appStates.get(app);
+  const states = engine.appStates.get(app);
   delete states.blockSrc;
   app.classList.remove('blocked');
   switchActiveApp(app, states.taskBtn);
@@ -110,7 +110,7 @@ function addApp(appName, initFn, blockTarget) {
   const appClone = engine.cloneApp(appName);
   const isGhost = appClone.dataset.ghost != null;
   const states = {};
-  appStates.set(appClone, states);
+  engine.appStates.set(appClone, states);
   if (initFn) {
     (initFn)(appClone, states);
   }
@@ -132,7 +132,7 @@ function addApp(appName, initFn, blockTarget) {
   }
 }
 function addTaskButton(app, appName) {
-  const states = appStates.get(app);
+  const states = engine.appStates.get(app);
   const btnClone = engine.cloneSnippet(engine.snipTemplates['task-btn']);
   const title = app.querySelector('.header .title');
   const appHeading = app.querySelector('.header > .title > .text').textContent;
@@ -155,16 +155,16 @@ function translateError(node) {
 // ------- App helper functions -------
 function switchActiveApp(newNode, newTaskBtn) {
   if (activeApp) {
-    const activeBtn = appStates.get(activeApp).taskBtn;
+    const activeBtn = engine.appStates.get(activeApp).taskBtn;
     if (activeBtn) {
       activeBtn.classList.remove('active');
     }
     activeApp.classList.remove('focus');
   }
   if (newNode) {
-    const states = appStates.get(newNode);
+    const states = engine.appStates.get(newNode);
     if (!newTaskBtn) {
-      newTaskBtn = states.blockTarget ? appStates.get(states.blockTarget).taskBtn : states.taskBtn;
+      newTaskBtn = states.blockTarget ? engine.appStates.get(states.blockTarget).taskBtn : states.taskBtn;
     }
     if (newTaskBtn) newTaskBtn.classList.add('active');
     if (states.blockSrc) {

@@ -4,7 +4,6 @@ const LIST_DROPOUT_DELAY = 375;
 const textMeasureCtx = document.createElement('canvas').getContext('2d');
 const sweeperImgs = {};
 const appMenuTasks = {};
-const appStates = new Map();
 const taskBtnLink = new Map();
 // For visual syncing across multiple FileViewers (e.g. when creating a new folder)
 const fileViewerInstances = new Map();

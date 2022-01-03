@@ -7,8 +7,8 @@ function submitSweeperPrompt(e, app) {
     width: fields.querySelector('.field.item-width input').value,
     mines: fields.querySelector('.field.item-mines input').value
   };
-  const sweeper = appStates.get(app).sweeperLink;
-  const states = appStates.get(sweeper).minesweeper;
+  const sweeper = engine.appStates.get(app).sweeperLink;
+  const states = engine.appStates.get(sweeper).minesweeper;
   states.dims.height = values.height * 16;
   states.dims.width = values.width * 16;
   states.bombAmount = values.mines;

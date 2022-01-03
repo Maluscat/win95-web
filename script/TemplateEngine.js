@@ -4,6 +4,8 @@ class TemplateEngine {
   appTemplates = {};
   appEvents = {};
 
+  appStates = new Map();
+
   constructor(options) {
     Object.assign(this, options);
   }
@@ -183,9 +185,9 @@ function parseFunctionStr(fnStr, params, paramsDefault) {
   }
   //converting the function string to a `call` for passing `this`
   fnStr = replaceAtIndex(lastOpenParen, fnStr, '.call(this' + (hasNoArguments && (!params || !paramsDefault) ? '' : ','));
-  fnStr = fnStr.replace('!app.', 'appStates.get(app).');
+  fnStr = fnStr.replace('!app.', 'templateEngine.appStates.get(app).');
 
-  return new Function(...params, `'use strict'; ${fnStr}`);
+  return new Function(...params, 'templateEngine', `'use strict'; ${fnStr}`);
 
   function replaceAtIndex(idx, source, target) {
     return source.slice(0, idx) + target + source.slice(idx + 1);
