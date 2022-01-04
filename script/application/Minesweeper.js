@@ -7,7 +7,7 @@ function submitSweeperPrompt(e, app) {
     width: fields.querySelector('.field.item-width input').value,
     mines: fields.querySelector('.field.item-mines input').value
   };
-  const sweeper = engine.appStates.get(app).sweeperLink;
+  const sweeper = engine.appStates.get(app).blockTarget;
   const states = engine.appStates.get(sweeper).minesweeper;
   states.dims.height = values.height * 16;
   states.dims.width = values.width * 16;
@@ -348,7 +348,6 @@ function Minesweeper(app) {
           inputs.width.value = that.dims.width / 16;
           inputs.mines.value = that.bombAmount;
           states.inputs = inputs;
-          states.sweeperLink = app;
         }, app);
         reset = false;
         break;
