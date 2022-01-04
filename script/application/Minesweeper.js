@@ -335,7 +335,7 @@ function Minesweeper(app) {
         that.bombAmount = 99;
         break;
       case 'Custom...':
-        addApp('minesweeper:prompt', function(thisApp, states) {
+        addApp('minesweeper:prompt', null, app, function(thisApp, states) {
           const appRect = app.getBoundingClientRect();
           thisApp.style.transform = 'translate(' + (appRect.left + 30) / 15 + 'em, ' + (appRect.top + 65) / 15 + 'em)';
           const fields = thisApp.querySelector('.body .inputs');
@@ -347,8 +347,7 @@ function Minesweeper(app) {
           inputs.height.value = that.dims.height / 16;
           inputs.width.value = that.dims.width / 16;
           inputs.mines.value = that.bombAmount;
-          states.inputs = inputs;
-        }, app);
+        });
         reset = false;
         break;
       default: return;

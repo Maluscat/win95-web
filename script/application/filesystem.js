@@ -45,10 +45,10 @@ class Folder extends FileItemBase {
   }
 
   open(path) {
-    addApp('explorer', (newApp, newStates) => {
-      const newPath = Array.from(path);
-      newPath.push(this.name);
-      newStates.path = newPath;
+    const newPath = Array.from(path);
+    newPath.push(this.name);
+    addApp('explorer', {
+      path: newPath
     });
   }
 }

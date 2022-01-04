@@ -106,11 +106,12 @@ function executeApp() {
   toggleStartMenu('remove');
   addApp(this.dataset.execute);
 }
-function addApp(appName, initFn, blockTarget) {
+function addApp(appName, carryStates, blockTarget, initFn) {
   const appClone = engine.cloneApp(appName);
   const isGhost = appClone.dataset.ghost != null;
   const states = {};
   engine.appStates.set(appClone, states);
+
   if (initFn) {
     (initFn)(appClone, states);
   }
@@ -120,9 +121,10 @@ function addApp(appName, initFn, blockTarget) {
   if (!isGhost) {
     //automatically call the constructor (title cased app name) and add it to states[appname]
     const constructorFn = appName.slice(0, 1).toUpperCase() + appName.slice(1);
-    if (window[constructorFn]) states[appName] = new window[constructorFn](appClone, states);
+    if (window[constructorFn]) states[appName] = new window[constructorFn](appClone, carryStates || {});
     addTaskButton(appClone);
   }
+
   appClone.style.transform = 'translate(' + ((appIndent[0] / 15) || '0.001') + 'em, ' + ((appIndent[1] / 15) || '0.001') + 'em)';
   content.appendChild(appClone);
   switchActiveApp(appClone);
