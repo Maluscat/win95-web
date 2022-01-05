@@ -1,4 +1,6 @@
 class TemplateEngine {
+  static SnipEventsIDCounter = 0;
+
   snipTemplates = {};
   snipEvents = {};
   appTemplates = {};
@@ -15,7 +17,7 @@ class TemplateEngine {
       this.snipTemplates[snip.dataset.snippet] = snip;
 
       parseDataEvents(snip, ['e'], (node, type, fn) => {
-        this.addSnipEventListener(snip, node == snip ? false : node, type, fn);
+        this.addSnipEventListener(snip, node, type, fn);
       }, true);
 
       const expandSpots = content.querySelectorAll('[data-expand-snippet="' + snip.dataset.snippet + '"]');
@@ -125,21 +127,22 @@ class TemplateEngine {
       type: type,
       fn: callback
     };
-    if (node) {
-      const selector = snip.checkNode(node, true);
-      if (selector) {
-        data['selector'] = selector;
+    if (node !== snip) {
+      if (snip.checkNode(node)) {
+        node.dataset.templateEventId = TemplateEngine.SnipEventsIDCounter;
+        data.selector = `[data-template-event-id="${TemplateEngine.SnipEventsIDCounter}"]`;
+        TemplateEngine.SnipEventsIDCounter++;
       } else {
         console.error(
-          "addSnipEventListener Error: The specified node isn't a descendant of the target node. Skipping event.\n" +
+          "addSnipEventListener Error: The specified node isn't a descendent of the target node. Skipping event.\n" +
           "- target node: %o\n" +
           "- specified node: %o\n" +
           "- snippet name: %s",
           snip, node, name
         );
       }
-    } else { //if !!node, add the event to `this`
-      data['selector'] = false;
+    } else {
+      data.selector = false;
     }
     if (!this.snipEvents[name]) {
       const item = new Array(data);
