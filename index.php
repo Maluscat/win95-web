@@ -34,7 +34,7 @@
         </div>
       </aside>
 
-      <div data-snippet="resize-areas">
+      <div data-init data-template="resize-areas" class="resize-areas">
         <div class="edge horizontal north">
           <span class="corner left" data-dir="north-west"></span>
           <span class="filler" data-dir="north"></span>
@@ -57,21 +57,21 @@
         </div>
       </div>
 
-      <li data-snippet="file-item" tabindex="0">
+      <li data-init data-template="file-item" class="file-item" tabindex="0">
         <span class="image">
           <span class="image"></span>
         </span>
         <span class="text noselect"></span>
       </li>
 
-      <button data-snippet="task-btn" type="button" class="btn click-btn" data-on="click, toggleTaskBtn()">
+      <button data-init data-template="task-btn" type="button" class="task-btn btn click-btn" data-on="click, toggleTaskBtn()">
         <div class="inner btn-inner">
           <span class="image"></span>
           <span class="text"></span>
         </div>
       </button>
 
-      <div data-template data-app="explorer" class="window-wrapper">
+      <div data-init data-template="explorer" data-app class="window-wrapper">
         <div class="window">
           <div class="header">
             <div class="title">
@@ -215,10 +215,10 @@
             </div>
           </div>
         </div>
-        <div data-expand-snippet="resize-areas"></div>
+        <div data-template-expand="resize-areas"></div>
       </div>
 
-      <div data-template data-app="notepad" class="window-wrapper">
+      <div data-init data-template="notepad" data-app class="window-wrapper">
         <div class="window">
           <div class="header">
             <div class="title">
@@ -313,10 +313,10 @@
             <textarea></textarea>
           </div>
         </div>
-        <div data-expand-snippet="resize-areas"></div>
+        <div data-template-expand="resize-areas"></div>
       </div>
 
-      <div data-template data-app="error" class="window-wrapper" data-ghost>
+      <div data-init data-template="error" data-app class="window-wrapper" data-ghost>
         <div class="window">
           <div class="header">
             <div class="title">
@@ -365,7 +365,7 @@
         </div>
       </div>
 
-      <div data-template data-app="minesweeper:prompt" class="window-wrapper slim" data-ghost>
+      <div data-init data-template="minesweeper:prompt" data-app class="window-wrapper slim" data-ghost>
         <div class="window slim">
           <div class="header">
             <div class="title">
@@ -422,7 +422,7 @@
         </div>
       </div>
 
-      <div data-template data-app="minesweeper" class="window-wrapper slim">
+      <div data-init data-template="minesweeper" data-app class="window-wrapper slim">
         <div class="window">
           <div class="header">
             <div class="title">
@@ -603,7 +603,7 @@
     <script>
       const content = document.getElementById('content');
 
-      const snippets = content.querySelectorAll('[data-snippet]');
+      const templates = content.querySelectorAll('[data-template]');
       const templateApps = content.querySelectorAll('[data-app]');
 
       const moveIndicator = document.getElementById('move-indicator');
@@ -627,8 +627,7 @@
       const startItemsExpand = firstStartList.querySelectorAll('li.expandable .wrapper');
 
       const engine = new TemplateEngine({
-        templates: templateApps,
-        snippets: snippets,
+        templateNodes: templates,
       });
 
       //Preloading icons for the canvas of Minesweeper
@@ -685,7 +684,7 @@
         for (const icon in availableIcons) {
           const item = availableIcons[icon];
           if (item.includes('tray')) {
-            const appTitle = content.querySelector('[data-app="' + icon + '"] .header .title');
+            const appTitle = engine.templates[icon].querySelector('.header .title');
             appTitle.dataset.trayIcon = icon;
             addIconRule('tray', icon);
           }
@@ -709,26 +708,24 @@
         }
       })();
 
-      engine.initSnippets();
-
       //Adding event listeners
       (function() {
         //Application events, prepared for cloning
         for (const app of templateApps) {
           const maxBtn = app.querySelector('.header .title-btns .maximize-btn');
           if (maxBtn && !maxBtn.classList.contains('disabled')) {
-            engine.addAppEventListener(app, '.maximize-btn', 'click', maximizeApp);
-            engine.addAppEventListener(app, '.header .title .text', 'dblclick', maximizeApp);
+            engine.addTemplateEventListener(app, '.maximize-btn', 'click', maximizeApp);
+            engine.addTemplateEventListener(app, '.header .title .text', 'dblclick', maximizeApp);
           }
-          engine.addAppEventListener(app, '.minimize-btn', 'click', minimizeApp);
-          engine.addAppEventListener(app, '.close-btn', 'click', closeApp);
-          engine.addAppEventListener(app, '.header', 'mousedown', addWindowMove);
+          engine.addTemplateEventListener(app, '.minimize-btn', 'click', minimizeApp);
+          engine.addTemplateEventListener(app, '.close-btn', 'click', closeApp);
+          engine.addTemplateEventListener(app, '.header', 'mousedown', addWindowMove);
 
-          engine.addAppEventListener(app, '.item-list li.expandable > .wrapper', 'mousedown', expandableListClick, true);
-          engine.addAppEventListener(app, '.item-list li', 'mouseenter', handleListItems, true);
-          engine.addAppEventListener(app, '.item-list li', 'mouseup', handleAppMenuItems, true);
-          engine.addAppEventListener(app, '.menu .menu-item > .wrapper', 'mousedown', toggleAppMenu, true);
-          engine.addAppEventListener(app, '.resize-areas > .edge > span', 'mousedown', addWindowResize, true);
+          engine.addTemplateEventListener(app, '.item-list li.expandable > .wrapper', 'mousedown', expandableListClick, true);
+          engine.addTemplateEventListener(app, '.item-list li', 'mouseenter', handleListItems, true);
+          engine.addTemplateEventListener(app, '.item-list li', 'mouseup', handleAppMenuItems, true);
+          engine.addTemplateEventListener(app, '.menu .menu-item > .wrapper', 'mousedown', toggleAppMenu, true);
+          engine.addTemplateEventListener(app, '.resize-areas > .edge > span', 'mousedown', addWindowResize, true);
         }
 
         window.addEventListener('mousedown', mouseDown);
@@ -758,10 +755,6 @@
           }
         }
       })();
-
-      engine.initTemplates();
-
-      engine.initDataEvents();
 
       // ------- Feature specific init functions -------
       new FileViewer(desktop, ['Windows', 'Desktop']);

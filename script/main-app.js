@@ -51,8 +51,8 @@ function closeApp(e, app) {
   app.remove();
   switchActiveApp(false);
   const states = engine.appStates.get(app);
-  if (states[app.dataset.app] && states[app.dataset.app].onClose) {
-    states[app.dataset.app].onClose();
+  if (states[app.dataset.template] && states[app.dataset.template].onClose) {
+    states[app.dataset.template].onClose();
   }
   if (states.blockTarget) unblockApp(states.blockTarget);
   if (states.taskBtn) states.taskBtn.remove();
@@ -107,7 +107,7 @@ function executeApp() {
   addApp(this.dataset.execute);
 }
 function addApp(appName, carryStates, blockTarget, initFn) {
-  const appClone = engine.cloneApp(appName);
+  const appClone = engine.cloneTemplate(appName);
   const isGhost = appClone.dataset.ghost != null;
   const states = {};
   engine.appStates.set(appClone, states);
@@ -135,7 +135,7 @@ function addApp(appName, carryStates, blockTarget, initFn) {
 }
 function addTaskButton(app, appName) {
   const states = engine.appStates.get(app);
-  const btnClone = engine.cloneSnippet(engine.snipTemplates['task-btn']);
+  const btnClone = engine.cloneTemplate('task-btn');
   const title = app.querySelector('.header .title');
   const appHeading = app.querySelector('.header > .title > .text').textContent;
 

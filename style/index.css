@@ -51,9 +51,7 @@ body {
   align-items: flex-start;
   flex: 1;
 }
-[data-template],
-[data-snippet],
-[data-component] {
+[data-init] {
   display: none;
 }
 /*------------ Indicators ------------*/
@@ -850,14 +848,14 @@ body {
   padding: 0.571em 2.786em 0.643em 0.667em;
 }
 /*------------ Minesweeper ------------*/
-[data-app="minesweeper"] .game-window {
+[data-template="minesweeper"] .game-window {
   border-right: 0.2em solid hsl(0, 0%, 50%);
   border-bottom: 0.2em solid hsl(0, 0%, 50%);
   border-left: 0.2em solid white;
   border-top: 0.2em solid white;
   padding: 0.4em;
 }
-[data-app="minesweeper"] .head-panel {
+[data-template="minesweeper"] .head-panel {
   border-right: 0.133em solid white;
   border-bottom: 0.133em solid white;
   border-left: 0.133em solid hsl(0, 0%, 50%);
@@ -867,18 +865,18 @@ body {
   padding: 0.267em 0.4em;
   margin-bottom: 0.4em;
 }
-[data-app="minesweeper"] .head-panel .counter {
+[data-template="minesweeper"] .head-panel .counter {
   background-color: black;
   border-right: 0.067em solid white;
   border-bottom: 0.067em solid white;
   border-left: 0.067em solid hsl(0, 0%, 50%);
   border-top: 0.067em solid hsl(0, 0%, 50%);
 }
-[data-app="minesweeper"] .head-panel .counter canvas {
+[data-template="minesweeper"] .head-panel .counter canvas {
   width: 2.6em;
   height: 1.533em;
 }
-[data-app="minesweeper"] .head-panel .btn.face {
+[data-template="minesweeper"] .head-panel .btn.face {
   margin: 0 0.4em 0 0.333em;
   box-shadow: 0.067em 0.067em hsl(0, 0%, 50%);
   border-right: 0.067em solid black;
@@ -886,14 +884,14 @@ body {
   border-left: 0.067em solid hsl(0, 0%, 50%);
   border-top: 0.067em solid hsl(0, 0%, 50%);
 }
-[data-app="minesweeper"] .head-panel .btn.face .btn-inner {
+[data-template="minesweeper"] .head-panel .btn.face .btn-inner {
   padding: 0;
   border-right: 0.067em solid hsl(0, 0%, 50%);
   border-bottom: 0.067em solid hsl(0, 0%, 50%);
   border-left: 0.067em solid white;
   border-top: 0.067em solid white;
 }
-[data-app="minesweeper"] .head-panel .btn.face:active {
+[data-template="minesweeper"] .head-panel .btn.face:active {
   transform: translate(0.067em, 0.067em);
   border-right: 0.067em solid hsl(0, 0%, 50%);
   border-bottom: 0.067em solid hsl(0, 0%, 50%);
@@ -901,13 +899,13 @@ body {
   border-top: 0.067em solid black;
   box-shadow: -0.067em -0.067em hsl(0, 0%, 50%);
 }
-[data-app="minesweeper"] .head-panel .btn.face:active .btn-inner {
+[data-template="minesweeper"] .head-panel .btn.face:active .btn-inner {
   border-right: 0.067em solid white;
   border-bottom: 0.067em solid white;
   border-left: 0.067em solid hsl(0, 0%, 50%);
   border-top: 0.067em solid hsl(0, 0%, 50%);
 }
-[data-app="minesweeper"] .head-panel .btn.face .image {
+[data-template="minesweeper"] .head-panel .btn.face .image {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: optimizespeed;
   image-rendering: pixelated;
@@ -919,69 +917,69 @@ body {
   background-size: contain;
   background-position: center;
 }
-[data-app="minesweeper"] .head-panel .btn.face .image.smile {
+[data-template="minesweeper"] .head-panel .btn.face .image.smile {
   background-image: url(../resource/image/minesweeper/face/smile.png);
 }
-[data-app="minesweeper"] .head-panel .btn.face .image.surprised {
+[data-template="minesweeper"] .head-panel .btn.face .image.surprised {
   background-image: url(../resource/image/minesweeper/face/surprised.png);
 }
-[data-app="minesweeper"] .head-panel .btn.face .image.devastated {
+[data-template="minesweeper"] .head-panel .btn.face .image.devastated {
   background-image: url(../resource/image/minesweeper/face/utterly-devastated.png);
 }
-[data-app="minesweeper"] .head-panel .btn.face .image.swag {
+[data-template="minesweeper"] .head-panel .btn.face .image.swag {
   background-image: url(../resource/image/minesweeper/face/swag.png);
 }
-[data-app="minesweeper"] .game-panel {
+[data-template="minesweeper"] .game-panel {
   border-right: 0.2em solid white;
   border-bottom: 0.2em solid white;
   border-left: 0.2em solid hsl(0, 0%, 50%);
   border-top: 0.2em solid hsl(0, 0%, 50%);
 }
-[data-app="minesweeper"] .game-panel canvas {
+[data-template="minesweeper"] .game-panel canvas {
   width: 8.533em;
   height: 8.533em;
 }
 /*------------ Minesweeper custom field window ------------*/
-[data-app="minesweeper:prompt"] .body {
+[data-template="minesweeper:prompt"] .body {
   display: flex;
   padding: 0.8em 0.6em 0.733em;
 }
-[data-app="minesweeper:prompt"] .inputs {
+[data-template="minesweeper:prompt"] .inputs {
   padding-right: 0.733em;
 }
-[data-app="minesweeper:prompt"] .inputs .field {
+[data-template="minesweeper:prompt"] .inputs .field {
   display: flex;
 }
-[data-app="minesweeper:prompt"] .inputs .field:not(:first-of-type):not(:last-of-type) {
+[data-template="minesweeper:prompt"] .inputs .field:not(:first-of-type):not(:last-of-type) {
   margin: 1em 0;
 }
-[data-app="minesweeper:prompt"] .inputs .field .caption {
+[data-template="minesweeper:prompt"] .inputs .field .caption {
   padding-right: 1.8em;
   flex: 1;
 }
-[data-app="minesweeper:prompt"] .buttons {
+[data-template="minesweeper:prompt"] .buttons {
   display: flex;
   flex-direction: column;
 }
-[data-app="minesweeper:prompt"] .buttons .btn {
+[data-template="minesweeper:prompt"] .buttons .btn {
   display: block;
 }
-[data-app="minesweeper:prompt"] .buttons .btn:first-of-type {
+[data-template="minesweeper:prompt"] .buttons .btn:first-of-type {
   margin-bottom: 0.333em;
 }
-[data-app="minesweeper:prompt"] .buttons .btn .btn-inner {
+[data-template="minesweeper:prompt"] .buttons .btn .btn-inner {
   padding-left: 0.866em;
   padding-right: 0.866em;
 }
 /*------------ File Explorer ------------*/
-[data-app="explorer"] .body {
+[data-template="explorer"] .body {
   flex: 1;
   border-right: 0.067em solid white;
   border-bottom: 0.067em solid white;
   border-left: 0.067em solid hsl(0, 0%, 50%);
   border-top: 0.067em solid hsl(0, 0%, 50%);
 }
-[data-app="explorer"] .file-viewer {
+[data-template="explorer"] .file-viewer {
   background-color: white;
   width: 100%;
   height: 100%;
@@ -991,15 +989,15 @@ body {
   border-top: 0.067em solid black;
 }
 /*------------ Error window ------------*/
-[data-app="error"] .message,
-[data-app="error"] .further {
+[data-template="error"] .message,
+[data-template="error"] .further {
   padding: 0.85em;
 }
-[data-app="error"] .message {
+[data-template="error"] .message {
   display: flex;
   border-bottom: 0.067em solid hsl(0, 0%, 50%);
 }
-[data-app="error"] .message .image {
+[data-template="error"] .message .image {
   background-image: url(../resource/image/error.png);
   background-repeat: no-repeat;
   background-size: contain;
@@ -1013,28 +1011,28 @@ body {
   min-height: 32px;
   margin-right: 0.8em;
 }
-[data-app="error"] .further {
+[data-template="error"] .further {
   border-top: 0.067em solid white;
 }
-[data-app="error"] .further .btns {
+[data-template="error"] .further .btns {
   padding-top: 0.8em;
   display: flex;
   justify-content: space-between;
 }
-[data-app="error"] .further .btns > a {
+[data-template="error"] .further .btns > a {
   padding: 0;
   width: 4.6em;
 }
-[data-app="error"] .further .btns > a ::first-letter {
+[data-template="error"] .further .btns > a ::first-letter {
   text-decoration: underline;
 }
 /*------------ Notepad ------------*/
-[data-app="notepad"] .body {
+[data-template="notepad"] .body {
   display: flex;
   min-height: 0;
   flex: 1;
 }
-[data-app="notepad"] .body > textarea {
+[data-template="notepad"] .body > textarea {
   display: block;
   font-size: 1em;
   margin-top: 0.133em;

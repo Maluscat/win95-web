@@ -1,163 +1,110 @@
 class TemplateEngine {
-  static SnipEventsIDCounter = 0;
+  static eventsIDCounter = 0;
 
-  snipTemplates = {};
-  snipEvents = {};
-  appTemplates = {};
-  appEvents = {};
+  templateNodes;
 
+  templates = {};
+  templateEvents = {};
   appStates = new Map();
 
   constructor(options) {
     Object.assign(this, options);
-  }
 
-  initSnippets() {
-    for (const snip of this.snippets) {
-      this.snipTemplates[snip.dataset.snippet] = snip;
+    // Save & delete templates, expand templates, parse `data-on` events
+    for (const template of this.templateNodes) {
+      template.remove();
+      delete template.dataset.init;
+      this.templates[template.dataset.template] = template;
 
-      parseDataEvents(snip, ['e'], (node, type, fn) => {
-        this.addSnipEventListener(snip, node, type, fn);
-      }, true);
-
-      const expandSpots = content.querySelectorAll('[data-expand-snippet="' + snip.dataset.snippet + '"]');
+      const expandSpots = content.querySelectorAll('[data-template-expand="' + template.dataset.template + '"]');
       for (const expandSpot of expandSpots) {
-        const clone = this.cloneSnippet(snip);
+        const clone = this.cloneTemplate(template);
         expandSpot.parentNode.replaceChild(clone, expandSpot);
       }
 
-      snip.remove();
-    }
-  }
-  initTemplates() {
-    for (const app of this.templates) {
-      app.remove();
-      delete app.dataset.template;
-      this.appTemplates[app.dataset.app] = app;
-    }
-  }
-  initDataEvents() {
-    for (const app of this.templates) {
-      parseDataEvents(app, ['e', 'app'], (node, type, fn) => {
-        const selector = app.checkNode(node, true);
-        this.addAppEventListener(app, selector, type, fn, false, true);
+      parseDataEvents(template, ['e', 'app'], (node, type, fn) => {
+        this.addTemplateNodeEventListener(template, node, type, fn, false);
       });
     }
   }
 
-  cloneApp(node) {
+  cloneTemplate(node) {
     if (typeof node == 'string') {
-      if (!this.appTemplates[node]) {
-        console.error("cloneApp Error: No app found with a name of the passed string. Skipping.");
+      if (!Object.prototype.hasOwnProperty.call(this.templates, node)) {
+        console.error("cloneTemplate Error: No app found with a name of the passed string. Skipping.");
         return;
       }
-      node = this.appTemplates[node];
+      node = this.templates[node];
     }
     const cloned = node.cloneNode(true);
-    const appName = node.dataset.app;
-    const events = this.appEvents[appName];
+    const events = this.templateEvents[node.dataset.template];
     if (events) {
       for (const evtData of events) {
-        if (evtData.matchAll) {
-          const nodes = cloned.querySelectorAll(evtData.selector);
-          for (const node of nodes) {
-            addEvent(node, cloned, evtData);
+        if (evtData.selector === false) {
+          addEvent(cloned, evtData);
+        } else if (evtData.matchAll) {
+          for (const targetNode of cloned.querySelectorAll(evtData.selector)) {
+            addEvent(targetNode, evtData);
           }
         } else {
-          const node = cloned.querySelector(evtData.selector);
-          addEvent(node, cloned, evtData)
+          const targetNode = cloned.querySelector(evtData.selector);
+          addEvent(targetNode, evtData)
         }
       }
     }
     return cloned;
 
-    function addEvent(node, cloned, evtData) {
-      node.addEventListener(evtData.type, function(e) {
+    function addEvent(targetNode, evtData) {
+      targetNode.addEventListener(evtData.type, function(e) {
         evtData.fn.call(this, e, cloned);
       });
     }
-  };
+  }
 
-  cloneSnippet(node, extraArgs = []) {
-    if (typeof node == 'string') {
-      if (!this.snipTemplates[node]) {
-        console.error("cloneSnippet Error: No snippet found with a name of the passed string. Skipping.");
-        return;
-      }
-      node = this.snipTemplates[node];
-    }
-    const cloned = node.cloneNode(true);
-    const name = node.dataset.snippet;
-    if (this.snipEvents[name]) {
-      this.snipEvents[name].forEach(function(event, i) {
-        const elem = event.selector ? cloned.querySelector(event.selector) : cloned;
-        elem.addEventListener(event.type, function(e) {
-          event.fn.apply(this, [e, ...extraArgs]);
-        });
-      });
-    }
-    cloned.classList.add(cloned.dataset.snippet);
-    delete cloned.dataset.snippet;
-    return cloned;
-  };
-
-  //Adding one or multiple event listeners to an app respectively and saving it in appEvents
-  addAppEventListener(app, selector, type, callback, matchAll, skipCheck) {
-    //matchAll? == use querySelectorAll, skipCheck? == don't check whether the selector is valid within `this`
-    if (skipCheck || matchAll ? app.querySelectorAll(selector).length > 0 : app.querySelector(selector)) {
-      const appName = app.dataset.app;
+  // Adding one or multiple event listeners to a template and saving it in templateEvents
+  addTemplateEventListener(template, selector, type, callback, matchAll, assumeValid) {
+    // matchAll? == use querySelectorAll
+    // assumeValid? == assume that selector exists in template and don't check it
+    if (assumeValid || (matchAll ? template.querySelectorAll(selector).length > 0 : template.querySelector(selector))) {
+      const templateName = template.dataset.template;
       const data = {
         selector: selector,
         type: type,
         fn: callback,
         matchAll: !!matchAll
       };
-      if (!this.appEvents[appName]) {
-        this.appEvents[appName] = new Array(data);
-      } else {
-        this.appEvents[appName].push(data);
+      if (!this.templateEvents[templateName]) {
+        this.templateEvents[templateName] = new Array();
       }
+      this.templateEvents[templateName].push(data);
     }
-  };
+  }
 
-  //This is fundamentally different from addAppEventListener
-  addSnipEventListener(snip, node, type, callback) {
-    const name = snip.dataset.snippet;
-    const data = {
-      type: type,
-      fn: callback
-    };
-    if (node !== snip) {
-      if (snip.checkNode(node)) {
-        node.dataset.templateEventId = TemplateEngine.SnipEventsIDCounter;
-        data.selector = `[data-template-event-id="${TemplateEngine.SnipEventsIDCounter}"]`;
-        TemplateEngine.SnipEventsIDCounter++;
+  addTemplateNodeEventListener(template, targetNode, type, callback) {
+    let selector = false;
+    if (targetNode !== template) {
+      if (template.checkNode(targetNode)) {
+        targetNode.dataset.templateEventId = TemplateEngine.eventsIDCounter;
+        selector = `[data-template-event-id="${TemplateEngine.eventsIDCounter}"]`;
+        TemplateEngine.eventsIDCounter++;
       } else {
         console.error(
-          "addSnipEventListener Error: The specified node isn't a descendent of the target node. Skipping event.\n" +
-          "- target node: %o\n" +
-          "- specified node: %o\n" +
-          "- snippet name: %s",
-          snip, node, name
+          "addTemplateNodeEventListener Error: The targeted node isn't a descendent of the template node. Skipping event.\n" +
+          "- template node: %o\n" +
+          "- target node: %o",
+          template, targetNode
         );
+        return;
       }
-    } else {
-      data.selector = false;
     }
-    if (!this.snipEvents[name]) {
-      const item = new Array(data);
-      this.snipEvents[name] = item;
-    } else {
-      const item = this.snipEvents[name];
-      item.push(data);
-    }
-  };
+    this.addTemplateEventListener(template, selector, type, callback, false, true);
+  }
 }
 
 // ------- Helper functions -------
-function parseDataEvents(node, args, callback, allowSelf) {
+function parseDataEvents(node, args, callback) {
   let eventNodes = node.querySelectorAll('[data-on]');
-  if (node.dataset.on && allowSelf) {
+  if (node.dataset.on) {
     (eventNodes = Array.from(eventNodes)).push(node);
   }
   for (const eventNode of eventNodes) {
