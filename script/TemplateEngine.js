@@ -27,7 +27,7 @@ class TemplateEngine {
   }
 
   cloneTemplate(node) {
-    if (typeof node == 'string') {
+    if (typeof node === 'string') {
       if (!Object.prototype.hasOwnProperty.call(this.templates, node)) {
         console.error("cloneTemplate Error: No app found with a name of the passed string. Skipping.");
         return;
@@ -121,11 +121,11 @@ function parseDataEvents(node, args, callback) {
 function parseFunctionStr(fnStr, params, paramsDefault) {
   //params: Array<String> = parameters of the new Function
   //paramsDefault: bool = whether to use `params` as the default when none were defined
-  if (Array.isArray(params) && params.length == 0) {
+  if (Array.isArray(params) && params.length === 0) {
     throw new Error('@ parseFunctionStr: second argument `params` may not be an empty array.');
   }
   const lastOpenParen = fnStr.lastIndexOf('(');
-  const hasNoArguments = lastOpenParen + 1 == fnStr.lastIndexOf(')');
+  const hasNoArguments = lastOpenParen + 1 === fnStr.lastIndexOf(')');
 
   fnStr = fnStr.trim();
   if (paramsDefault && hasNoArguments) {
@@ -144,11 +144,10 @@ function parseFunctionStr(fnStr, params, paramsDefault) {
 
 // Looping over all children of a specified node, stopping when finding a target
 Node.prototype.checkNode = function(target) {
-  // Implicit unchecked condition: `original` needs to be unique across all of its descendants
   if (this === target) return true;
 
-  for (var i = 0; i < this.childElementCount; i++) {
-    if (this.children[i].checkNode(target)) {
+  for (const child of this.children) {
+    if (child.checkNode(target)) {
       return true;
     }
   }
@@ -157,19 +156,22 @@ Node.prototype.checkNode = function(target) {
 // Looking upwards for a node with the specified class
 Node.prototype.findNodeUp = function(target, isData = false) {
   if (this === document.body) return false;
-  if (!isData && target[0] == '[' && target[target.length - 1] == ']') {
+  if (!isData && target[0] === '[' && target[target.length - 1] === ']') {
     isData = true;
     target = target.slice(1, -1);
-    while(target.includes('-')) {
+    while (target.includes('-')) {
       const index = target.indexOf('-');
       target = target.slice(0, index) + target[index + 1].toUpperCase() + target.slice(index + 2);
     }
   }
   if (Array.isArray(target)) {
-    for (l of target)
-      if (isData && this.dataset[target] != null || !isData && this.classList.contains(l))
+    for (const l of target) {
+      if (isData && this.dataset[target] != null || !isData && this.classList.contains(l)) {
         return this;
-  } else if (isData && this.dataset[target] != null || !isData && this.classList.contains(target))
+      }
+    }
+  } else if (isData && this.dataset[target] != null || !isData && this.classList.contains(target)) {
     return this;
+  }
   return Node.prototype.findNodeUp.call(this.parentNode, target, isData);
 };
