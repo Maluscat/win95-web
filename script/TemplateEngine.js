@@ -1,22 +1,20 @@
 class TemplateEngine {
   static eventsIDCounter = 0;
 
-  templateNodes;
-
   templates = {};
   templateEvents = {};
   appStates = new Map();
 
   constructor(options) {
-    Object.assign(this, options);
+    if (!options.templatesContent) options.templatesContent = document.body;
 
     // Save & delete templates, expand templates, parse `data-on` events
-    for (const template of this.templateNodes) {
+    for (const template of options.templateNodes) {
       template.remove();
       delete template.dataset.init;
       this.templates[template.dataset.template] = template;
 
-      const expandSpots = content.querySelectorAll('[data-template-expand="' + template.dataset.template + '"]');
+      const expandSpots = options.templatesContent.querySelectorAll('[data-template-expand="' + template.dataset.template + '"]');
       for (const expandSpot of expandSpots) {
         const clone = this.cloneTemplate(template);
         expandSpot.parentNode.replaceChild(clone, expandSpot);
@@ -158,7 +156,7 @@ Node.prototype.checkNode = function(target) {
 
 // Looking upwards for a node with the specified class
 Node.prototype.findNodeUp = function(target, isData = false) {
-  if (this == content) return false;
+  if (this === document.body) return false;
   if (!isData && target[0] == '[' && target[target.length - 1] == ']') {
     isData = true;
     target = target.slice(1, -1);

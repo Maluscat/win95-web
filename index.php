@@ -627,6 +627,7 @@
       const startItemsExpand = firstStartList.querySelectorAll('li.expandable .wrapper');
 
       const engine = new TemplateEngine({
+        templatesContent: content,
         templateNodes: templates,
       });
 
