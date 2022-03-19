@@ -61,13 +61,13 @@
         <span class="image">
           <span class="image"></span>
         </span>
-        <span class="text noselect"></span>
+        <span class="text noselect">{{ text }}</span>
       </li>
 
       <button data-init data-template="task-btn" type="button" class="task-btn btn click-btn" data-on="click, toggleTaskBtn()">
         <div class="inner btn-inner">
           <span class="image"></span>
-          <span class="text"></span>
+          <span class="text">{{ appTitle }}</span>
         </div>
       </button>
 

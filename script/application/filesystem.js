@@ -5,9 +5,10 @@ class FileItemBase {
   }
 
   addToDOM(targetNode, path = new Array(), className, name) {
-    const node = engine.cloneTemplate('file-item');
+    const node = engine.cloneTemplate('file-item', {
+      text: this.prepareItemNameWhitespace(name)
+    });
     node.classList.add(className);
-    node.querySelector('.text').textContent = this.prepareItemNameWhitespace(name);
     node.addEventListener('dblclick', this.open.bind(this, path));
     targetNode.appendChild(node);
     return node;

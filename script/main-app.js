@@ -135,12 +135,12 @@ function addApp(appName, carryStates, blockTarget, initFn) {
 }
 function addTaskButton(app, appName) {
   const states = engine.appStates.get(app);
-  const btnClone = engine.cloneTemplate('task-btn');
-  const title = app.querySelector('.header .title');
-  const appHeading = app.querySelector('.header > .title > .text').textContent;
+  const btnClone = engine.cloneTemplate('task-btn', {
+    appTitle: app.querySelector('.header > .title > .text').textContent
+  });
 
+  const title = app.querySelector('.header .title');
   if (title.dataset.trayIcon) btnClone.dataset.trayIcon = title.dataset.trayIcon;
-  btnClone.querySelector('.text').textContent = appHeading;
 
   taskBtnLink.set(btnClone, app);
   states['taskBtn'] = btnClone;
