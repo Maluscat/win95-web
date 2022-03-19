@@ -386,7 +386,7 @@
                   <span class="text">Height:</span>
                 </div>
                 <div class="input-wrapper">
-                  <input class="input" type="text" value="8">
+                  <input class="input" type="text" value="{{ inputHeight }}">
                 </div>
               </div>
               <div class="field item-width">
@@ -394,7 +394,7 @@
                   <span class="text">Width:</span>
                 </div>
                 <div class="input-wrapper">
-                  <input class="input" type="text" value="8">
+                  <input class="input" type="text" value="{{ inputWidth }}">
                 </div>
               </div>
               <div class="field item-mines">
@@ -402,7 +402,7 @@
                   <span class="text">Mines:</span>
                 </div>
                 <div class="input-wrapper">
-                  <input class="input" type="text" value="10">
+                  <input class="input" type="text" value="{{ inputMines }}">
                 </div>
               </div>
             </div>
