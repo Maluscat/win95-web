@@ -106,15 +106,12 @@ function executeApp() {
   toggleStartMenu('remove');
   addApp(this.dataset.execute);
 }
-function addApp(appName, carryStates, blockTarget, initFn) {
-  const appClone = engine.cloneTemplate(appName);
+function addApp(appName, carryStates, blockTarget, placeholders) {
+  const appClone = engine.cloneTemplate(appName, placeholders);
   const isGhost = appClone.dataset.ghost != null;
   const states = {};
   engine.appStates.set(appClone, states);
 
-  if (initFn) {
-    (initFn)(appClone, states);
-  }
   if (blockTarget) {
     blockApp(blockTarget, appClone, states);
   }
