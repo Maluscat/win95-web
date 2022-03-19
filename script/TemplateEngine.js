@@ -1,8 +1,11 @@
 class TemplateEngine {
+  static PLACEHOLDER_REGEX = /{{\s*(\w+)\s*}}/g;
+
   static eventsIDCounter = 0;
 
   templates = {};
   templateEvents = {};
+  templatePlaceholders = {};
   appStates = new Map();
 
   constructor(options) {
@@ -13,6 +16,9 @@ class TemplateEngine {
       template.remove();
       delete template.dataset.init;
       this.templates[template.dataset.template] = template;
+      if (TemplateEngine.PLACEHOLDER_REGEX.test(template.outerHTML)) {
+        this._registerTemplatePlaceholders(template);
+      }
 
       const expandSpots = options.templatesContent.querySelectorAll('[data-template-expand="' + template.dataset.template + '"]');
       for (const expandSpot of expandSpots) {
@@ -26,13 +32,42 @@ class TemplateEngine {
     }
   }
 
-  cloneTemplate(node) {
+  _registerTemplatePlaceholders(node, templateName = node.dataset.template) {
+    if (node.childNodes.length === 0) {
+      if (TemplateEngine.PLACEHOLDER_REGEX.test(node.textContent)) {
+        if (!this.templatePlaceholders[templateName]) {
+          this.templatePlaceholders[templateName] = new Array();
+        }
+        this.templatePlaceholders[templateName].push({
+          node,
+          content: node.textContent
+        });
+      }
+      if (!node.attributes) return;
+    }
+    for (const child of node.attributes) {
+      this._registerTemplatePlaceholders(child, templateName);
+    }
+    for (const child of node.childNodes) {
+      this._registerTemplatePlaceholders(child, templateName);
+    }
+  }
+
+  cloneTemplate(node, placeholderObj) {
     if (typeof node === 'string') {
       if (!Object.prototype.hasOwnProperty.call(this.templates, node)) {
         console.error("cloneTemplate Error: No app found with a name of the passed string. Skipping.");
         return;
       }
       node = this.templates[node];
+    }
+    const placeholders = this.templatePlaceholders[node.dataset.template];
+    if (placeholders) {
+      for (const {node: placeholderNode, content} of placeholders) {
+        placeholderNode.textContent = content.replace(TemplateEngine.PLACEHOLDER_REGEX, function(match, placeholderName) {
+          return placeholderObj ? placeholderObj[placeholderName] || '' : '';
+        });
+      }
     }
     const cloned = node.cloneNode(true);
     const events = this.templateEvents[node.dataset.template];
