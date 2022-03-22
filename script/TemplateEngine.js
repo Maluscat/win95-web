@@ -65,7 +65,7 @@ class TemplateEngine {
     if (placeholders) {
       for (const {node: placeholderNode, content} of placeholders) {
         placeholderNode.textContent = content.replace(TemplateEngine.PLACEHOLDER_REGEX, function(match, placeholderName) {
-          return placeholderObj ? placeholderObj[placeholderName] || '' : '';
+          return placeholderObj && placeholderObj.hasOwnProperty(placeholderName) ? placeholderObj[placeholderName] : '';
         });
       }
     }
