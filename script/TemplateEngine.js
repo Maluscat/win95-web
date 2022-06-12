@@ -12,15 +12,16 @@ class TemplateEngine {
     if (!options.templatesContent) options.templatesContent = document.body;
 
     // Save & delete templates, expand templates, parse `data-on` events
-    for (const template of options.templateNodes) {
-      template.remove();
-      delete template.dataset.init;
-      this.templates[template.dataset.template] = template;
+    for (const templateWrapper of options.templateNodes) {
+      const template = this.getElementFromTemplateWrapper(templateWrapper);
+      const templateName = template.dataset.template;
+      this.templates[templateName] = template;
+
       if (TemplateEngine.PLACEHOLDER_REGEX.test(template.outerHTML)) {
-        this._registerTemplatePlaceholders(template);
+        this._registerTemplatePlaceholders(template, templateName);
       }
 
-      const expandSpots = options.templatesContent.querySelectorAll('[data-template-expand="' + template.dataset.template + '"]');
+      const expandSpots = options.templatesContent.querySelectorAll('[data-template-expand="' + templateName + '"]');
       for (const expandSpot of expandSpots) {
         const clone = this.cloneTemplate(template);
         expandSpot.parentNode.replaceChild(clone, expandSpot);
@@ -30,9 +31,14 @@ class TemplateEngine {
         this.addTemplateNodeEventListener(template, node, type, fn, false);
       });
     }
+
+    // I can't remove them directly in the upper loop, just GC stuff I guess
+    for (const templateWrapper of options.templateNodes) {
+      templateWrapper.remove();
+    }
   }
 
-  _registerTemplatePlaceholders(node, templateName = node.dataset.template) {
+  _registerTemplatePlaceholders(node, templateName) {
     if (node.childNodes.length === 0) {
       if (TemplateEngine.PLACEHOLDER_REGEX.test(node.textContent)) {
         if (!this.templatePlaceholders[templateName]) {
@@ -131,6 +137,15 @@ class TemplateEngine {
       }
     }
     this.addTemplateEventListener(template, selector, type, callback, false, true);
+  }
+
+  // ------- Utility methods -------
+  getElementFromTemplateWrapper(templateWrapper) {
+    if (templateWrapper.content.childElementCount > 1) {
+      throw new Error(
+        `TemplateEngine: Template wrapper ${templateWrapper} contains multiple children but may only contain one`);
+    }
+    return templateWrapper.content.firstElementChild;
   }
 }
 

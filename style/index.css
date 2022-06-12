@@ -51,9 +51,6 @@ body {
   align-items: flex-start;
   flex: 1;
 }
-[data-init] {
-  display: none;
-}
 /*------------ Indicators ------------*/
 .indicator {
   pointer-events: none;

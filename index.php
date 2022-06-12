@@ -34,482 +34,498 @@
         </div>
       </aside>
 
-      <div data-init data-template="resize-areas" class="resize-areas">
-        <div class="edge horizontal north">
-          <span class="corner left" data-dir="north-west"></span>
-          <span class="filler" data-dir="north"></span>
-          <span class="corner right" data-dir="north-east"></span>
+      <template>
+        <div data-template="resize-areas" class="resize-areas">
+          <div class="edge horizontal north">
+            <span class="corner left" data-dir="north-west"></span>
+            <span class="filler" data-dir="north"></span>
+            <span class="corner right" data-dir="north-east"></span>
+          </div>
+          <div class="edge vertical east">
+            <span class="corner top" data-dir="north-east"></span>
+            <span class="filler" data-dir="east"></span>
+            <span class="corner bottom" data-dir="south-east"></span>
+          </div>
+          <div class="edge horizontal south">
+            <span class="corner left" data-dir="south-west"></span>
+            <span class="filler" data-dir="south"></span>
+            <span class="corner right" data-dir="south-east"></span>
+          </div>
+          <div class="edge vertical west">
+            <span class="corner top" data-dir="north-west"></span>
+            <span class="filler" data-dir="west"></span>
+            <span class="corner bottom" data-dir="south-west"></span>
+          </div>
         </div>
-        <div class="edge vertical east">
-          <span class="corner top" data-dir="north-east"></span>
-          <span class="filler" data-dir="east"></span>
-          <span class="corner bottom" data-dir="south-east"></span>
-        </div>
-        <div class="edge horizontal south">
-          <span class="corner left" data-dir="south-west"></span>
-          <span class="filler" data-dir="south"></span>
-          <span class="corner right" data-dir="south-east"></span>
-        </div>
-        <div class="edge vertical west">
-          <span class="corner top" data-dir="north-west"></span>
-          <span class="filler" data-dir="west"></span>
-          <span class="corner bottom" data-dir="south-west"></span>
-        </div>
-      </div>
+      </template>
 
-      <li data-init data-template="file-item" class="file-item" tabindex="0">
-        <span class="image">
-          <span class="image"></span>
-        </span>
-        <span class="text noselect">{{ text }}</span>
-      </li>
+      <template>
+        <li data-template="file-item" class="file-item" tabindex="0">
+          <span class="image">
+            <span class="image"></span>
+          </span>
+          <span class="text noselect">{{ text }}</span>
+        </li>
+      </template>
 
-      <button data-init data-template="task-btn" type="button" class="task-btn btn click-btn" data-on="click, toggleTaskBtn()">
-        <div class="inner btn-inner">
-          <span class="image"></span>
-          <span class="text">{{ appTitle }}</span>
-        </div>
-      </button>
+      <template>
+        <button data-template="task-btn" type="button" class="task-btn btn click-btn" data-on="click, toggleTaskBtn()">
+          <div class="inner btn-inner">
+            <span class="image"></span>
+            <span class="text">{{ appTitle }}</span>
+          </div>
+        </button>
+      </template>
 
-      <div data-init data-template="explorer" data-app class="window-wrapper">
-        <div class="window">
-          <div class="header">
-            <div class="title">
-              <span class="image"></span>
-              <span class="text"></span>
-            </div>
-            <div class="title-btns">
-              <button type="button" class="minimize-btn click-btn btn">
-                <div class="btn-inner">
-                  <span class="image"></span>
-                </div>
-              </button>
-              <button type="button" class="maximize-btn click-btn btn">
-                <div class="btn-inner">
-                  <span class="image"></span>
-                </div>
-              </button>
-              <button type="button" class="close-btn click-btn btn">
-                <div class="btn-inner">
-                  <span class="image"></span>
-                </div>
-              </button>
-            </div>
-          </div>
-          <div class="menu">
-            <ul class="list">
-              <li class="menu-item">
-                <div class="wrapper">
-                  <span class="text">File</span>
-                </div>
-                <div class="window-wrapper item-list">
-                  <div class="window">
-                    <ul class="index">
-                      <div class="section">
-                        <li>Open</li>
-                        <li>Explore</li>
-                        <li>Find...</li>
-                      </div>
-                      <div class="section">
-                        <li class="expandable">
-                          <div class="wrapper">New</div>
-                          <div class="window-wrapper">
-                            <div class="window">
-                              <ul class="index">
-                                <div class="section">
-                                  <li data-task="!app.explorer.newFolder()">Folder</li>
-                                  <li>Shortcut</li>
-                                </div>
-                                <div class="section">
-                                  <li>Text Document</li>
-                                </div>
-                              </ul>
-                            </div>
-                          </div>
-                        </li>
-                      </div>
-                      <div class="section">
-                        <li>Create Shortcut</li>
-                        <li>Delete</li>
-                        <li>Rename</li>
-                        <li>Properties</li>
-                      </div>
-                      <div class="section">
-                        <li>Close</li>
-                      </div>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li class="menu-item">
-                <div class="wrapper">
-                  <span class="text">Edit</span>
-                </div>
-                <div class="window-wrapper item-list">
-                  <div class="window">
-                    <ul class="index">
-                      <div class="section">
-                        <li>Undo Rename</li>
-                      </div>
-                      <div class="section">
-                        <li class="shortcut">
-                          <span class="text">Cut</span>
-                          <span class="shortcut">Ctrl+X</span>
-                        </li>
-                        <li class="shortcut">
-                          <span class="text">Copy</span>
-                          <span class="shortcut">Ctrl+C</span>
-                        </li>
-                        <li class="shortcut disabled">
-                          <span class="text">Paste</span>
-                          <span class="shortcut">Ctrl+V</span>
-                        </li>
-                        <li class="disabled">Paste Shortcut</li>
-                      </div>
-                      <div class="section">
-                        <li class="shortcut">
-                          <span class="text">Select All</span>
-                          <span class="shortcut">Ctrl+A</span>
-                        </li>
-                        <li>Invert Selection</li>
-                      </div>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li class="menu-item">
-                <div class="wrapper">
-                  <span class="text">View</span>
-                </div>
-                <div class="window-wrapper item-list">
-                  <div class="window">
-                    <ul class="index">
-                      <div class="section">
-                        <li>Toolbar</li>
-                        <li class="checkmark">Status bar</li>
-                      </div>
-                      <div class="section">
-                        <li class="radio-btn">Large Icons</li>
-                        <li>Small Icons</li>
-                        <li>List</li>
-                        <li>Details</li>
-                      </div>
-                      <div class="section">
-                        <li>Arrange Icons //TODO COLLAPSIBLE ARROW MENU</li>
-                        <li>Line up Icons //?</li>
-                      </div>
-                      <div class="section">
-                        <li>Refresh</li>
-                        <li>Options</li>
-                      </div>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="body">
-            <div class="file-viewer">
-              <ul class="file-items">
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div data-template-expand="resize-areas"></div>
-      </div>
-
-      <div data-init data-template="notepad" data-app class="window-wrapper">
-        <div class="window">
-          <div class="header">
-            <div class="title">
-              <span class="image"></span>
-              <span class="text">Untitled - Notepad</span>
-            </div>
-            <div class="title-btns">
-              <button type="button" class="minimize-btn click-btn btn">
-                <div class="btn-inner">
-                  <span class="image"></span>
-                </div>
-              </button>
-              <button type="button" class="maximize-btn click-btn btn">
-                <div class="btn-inner">
-                  <span class="image"></span>
-                </div>
-              </button>
-              <button type="button" class="close-btn click-btn btn">
-                <div class="btn-inner">
-                  <span class="image"></span>
-                </div>
-              </button>
-            </div>
-          </div>
-          <div class="menu">
-            <ul class="list">
-              <li class="menu-item">
-                <div class="wrapper">
-                  <span class="text">File</span>
-                </div>
-                <div class="window-wrapper item-list">
-                  <div class="window">
-                    <ul class="index">
-                      <div class="section">
-                        <li>New</li>
-                        <li>Open</li>
-                        <li>Save</li>
-                        <li>Save as...</li>
-                      </div>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li class="menu-item">
-                <div class="wrapper">
-                  <span class="text">Edit</span>
-                </div>
-                <div class="window-wrapper item-list">
-                  <div class="window">
-                    <ul class="index">
-                      <div class="section">
-                        <li class="disabled">Word wrap</li>
-                        <li class="disabled">Disabled :(</li>
-                      </div>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li class="menu-item">
-                <div class="wrapper">
-                  <span class="text">Search</span>
-                </div>
-                <div class="window-wrapper item-list">
-                  <div class="window">
-                    <ul class="index">
-                      <div class="section">
-                        <li>More options!</li>
-                        <li>Option 2!</li>
-                      </div>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li class="menu-item">
-                <div class="wrapper">
-                  <span class="text">Help</span>
-                </div>
-                <div class="window-wrapper item-list">
-                  <div class="window">
-                    <ul class="index">
-                      <div class="section">
-                        <li>Even more</li>
-                        <li>Options!</li>
-                      </div>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="body">
-            <textarea></textarea>
-          </div>
-        </div>
-        <div data-template-expand="resize-areas"></div>
-      </div>
-
-      <div data-init data-template="error" data-app class="window-wrapper" data-ghost>
-        <div class="window">
-          <div class="header">
-            <div class="title">
-              <span class="image"></span>
-              <span class="text">404 Not Found</span>
-            </div>
-            <div class="title-btns">
-              <button type="button" class="close-btn click-btn btn">
-                <div class="btn-inner">
-                  <span class="image"></span>
-                </div>
-              </button>
-            </div>
-          </div>
-          <div class="body">
-            <div class="message">
-              <span class="image"></span>
-              <span class="text">The requested page couldn't be found</span>
-            </div>
-            <div class="further">
-              <span class="text">Maybe try one of these:</span>
-              <div class="btns">
-                <a class="btn action-btn" href="/">
-                  <div class="btn-inner inner">
-                    <span class="text">Home</span>
-                  </div>
-                </a>
-                <a class="btn action-btn" href="/tools">
-                  <div class="btn-inner inner">
-                    <span class="text">Tools</span>
-                  </div>
-                </a>
-                <a class="btn action-btn" href="/slider89">
-                  <div class="btn-inner inner">
-                    <span class="text">Slider89</span>
-                  </div>
-                </a>
-                <a class="btn action-btn" href="/webgl">
-                  <div class="btn-inner inner">
-                    <span class="text">WebGL</span>
-                  </div>
-                </a>
+      <template>
+        <div data-template="explorer" data-app class="window-wrapper">
+          <div class="window">
+            <div class="header">
+              <div class="title">
+                <span class="image"></span>
+                <span class="text"></span>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div data-init data-template="minesweeper:prompt" data-app class="window-wrapper slim" data-ghost>
-        <div class="window slim">
-          <div class="header">
-            <div class="title">
-              <span class="text">Custom Field</span>
-            </div>
-            <div class="title-btns">
-              <button type="button" class="close-btn click-btn btn">
-                <div class="btn-inner">
-                  <span class="image"></span>
-                </div>
-              </button>
-            </div>
-          </div>
-          <div class="body">
-            <div class="inputs">
-              <div class="field item-height">
-                <div class="caption">
-                  <span class="text">Height:</span>
-                </div>
-                <div class="input-wrapper">
-                  <input class="input" type="text" value="{{ inputHeight }}">
-                </div>
-              </div>
-              <div class="field item-width">
-                <div class="caption">
-                  <span class="text">Width:</span>
-                </div>
-                <div class="input-wrapper">
-                  <input class="input" type="text" value="{{ inputWidth }}">
-                </div>
-              </div>
-              <div class="field item-mines">
-                <div class="caption">
-                  <span class="text">Mines:</span>
-                </div>
-                <div class="input-wrapper">
-                  <input class="input" type="text" value="{{ inputMines }}">
-                </div>
-              </div>
-            </div>
-            <div class="buttons">
-              <button class="btn click-btn action-btn submit" type="button" data-on="click, submitSweeperPrompt()">
-                <div class="inner btn-inner">
-                  <span class="text">OK</span>
-                </div>
-              </button>
-              <button class="btn click-btn action-btn cancel" type="button" data-on="click, closeApp()">
-                <div class="inner btn-inner">
-                  <span class="text">Cancel</span>
-                </div>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div data-init data-template="minesweeper" data-app class="window-wrapper slim">
-        <div class="window">
-          <div class="header">
-            <div class="title">
-              <span class="image"></span>
-              <span class="text">Minesweeper</span>
-            </div>
-            <div class="title-btns">
-              <button type="button" class="minimize-btn click-btn btn">
-                <div class="btn-inner">
-                  <span class="image"></span>
-                </div>
-              </button>
-              <button type="button" class="maximize-btn click-btn btn disabled">
-                <div class="btn-inner">
-                  <span class="image"></span>
-                </div>
-              </button>
-              <button type="button" class="close-btn click-btn btn">
-                <div class="btn-inner">
-                  <span class="image"></span>
-                </div>
-              </button>
-            </div>
-          </div>
-          <div class="menu">
-            <ul class="list">
-              <li class="menu-item">
-                <div class="wrapper">
-                  <span class="text">Game</span>
-                </div>
-                <div class="window-wrapper item-list">
-                  <div class="window">
-                    <ul class="index">
-                      <div class="section">
-                        <li class="shortcut" data-task="!app.minesweeper.newGame()">
-                          <span class="text">New</span>
-                          <span class="shortcut">F2</span>
-                        </li>
-                      </div>
-                      <div class="section" data-task="!app.minesweeper.changeField(this, menu)">
-                        <li class="checkmark checked">Beginner</li>
-                        <li class="checkmark">Intermediate</li>
-                        <li class="checkmark">Expert</li>
-                        <li class="checkmark">Custom...</li>
-                      </div>
-                      <div class="section">
-                        <li class="checkmark" data-task="!app.minesweeper.toggleQuestionMarks()">Marks (?)</li>
-                      </div>
-                      <div class="section">
-                        <li>Best Times</li>
-                      </div>
-                      <div class="section">
-                        <li class="exit" data-task="closeApp(null, app)">Exit</li>
-                      </div>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li class="menu-item">
-                <div class="wrapper">
-                  <span class="text">Help</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="body">
-            <div class="game-window">
-              <div class="head-panel">
-                <div class="counter bombs">
-                  <canvas width="39" height="23"></canvas>
-                </div>
-                <button class="btn click-btn face">
-                  <div class="btn-inner inner">
-                    <span class="image smile"></span>
+              <div class="title-btns">
+                <button type="button" class="minimize-btn click-btn btn">
+                  <div class="btn-inner">
+                    <span class="image"></span>
                   </div>
                 </button>
-                <div class="counter time">
-                  <canvas width="39" height="23"></canvas>
-                </div>
+                <button type="button" class="maximize-btn click-btn btn">
+                  <div class="btn-inner">
+                    <span class="image"></span>
+                  </div>
+                </button>
+                <button type="button" class="close-btn click-btn btn">
+                  <div class="btn-inner">
+                    <span class="image"></span>
+                  </div>
+                </button>
               </div>
-              <div class="game-panel">
-                <canvas width="128" height="128"></canvas>
+            </div>
+            <div class="menu">
+              <ul class="list">
+                <li class="menu-item">
+                  <div class="wrapper">
+                    <span class="text">File</span>
+                  </div>
+                  <div class="window-wrapper item-list">
+                    <div class="window">
+                      <ul class="index">
+                        <div class="section">
+                          <li>Open</li>
+                          <li>Explore</li>
+                          <li>Find...</li>
+                        </div>
+                        <div class="section">
+                          <li class="expandable">
+                            <div class="wrapper">New</div>
+                            <div class="window-wrapper">
+                              <div class="window">
+                                <ul class="index">
+                                  <div class="section">
+                                    <li data-task="!app.explorer.newFolder()">Folder</li>
+                                    <li>Shortcut</li>
+                                  </div>
+                                  <div class="section">
+                                    <li>Text Document</li>
+                                  </div>
+                                </ul>
+                              </div>
+                            </div>
+                          </li>
+                        </div>
+                        <div class="section">
+                          <li>Create Shortcut</li>
+                          <li>Delete</li>
+                          <li>Rename</li>
+                          <li>Properties</li>
+                        </div>
+                        <div class="section">
+                          <li>Close</li>
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li class="menu-item">
+                  <div class="wrapper">
+                    <span class="text">Edit</span>
+                  </div>
+                  <div class="window-wrapper item-list">
+                    <div class="window">
+                      <ul class="index">
+                        <div class="section">
+                          <li>Undo Rename</li>
+                        </div>
+                        <div class="section">
+                          <li class="shortcut">
+                            <span class="text">Cut</span>
+                            <span class="shortcut">Ctrl+X</span>
+                          </li>
+                          <li class="shortcut">
+                            <span class="text">Copy</span>
+                            <span class="shortcut">Ctrl+C</span>
+                          </li>
+                          <li class="shortcut disabled">
+                            <span class="text">Paste</span>
+                            <span class="shortcut">Ctrl+V</span>
+                          </li>
+                          <li class="disabled">Paste Shortcut</li>
+                        </div>
+                        <div class="section">
+                          <li class="shortcut">
+                            <span class="text">Select All</span>
+                            <span class="shortcut">Ctrl+A</span>
+                          </li>
+                          <li>Invert Selection</li>
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li class="menu-item">
+                  <div class="wrapper">
+                    <span class="text">View</span>
+                  </div>
+                  <div class="window-wrapper item-list">
+                    <div class="window">
+                      <ul class="index">
+                        <div class="section">
+                          <li>Toolbar</li>
+                          <li class="checkmark">Status bar</li>
+                        </div>
+                        <div class="section">
+                          <li class="radio-btn">Large Icons</li>
+                          <li>Small Icons</li>
+                          <li>List</li>
+                          <li>Details</li>
+                        </div>
+                        <div class="section">
+                          <li>Arrange Icons //TODO COLLAPSIBLE ARROW MENU</li>
+                          <li>Line up Icons //?</li>
+                        </div>
+                        <div class="section">
+                          <li>Refresh</li>
+                          <li>Options</li>
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="body">
+              <div class="file-viewer">
+                <ul class="file-items">
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div data-template-expand="resize-areas"></div>
+        </div>
+      </template>
+
+      <template>
+        <div data-template="notepad" data-app class="window-wrapper">
+          <div class="window">
+            <div class="header">
+              <div class="title">
+                <span class="image"></span>
+                <span class="text">Untitled - Notepad</span>
+              </div>
+              <div class="title-btns">
+                <button type="button" class="minimize-btn click-btn btn">
+                  <div class="btn-inner">
+                    <span class="image"></span>
+                  </div>
+                </button>
+                <button type="button" class="maximize-btn click-btn btn">
+                  <div class="btn-inner">
+                    <span class="image"></span>
+                  </div>
+                </button>
+                <button type="button" class="close-btn click-btn btn">
+                  <div class="btn-inner">
+                    <span class="image"></span>
+                  </div>
+                </button>
+              </div>
+            </div>
+            <div class="menu">
+              <ul class="list">
+                <li class="menu-item">
+                  <div class="wrapper">
+                    <span class="text">File</span>
+                  </div>
+                  <div class="window-wrapper item-list">
+                    <div class="window">
+                      <ul class="index">
+                        <div class="section">
+                          <li>New</li>
+                          <li>Open</li>
+                          <li>Save</li>
+                          <li>Save as...</li>
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li class="menu-item">
+                  <div class="wrapper">
+                    <span class="text">Edit</span>
+                  </div>
+                  <div class="window-wrapper item-list">
+                    <div class="window">
+                      <ul class="index">
+                        <div class="section">
+                          <li class="disabled">Word wrap</li>
+                          <li class="disabled">Disabled :(</li>
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li class="menu-item">
+                  <div class="wrapper">
+                    <span class="text">Search</span>
+                  </div>
+                  <div class="window-wrapper item-list">
+                    <div class="window">
+                      <ul class="index">
+                        <div class="section">
+                          <li>More options!</li>
+                          <li>Option 2!</li>
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li class="menu-item">
+                  <div class="wrapper">
+                    <span class="text">Help</span>
+                  </div>
+                  <div class="window-wrapper item-list">
+                    <div class="window">
+                      <ul class="index">
+                        <div class="section">
+                          <li>Even more</li>
+                          <li>Options!</li>
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="body">
+              <textarea></textarea>
+            </div>
+          </div>
+          <div data-template-expand="resize-areas"></div>
+        </div>
+      </template>
+
+      <template>
+        <div data-template="error" data-app class="window-wrapper" data-ghost>
+          <div class="window">
+            <div class="header">
+              <div class="title">
+                <span class="image"></span>
+                <span class="text">404 Not Found</span>
+              </div>
+              <div class="title-btns">
+                <button type="button" class="close-btn click-btn btn">
+                  <div class="btn-inner">
+                    <span class="image"></span>
+                  </div>
+                </button>
+              </div>
+            </div>
+            <div class="body">
+              <div class="message">
+                <span class="image"></span>
+                <span class="text">The requested page couldn't be found</span>
+              </div>
+              <div class="further">
+                <span class="text">Maybe try one of these:</span>
+                <div class="btns">
+                  <a class="btn action-btn" href="/">
+                    <div class="btn-inner inner">
+                      <span class="text">Home</span>
+                    </div>
+                  </a>
+                  <a class="btn action-btn" href="/tools">
+                    <div class="btn-inner inner">
+                      <span class="text">Tools</span>
+                    </div>
+                  </a>
+                  <a class="btn action-btn" href="/slider89">
+                    <div class="btn-inner inner">
+                      <span class="text">Slider89</span>
+                    </div>
+                  </a>
+                  <a class="btn action-btn" href="/webgl">
+                    <div class="btn-inner inner">
+                      <span class="text">WebGL</span>
+                    </div>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </template>
+
+      <template>
+        <div data-template="Minesweeper:prompt" data-app class="window-wrapper slim" data-ghost>
+          <div class="window slim">
+            <div class="header">
+              <div class="title">
+                <span class="text">Custom Field</span>
+              </div>
+              <div class="title-btns">
+                <button type="button" class="close-btn click-btn btn">
+                  <div class="btn-inner">
+                    <span class="image"></span>
+                  </div>
+                </button>
+              </div>
+            </div>
+            <div class="body">
+              <div class="inputs">
+                <div class="field item-height">
+                  <div class="caption">
+                    <span class="text">Height:</span>
+                  </div>
+                  <div class="input-wrapper">
+                    <input class="input" type="text" value="{{ inputHeight }}">
+                  </div>
+                </div>
+                <div class="field item-width">
+                  <div class="caption">
+                    <span class="text">Width:</span>
+                  </div>
+                  <div class="input-wrapper">
+                    <input class="input" type="text" value="{{ inputWidth }}">
+                  </div>
+                </div>
+                <div class="field item-mines">
+                  <div class="caption">
+                    <span class="text">Mines:</span>
+                  </div>
+                  <div class="input-wrapper">
+                    <input class="input" type="text" value="{{ inputMines }}">
+                  </div>
+                </div>
+              </div>
+              <div class="buttons">
+                <button class="btn click-btn action-btn submit" type="button" data-on="click, submitSweeperPrompt()">
+                  <div class="inner btn-inner">
+                    <span class="text">OK</span>
+                  </div>
+                </button>
+                <button class="btn click-btn action-btn cancel" type="button" data-on="click, closeApp()">
+                  <div class="inner btn-inner">
+                    <span class="text">Cancel</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <template>
+        <div data-template="minesweeper" data-app class="window-wrapper slim">
+          <div class="window">
+            <div class="header">
+              <div class="title">
+                <span class="image"></span>
+                <span class="text">Minesweeper</span>
+              </div>
+              <div class="title-btns">
+                <button type="button" class="minimize-btn click-btn btn">
+                  <div class="btn-inner">
+                    <span class="image"></span>
+                  </div>
+                </button>
+                <button type="button" class="maximize-btn click-btn btn disabled">
+                  <div class="btn-inner">
+                    <span class="image"></span>
+                  </div>
+                </button>
+                <button type="button" class="close-btn click-btn btn">
+                  <div class="btn-inner">
+                    <span class="image"></span>
+                  </div>
+                </button>
+              </div>
+            </div>
+            <div class="menu">
+              <ul class="list">
+                <li class="menu-item">
+                  <div class="wrapper">
+                    <span class="text">Game</span>
+                  </div>
+                  <div class="window-wrapper item-list">
+                    <div class="window">
+                      <ul class="index">
+                        <div class="section">
+                          <li class="shortcut" data-task="!app.minesweeper.newGame()">
+                            <span class="text">New</span>
+                            <span class="shortcut">F2</span>
+                          </li>
+                        </div>
+                        <div class="section" data-task="!app.minesweeper.changeField(this, menu)">
+                          <li class="checkmark checked">Beginner</li>
+                          <li class="checkmark">Intermediate</li>
+                          <li class="checkmark">Expert</li>
+                          <li class="checkmark">Custom...</li>
+                        </div>
+                        <div class="section">
+                          <li class="checkmark" data-task="!app.minesweeper.toggleQuestionMarks()">Marks (?)</li>
+                        </div>
+                        <div class="section">
+                          <li>Best Times</li>
+                        </div>
+                        <div class="section">
+                          <li class="exit" data-task="closeApp(null, app)">Exit</li>
+                        </div>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li class="menu-item">
+                  <div class="wrapper">
+                    <span class="text">Help</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="body">
+              <div class="game-window">
+                <div class="head-panel">
+                  <div class="counter bombs">
+                    <canvas width="39" height="23"></canvas>
+                  </div>
+                  <button class="btn click-btn face">
+                    <div class="btn-inner inner">
+                      <span class="image smile"></span>
+                    </div>
+                  </button>
+                  <div class="counter time">
+                    <canvas width="39" height="23"></canvas>
+                  </div>
+                </div>
+                <div class="game-panel">
+                  <canvas width="128" height="128"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
 
       <div id="desktop" class="file-viewer"></div>
 
@@ -603,9 +619,6 @@
     <script>
       const content = document.getElementById('content');
 
-      const templates = content.querySelectorAll('[data-template]');
-      const templateApps = content.querySelectorAll('[data-app]');
-
       const moveIndicator = document.getElementById('move-indicator');
       const headExpander = document.getElementById('header-expander');
       const expanderTitle = headExpander.querySelector('.title .text');
@@ -628,8 +641,11 @@
 
       const engine = new TemplateEngine({
         templatesContent: content,
-        templateNodes: templates,
+        templateNodes: content.getElementsByTagName('template'),
       });
+
+      const templateApps = Object.values(engine.templates)
+        .filter(node => node.dataset.app !== null);
 
       //Preloading icons for the canvas of Minesweeper
       (function() {
