@@ -28,7 +28,7 @@ var windowMoveClicked;
 
 
 // ------- Window event listener functions -------
-function mouseDown(e) { //`window` mousedown event
+function mouseDown(e) { //`window` pointerdown event
   //The first commercial mouse with a scroll wheel (not mentioning a middle mouse click) was invented in 1995
   //Microsoft began incorporating the concept of scroll wheels beginning with Office 1997 to match the release of their own mouse (with a scroll wheel)
   //Thus, Windows 95 has no capabilities for scroll wheels/middle mouse click at all
@@ -94,10 +94,10 @@ function handleListItems() {
   }
   if (li.classList.contains('expandable')) {
     activeListItem = li;
-    activeListItem.addEventListener('mouseleave', clearListItemMeta);
+    activeListItem.addEventListener('pointerleave', clearListItemMeta);
 
     itemLeaveTimeout = setTimeout(() => {
-      activeListItem.removeEventListener('mouseleave', clearListItemMeta);
+      activeListItem.removeEventListener('pointerleave', clearListItemMeta);
     }, LIST_DROPOUT_DELAY);
 
     itemExpandTimeout = setTimeout(() => {
@@ -108,7 +108,7 @@ function handleListItems() {
 }
 function clearListItemMeta() {
   clearTimeout(itemExpandTimeout);
-  activeListItem.removeEventListener('mouseleave', clearListItemMeta);
+  activeListItem.removeEventListener('pointerleave', clearListItemMeta);
   clearTimeout(itemLeaveTimeout);
 }
 function removeListDropouts(target, useDelay) {
@@ -155,8 +155,8 @@ function prepareMoveIndicator(that, node, e, fnMove, fnRemove, check) {
       ];
       moveIndicator.classList.remove('hidden');
     }
-    content.addEventListener('mousemove', fnMove);
-    window.addEventListener('mouseup', fnRemove);
+    content.addEventListener('pointermove', fnMove);
+    window.addEventListener('pointerup', fnRemove);
   }
 }
 function removeMoveIndicator(fnMove, fnRemove) {
@@ -189,8 +189,8 @@ function removeMoveIndicator(fnMove, fnRemove) {
   moveIndicator.style.removeProperty('width');
   moveIndicator.style.removeProperty('height');
   movingWindow = null;
-  content.removeEventListener('mousemove', fnMove);
-  window.removeEventListener('mouseup', fnRemove);
+  content.removeEventListener('pointermove', fnMove);
+  window.removeEventListener('pointerup', fnRemove);
 }
 
 // ------- Move functions -------

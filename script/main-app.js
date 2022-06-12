@@ -26,7 +26,7 @@ function handleAppMenuEvents(type, node) {
   if (!type || type != 'add' && type != 'remove') type = 'add';
 
   for (const menuWrapper of node.querySelectorAll('.menu-item > .wrapper')) {
-    menuWrapper[type + 'EventListener']('mouseenter', switchAppMenu);
+    menuWrapper[type + 'EventListener']('pointerenter', switchAppMenu);
   }
 }
 

@@ -51,7 +51,7 @@ function Minesweeper(app) {
     };
 
     faceBtn.addEventListener('click', that.newGame);
-    canvas.addEventListener('mousedown', mouseDown);
+    canvas.addEventListener('pointerdown', mouseDown);
     canvas.addEventListener('contextmenu', function(e) {
       e.preventDefault();
     });
@@ -398,8 +398,8 @@ function Minesweeper(app) {
     );
   }
   function toggleGlobalEvents(method = 'add') {
-    window[method + 'EventListener']('mousemove', mouseMove);
-    window[method + 'EventListener']('mouseup', mouseUp);
+    window[method + 'EventListener']('pointermove', mouseMove);
+    window[method + 'EventListener']('pointerup', mouseUp);
   }
 
   //Panels

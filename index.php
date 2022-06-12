@@ -720,21 +720,21 @@
           }
           engine.addTemplateEventListener(app, '.minimize-btn', 'click', minimizeApp);
           engine.addTemplateEventListener(app, '.close-btn', 'click', closeApp);
-          engine.addTemplateEventListener(app, '.header', 'mousedown', addWindowMove);
+          engine.addTemplateEventListener(app, '.header', 'pointerdown', addWindowMove);
 
-          engine.addTemplateEventListener(app, '.item-list li.expandable > .wrapper', 'mousedown', expandableListClick, true);
-          engine.addTemplateEventListener(app, '.item-list li', 'mouseenter', handleListItems, true);
-          engine.addTemplateEventListener(app, '.item-list li', 'mouseup', handleAppMenuItems, true);
-          engine.addTemplateEventListener(app, '.menu .menu-item > .wrapper', 'mousedown', toggleAppMenu, true);
-          engine.addTemplateEventListener(app, '.resize-areas > .edge > span', 'mousedown', addWindowResize, true);
+          engine.addTemplateEventListener(app, '.item-list li.expandable > .wrapper', 'pointerdown', expandableListClick, true);
+          engine.addTemplateEventListener(app, '.item-list li', 'pointerenter', handleListItems, true);
+          engine.addTemplateEventListener(app, '.item-list li', 'pointerup', handleAppMenuItems, true);
+          engine.addTemplateEventListener(app, '.menu .menu-item > .wrapper', 'pointerdown', toggleAppMenu, true);
+          engine.addTemplateEventListener(app, '.resize-areas > .edge > span', 'pointerdown', addWindowResize, true);
         }
 
-        window.addEventListener('mousedown', mouseDown);
+        window.addEventListener('pointerdown', mouseDown);
         startBtn.addEventListener('click', () => toggleStartMenu());
         for (l of startExecutables) l.addEventListener('click', executeApp);
-        for (l of taskResize) l.addEventListener('mousedown', addWindowResize);
-        for (l of startItems) l.addEventListener('mouseenter', handleListItems);
-        for (l of startItemsExpand) l.addEventListener('mousedown', expandableListClick);
+        for (l of taskResize) l.addEventListener('pointerdown', addWindowResize);
+        for (l of startItems) l.addEventListener('pointerenter', handleListItems);
+        for (l of startItemsExpand) l.addEventListener('pointerdown', expandableListClick);
       })();
 
       //Parsing app menu tasks and saving their functions in appMenuTasks
