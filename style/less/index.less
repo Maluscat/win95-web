@@ -36,6 +36,11 @@
 .bg-img(@image-name, @path: '../resource/image/', @extension: 'png') {
   background-image: url(~'@{path}@{image-name}.@{extension}');
 }
+.bg-img-texture(@image-name, @offsetX: 0, @offsetY: 0, @path: '../resource/image/', @extension: 'png') {
+  .bg-img(@image-name, @path, @extension);
+  background-position: -@offsetX -@offsetY;
+  background-size: cover;
+}
 .bg-img-props(@size: contain, @position: center, @repeat: no-repeat) {
   background-repeat: @repeat;
   background-size: @size;

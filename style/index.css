@@ -269,19 +269,27 @@ body {
 }
 .window .header .title-btns .btn.close-btn .image,
 #header-expander .header .title-btns .btn.close-btn .image {
-  background-image: url(../resource/image/title-btns/close.png);
-}
-.window .header .title-btns .btn.maximize-btn .image,
-#header-expander .header .title-btns .btn.maximize-btn .image {
-  background-image: url(../resource/image/title-btns/maximize.png);
-}
-.fullscreen .window .header .title-btns .btn.maximize-btn .image,
-.fullscreen #header-expander .header .title-btns .btn.maximize-btn .image {
-  background-image: url(../resource/image/title-btns/restore.png);
+  background-image: url(../resource/image/title-btns.png);
+  background-position: 0 0;
+  background-size: cover;
 }
 .window .header .title-btns .btn.minimize-btn .image,
 #header-expander .header .title-btns .btn.minimize-btn .image {
-  background-image: url(../resource/image/title-btns/minimize.png);
+  background-image: url(../resource/image/title-btns.png);
+  background-position: -11px 0;
+  background-size: cover;
+}
+.window .header .title-btns .btn.maximize-btn .image,
+#header-expander .header .title-btns .btn.maximize-btn .image {
+  background-image: url(../resource/image/title-btns.png);
+  background-position: -22px 0;
+  background-size: cover;
+}
+.fullscreen .window .header .title-btns .btn.maximize-btn .image,
+.fullscreen #header-expander .header .title-btns .btn.maximize-btn .image {
+  background-image: url(../resource/image/title-btns.png);
+  background-position: -33px 0;
+  background-size: cover;
 }
 .window .header .title-btns .btn:not(.disabled):active .image,
 #header-expander .header .title-btns .btn:not(.disabled):active .image {
@@ -915,16 +923,24 @@ body {
   background-position: center;
 }
 [data-template="minesweeper"] .head-panel .btn.face .image.smile {
-  background-image: url(../resource/image/minesweeper/face/smile.png);
+  background-image: url(../resource/image/minesweeper/faces.png);
+  background-position: 0 0;
+  background-size: cover;
 }
 [data-template="minesweeper"] .head-panel .btn.face .image.surprised {
-  background-image: url(../resource/image/minesweeper/face/surprised.png);
-}
-[data-template="minesweeper"] .head-panel .btn.face .image.devastated {
-  background-image: url(../resource/image/minesweeper/face/utterly-devastated.png);
+  background-image: url(../resource/image/minesweeper/faces.png);
+  background-position: -21px 0;
+  background-size: cover;
 }
 [data-template="minesweeper"] .head-panel .btn.face .image.swag {
-  background-image: url(../resource/image/minesweeper/face/swag.png);
+  background-image: url(../resource/image/minesweeper/faces.png);
+  background-position: -42px 0;
+  background-size: cover;
+}
+[data-template="minesweeper"] .head-panel .btn.face .image.devastated {
+  background-image: url(../resource/image/minesweeper/faces.png);
+  background-position: -63px 0;
+  background-size: cover;
 }
 [data-template="minesweeper"] .game-panel {
   border-right: 0.2em solid white;

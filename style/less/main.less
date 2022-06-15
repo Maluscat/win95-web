@@ -241,16 +241,17 @@ body {
           filter: contrast(0%) drop-shadow(1px 1px 0 white);
         }
         &.close-btn .image {
-          .bg-img('title-btns/close');
-        }
-        &.maximize-btn .image {
-          .bg-img('title-btns/maximize');
-        }
-        .fullscreen &.maximize-btn .image {
-          .bg-img('title-btns/restore');
+          .bg-img-texture('title-btns', 0);
         }
         &.minimize-btn .image {
-          .bg-img('title-btns/minimize');
+          .bg-img-texture('title-btns', 11px * 1);
+        }
+        &.maximize-btn .image {
+          .bg-img-texture('title-btns', 11px * 2);
+        }
+        .fullscreen &.maximize-btn .image {
+          // 'Restore' icon
+          .bg-img-texture('title-btns', 11px * 3);
         }
         &:not(.disabled):active {
           .image {

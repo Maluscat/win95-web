@@ -647,7 +647,7 @@
       const templateApps = Object.values(engine.templates)
         .filter(node => node.dataset.app !== null);
 
-      //Preloading icons for the canvas of Minesweeper
+      // Preloading icons for the canvas of Minesweeper
       (function() {
         const sweeperIcons = <?php
           function readSweeperDirectory($file_arr = [], $level = '') {
@@ -663,7 +663,7 @@
             return $file_arr;
           }
           echo json_encode(readSweeperDirectory());
-        ?>; //PHP injection
+        ?>; // PHP injection
 
         for (let icon of sweeperIcons) {
           const img = new Image();

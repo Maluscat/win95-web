@@ -44,16 +44,16 @@
         height: 1.4em;
         .bg-img-props();
         &.smile {
-          .bg-img('minesweeper/face/smile');
+          .bg-img-texture('minesweeper/faces');
         }
         &.surprised {
-          .bg-img('minesweeper/face/surprised');
-        }
-        &.devastated {
-          .bg-img('minesweeper/face/utterly-devastated');
+          .bg-img-texture('minesweeper/faces', 21px * 1);
         }
         &.swag {
-          .bg-img('minesweeper/face/swag');
+          .bg-img-texture('minesweeper/faces', 21px * 2);
+        }
+        &.devastated {
+          .bg-img-texture('minesweeper/faces', 21px * 3);
         }
       }
     }

@@ -45,6 +45,23 @@ function Minesweeper(app) {
       2: 'flag',
       3: 'mark'
     };
+    that.iconTexturePos = {
+      1: [16 * 0, 0],
+      2: [16 * 1, 0],
+      3: [16 * 2, 0],
+      4: [16 * 3, 0],
+      5: [16 * 4, 0],
+      6: [16 * 5, 0],
+      7: [16 * 6, 0],
+      8: [16 * 7, 0],
+      9: [16 * 8, 0],
+      tile: [0, 16],
+      'tile-empty': [16, 16],
+      flag: [32, 16],
+      mark: [48, 16],
+      bomb: [64, 16],
+      cross: [80, 16],
+    };
     that.dims = {
       width: 128,
       height: 128
@@ -59,6 +76,8 @@ function Minesweeper(app) {
   const ctxBombs = that.counterBombs.getContext('2d');
   const ctxTime = that.counterTime.getContext('2d');
   const ctx = that.canvas.getContext('2d');
+
+  that.ctx = ctx;
 
   that.newGame(null, true);
 
@@ -212,7 +231,7 @@ function Minesweeper(app) {
         }
       }
     } else {
-      icon = 'number/' + tile;
+      icon = tile;
     }
     if (recursion || tile !== 0) {
       if (that.state[tilePos.y][tilePos.x] == 3) drawIcon('tile-empty', tilePos, false, true, false);
@@ -355,9 +374,11 @@ function Minesweeper(app) {
       const iconPos = [tilePos.x * 16, tilePos.y * 16];
       if (offset) iconPos[0] += 1;
       if (!icon) icon = that.stateIcons[that.state[tilePos.y][tilePos.x]];
-      sweeperImgs[icon].then(img => {
+      const texturePos = that.iconTexturePos[icon];
+
+      sweeperImgs['symbols'].then(img => {
         that.activeTile = keepActive ? tilePos : null;
-        ctx.drawImage(img, iconPos[0], iconPos[1]);
+        ctx.drawImage(img, texturePos[0], texturePos[1], 16, 16, iconPos[0], iconPos[1], 16, 16);
       });
     }
   }
@@ -441,17 +462,23 @@ function Minesweeper(app) {
 
     thisCtx.fillStyle = 'black';
     thisCtx.fillRect(0, 0, thisCanvas.clientWidth, thisCanvas.clientHeight);
-    let numStr = Math.abs(number).toString().slice(-3);
-    //Pad the string to a length of 3
-    if (numStr.length < 3) numStr = '0'.repeat(3 - numStr.length) + numStr;
-    if (number < 0) numStr = '-' + numStr.slice(1);
-    const numParts = numStr.split('');
-    for (let i = 0; i < numParts.length; i++) {
-      const digit = numParts[i];
-      sweeperImgs['counter/' + digit].then(img => {
-        thisCtx.drawImage(img, 13 * i, 0);
-      });
-    };
+
+    const numStr = Math.abs(number).toString().slice(-3).padStart(3, '0');
+
+    sweeperImgs['digits'].then(img => {
+      for (let i = 2; i >= 0; i--) {
+        let texturePos;
+        if (i === 0 && number < 0) {
+          // The 'minus' icon
+          texturePos = 10;
+        } else if (i >= numStr.length) {
+          texturePos = 0;
+        } else {
+          texturePos = Number(numStr[i]);
+        }
+        thisCtx.drawImage(img, 13 * texturePos, 0, 13, 23, 13 * i, 0, 13, 23);
+      };
+    });
   }
 }
 
