@@ -378,7 +378,7 @@
       </template>
 
       <template>
-        <div data-template="Minesweeper:prompt" data-app class="window-wrapper slim" data-ghost>
+        <div data-template="minesweeper:prompt" data-app class="window-wrapper slim" data-ghost>
           <div class="window slim">
             <div class="header">
               <div class="title">
