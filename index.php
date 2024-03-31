@@ -610,12 +610,9 @@
     <script src="script/main.js"></script>
     <script src="script/main-app.js"></script>
     <script src="script/FileViewer.js"></script>
-    <?php
-      $apps = array_diff(scandir('script/application'), array('..', '.'));
-      foreach ($apps as $app) {
-        echo '<script src="script/application/' . $app . '"></script>' . "\n";
-      }
-    ?>
+    <script src="script/application/Explorer.js"></script>
+    <script src="script/application/filesystem.js"></script>
+    <script src="script/application/minesweeper.js"></script>
     <script>
       const content = document.getElementById('content');
 
@@ -649,22 +646,7 @@
 
       // Preloading icons for the canvas of Minesweeper
       (function() {
-        const sweeperIcons = <?php
-          function readSweeperDirectory($file_arr = [], $level = '') {
-            foreach (new DirectoryIterator('resource/image/minesweeper/' . $level) as $file_item) {
-              $dir = '';
-              if ($level) $dir = $level . '/';
-              if ($file_item->isFile()) {
-                array_push($file_arr, $dir . substr($file_item->getFileName(), 0, -4));
-              } else if ($file_item->isDir() && !$file_item->isDot()) {
-                $file_arr = readSweeperDirectory($file_arr, $dir . $file_item->getFileName());
-              }
-            }
-            return $file_arr;
-          }
-          echo json_encode(readSweeperDirectory());
-        ?>; // PHP injection
-
+        const sweeperIcons = [ 'digits', 'faces', 'symbols', 'tile' ];
         for (let icon of sweeperIcons) {
           const img = new Image();
           img.src = 'resource/image/minesweeper/' + icon + '.png';
@@ -678,21 +660,11 @@
 
       //Adding a new stylesheet with rules for app icon URLs
       (function() {
-        const availableIcons = <?php
-          $icons = [];
-          foreach (['app', 'menu', 'tray'] as $dir) {
-            $entries = array_diff(scandir('resource/image/icon/' . $dir . '-icon'), array('..', '.'));
-            foreach ($entries as $entry) {
-              $entry = substr($entry, 0, -4);
-              if (array_key_exists($entry, $icons)) {
-                array_push($icons[$entry], $dir);
-              } else {
-                $icons[$entry] = [$dir];
-              }
-            }
-          }
-          echo json_encode($icons);
-        ?>; //PHP injection
+        const availableIcons = {
+          notepad: [ 'app', 'menu', 'tray' ],
+          explorer: [ 'app', 'menu', 'tray' ],
+          minesweeper: [ 'app', 'menu', 'tray' ],
+        };
 
         if (Object.keys(availableIcons).length > 0) {
           const styleNode = document.createElement('style');
