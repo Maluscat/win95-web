@@ -11,9 +11,11 @@ class TemplateEngine {
   constructor(options) {
     if (!options.templatesContent) options.templatesContent = document.body;
 
+    const templates = Array.from(options.templateNodes)
+      .map(this.getElementFromTemplateWrapper);
+
     // Save & delete templates, expand templates, parse `data-on` events
-    for (const templateWrapper of options.templateNodes) {
-      const template = this.getElementFromTemplateWrapper(templateWrapper);
+    for (const template of templates) {
       const templateName = template.dataset.template;
       this.templates[templateName] = template;
 
@@ -21,7 +23,10 @@ class TemplateEngine {
         this._registerTemplatePlaceholders(template, templateName);
       }
 
-      const expandSpots = options.templatesContent.querySelectorAll('[data-template-expand="' + templateName + '"]');
+      // Search in the content plus all templates except for the current one
+      const expandSpots = TemplateEngine.querySelectMultipleElements(
+        `[data-template-expand="${templateName}"]`, options.templatesContent, ...templates);
+
       for (const expandSpot of expandSpots) {
         const clone = this.cloneTemplate(template);
         expandSpot.parentNode.replaceChild(clone, expandSpot);
@@ -146,6 +151,14 @@ class TemplateEngine {
         `TemplateEngine: Template wrapper ${templateWrapper} contains multiple children but may only contain one`);
     }
     return templateWrapper.content.firstElementChild;
+  }
+
+  /**
+   * Run a `querySelectorAll` over all supplied elements with the
+   * supplied selector and return the result as a flat array.
+   */
+  static querySelectMultipleElements(selector, ...elements) {
+    return elements.flatMap(element => Array.from(element.querySelectorAll(selector)));
   }
 }
 
